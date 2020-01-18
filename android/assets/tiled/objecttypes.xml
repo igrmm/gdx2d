@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="block" color="#a0a0a4">
+  <property name="collidable" type="bool" default="true"/>
+ </objecttype>
+ <objecttype name="waypoint" color="#00ff00">
+  <property name="collidable" type="bool" default="false"/>
+ </objecttype>
+</objecttypes>
