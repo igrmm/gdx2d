@@ -13,7 +13,7 @@ public class Gdx2D extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("player.png");
 	}
 
 	@Override
