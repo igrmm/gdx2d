@@ -1,8 +1,11 @@
 package com.igrmm.gdx2d;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.igrmm.gdx2d.entities.Entity;
 
-public class Player extends DynamicGameObject {
+import java.util.ArrayList;
+
+public class Player extends DynamicGameObject implements Entity {
 	/* Serializable */
 	private String currentMap = "maps/start.tmx";
 	private String currentWaypoint = "wp_origin";
@@ -29,9 +32,9 @@ public class Player extends DynamicGameObject {
 		closeZone.setSize(screenWidth, screenHeight);
 	}
 
-	public boolean isNear(GameObject gameObject) {
+	public boolean isNear(Rectangle bounds) {
 		nearZone.setCenter(getCenter());
-		return nearZone.overlaps(gameObject.bounds);
+		return nearZone.overlaps(bounds);
 	}
 
 	public String getCurrentMap() {
@@ -40,5 +43,40 @@ public class Player extends DynamicGameObject {
 
 	public String getCurrentWaypoint() {
 		return currentWaypoint;
+	}
+
+	@Override
+	public String getType() {
+		return null;
+	}
+
+	@Override
+	public String getId() {
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public boolean isCollidable() {
+		return false;
+	}
+
+	@Override
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	@Override
+	public void update(float delta, ArrayList<Entity> queue) {
+		applyGravity();
+		position.lerp(virtualPosition, alpha);
+	}
+
+	@Override
+	public void handle(DynamicGameObject dynamicGameObject) {
 	}
 }

@@ -9,7 +9,7 @@ public class World {
 	public static final float G_FORCE = 10f;
 	public final Player player;
 	private final Entities entities;
-	private final ArrayList<GameObject> queue;
+	private final ArrayList<Entity> queue;
 
 	public World(Player player, Entities entities) {
 		this.player = player;
@@ -19,18 +19,18 @@ public class World {
 
 		/* Set player initial position */
 		Entity waypoint = entities.get(player.getCurrentWaypoint());
-		player.setPosition(waypoint.getX(), waypoint.getY());
+		player.setPosition(waypoint.getBounds().x, waypoint.getBounds().y);
 	}
 
 	public void update(float delta) {
 
 		for (Entity e : entities) {
-			if (player.isNear(e) && !queue.contains(e))
+			if (player.isNear(e.getBounds()) && !queue.contains(e))
 				queue.add(e);
 		}
 
-		for (GameObject gameObject : queue) {
-			gameObject.update(delta, queue);
+		for (Entity e : queue) {
+			e.update(delta, queue);
 		}
 
 		handleCollision(player);
@@ -46,9 +46,9 @@ public class World {
 			if (stepYMax > 0) {
 				gameObject.bounds.y += (stepYMax >= 1) ? 1 : stepYMax;
 				for (Entity e : entities) {
-					if (e.bounds.overlaps(gameObject.bounds)) {
+					if (e.getBounds().overlaps(gameObject.bounds)) {
 						if (e.isCollidable()) {
-							gameObject.bounds.y = e.bounds.y - gameObject.getHeight();
+							gameObject.bounds.y = e.getBounds().y - gameObject.getHeight();
 							gameObject.position.y = gameObject.bounds.y;
 							gameObject.virtualPosition.y = gameObject.bounds.y;
 						}
@@ -60,9 +60,9 @@ public class World {
 			if (stepYMax < 0) {
 				gameObject.bounds.y += (stepYMax <= -1) ? -1 : stepYMax;
 				for (Entity e : entities) {
-					if (e.bounds.overlaps(gameObject.bounds)) {
+					if (e.getBounds().overlaps(gameObject.bounds)) {
 						if (e.isCollidable()) {
-							gameObject.bounds.y = e.bounds.y + e.getHeight();
+							gameObject.bounds.y = e.getBounds().y + e.getBounds().getHeight();
 							gameObject.position.y = gameObject.bounds.y;
 							gameObject.virtualPosition.y = gameObject.bounds.y;
 						}
@@ -76,9 +76,9 @@ public class World {
 			if (stepXMax > 0) {
 				gameObject.bounds.x += (stepXMax >= 1) ? 1 : stepXMax;
 				for (Entity e : entities) {
-					if (e.bounds.overlaps(gameObject.bounds)) {
+					if (e.getBounds().overlaps(gameObject.bounds)) {
 						if (e.isCollidable()) {
-							gameObject.bounds.x = e.bounds.x - gameObject.getWidth();
+							gameObject.bounds.x = e.getBounds().x - gameObject.getWidth();
 							gameObject.position.x = gameObject.bounds.x;
 							gameObject.virtualPosition.x = gameObject.bounds.x;
 						}
@@ -90,9 +90,9 @@ public class World {
 			if (stepXMax < 0) {
 				gameObject.bounds.x += (stepXMax <= -1) ? -1 : stepXMax;
 				for (Entity e : entities) {
-					if (e.bounds.overlaps(gameObject.bounds)) {
+					if (e.getBounds().overlaps(gameObject.bounds)) {
 						if (e.isCollidable()) {
-							gameObject.bounds.x = e.bounds.x + e.getWidth();
+							gameObject.bounds.x = e.getBounds().x + e.getBounds().getWidth();
 							gameObject.position.x = gameObject.bounds.x;
 							gameObject.virtualPosition.x = gameObject.bounds.x;
 						}

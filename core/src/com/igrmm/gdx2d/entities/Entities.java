@@ -18,7 +18,7 @@ public class Entities implements Iterable<Entity> {
 
 	public Entity get(String name) {
 		for (Entity e : entities) {
-			if (e.rectangleMapObject.getName().equals(name)) return e;
+			if (e.getName().equals(name)) return e;
 		}
 		Gdx.app.error("ERROR", "Entity not found!");
 		return null;
@@ -26,7 +26,7 @@ public class Entities implements Iterable<Entity> {
 
 	public Entity get(int id) {
 		for (Entity e : entities) {
-			if (e.rectangleMapObject.getProperties().get("id").equals(id)) return e;
+			if (e.getId().equals(id)) return e;
 		}
 		Gdx.app.error("ERROR", "Entity not found!");
 		return null;

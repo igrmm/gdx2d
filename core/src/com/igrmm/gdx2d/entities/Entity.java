@@ -1,37 +1,23 @@
 package com.igrmm.gdx2d.entities;
 
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.DynamicGameObject;
-import com.igrmm.gdx2d.GameObject;
 
-public abstract class Entity extends GameObject {
-	protected final RectangleMapObject rectangleMapObject;
+import java.util.ArrayList;
 
-	public Entity(RectangleMapObject rectangleMapObject) {
-		super(rectangleMapObject.getRectangle());
-		this.rectangleMapObject = rectangleMapObject;
-	}
+public interface Entity {
 
-	public String getType() {
-		return rectangleMapObject.getProperties().get("type").toString();
-	}
+	public String getType();
 
-	public String getId() {
-		return rectangleMapObject.getProperties().get("id").toString();
-	}
+	public String getId();
 
-	public String getName() {
-		return rectangleMapObject.getName();
-	}
+	public String getName();
 
-	public boolean isCollidable() {
-		return rectangleMapObject.getProperties().get(
-				"collidable",
-				false,
-				Boolean.class
-		);
-	}
+	public boolean isCollidable();
 
-	public void handle(DynamicGameObject dynamicGameObject) {
-	}
+	public Rectangle getBounds();
+
+	public void update(float delta, ArrayList<Entity> queue);
+
+	public void handle(DynamicGameObject dynamicGameObject);
 }

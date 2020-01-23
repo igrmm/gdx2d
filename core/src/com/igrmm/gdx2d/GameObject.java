@@ -36,7 +36,4 @@ public class GameObject {
 	public float getHeight() {
 		return bounds.getHeight();
 	}
-
-	public void update(float delta, ArrayList<GameObject> queue) {
-	}
 }

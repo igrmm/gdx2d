@@ -22,11 +22,6 @@ public class DynamicGameObject extends GameObject {
 		bounds.setPosition(x, y);
 	}
 
-	public void update(float delta, ArrayList<GameObject> queue) {
-		applyGravity();
-		position.lerp(virtualPosition, alpha);
-	}
-
 	public void moveUp() {
 		virtualPosition.y += velocity.y;
 	}
@@ -43,7 +38,7 @@ public class DynamicGameObject extends GameObject {
 		virtualPosition.x += velocity.x;
 	}
 
-	private void applyGravity() {
+	public void applyGravity() {
 		velocity.y = World.G_FORCE;
 		moveDown();
 	}
