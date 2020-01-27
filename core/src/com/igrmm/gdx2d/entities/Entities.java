@@ -24,14 +24,6 @@ public class Entities implements Iterable<Entity> {
 		return null;
 	}
 
-	public Entity get(int id) {
-		for (Entity e : entities) {
-			if (e.getId().equals(id)) return e;
-		}
-		Gdx.app.error("ERROR", "Entity not found!");
-		return null;
-	}
-
 	public void clear() {
 		entities.clear();
 	}
