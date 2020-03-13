@@ -5,7 +5,6 @@ import com.igrmm.gdx2d.screens.LoadScreen;
 
 public class Gdx2D extends Game {
 	public final Assets assets = new Assets();
-	public final Saves saves = new Saves();
 
 	@Override
 	public void create() {
