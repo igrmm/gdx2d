@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs;
 
+import com.igrmm.gdx2d.ecs.components.CInput;
 import com.igrmm.gdx2d.ecs.components.CPosition;
 import com.igrmm.gdx2d.ecs.components.CRigidBody;
 import com.igrmm.gdx2d.ecs.entities.Entity;
@@ -12,6 +13,7 @@ public class EntityManager {
 	public final HashSet<Entity> entities = new HashSet<>();
 	public final HashMap<Integer, CPosition> cPositionHashMap = new HashMap<>();
 	public final HashMap<Integer, CRigidBody> cRigidBodyHashMap = new HashMap<>();
+	public final HashMap<Integer, CInput> cInputHashMap = new HashMap<>();
 
 	public int getUniqueId() {
 		int uniqueId = idCounter;
