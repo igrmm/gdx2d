@@ -1,4 +1,4 @@
 package com.igrmm.gdx2d.ecs.components;
 
-public class Cinput implements Component {
+public class CInput implements Component {
 }
