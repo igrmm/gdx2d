@@ -1,5 +1,9 @@
 package com.igrmm.gdx2d.ecs;
 
+import com.igrmm.gdx2d.ecs.components.CPosition;
+import com.igrmm.gdx2d.ecs.components.CRigidBody;
+import com.igrmm.gdx2d.ecs.entities.Entity;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
