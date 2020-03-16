@@ -1,4 +1,4 @@
-package com.igrmm.gdx2d.ecs;
+package com.igrmm.gdx2d.ecs.components;
 
 import com.badlogic.gdx.math.Rectangle;
 
