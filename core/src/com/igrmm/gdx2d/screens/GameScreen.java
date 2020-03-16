@@ -1,6 +1,7 @@
 package com.igrmm.gdx2d.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -49,17 +50,6 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void update(float delta) {
-//		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//		}
-//
-//		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//		}
-//
-//		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//		}
-//
-//		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//		}
 
 		world.update(delta);
 //		camera.lerp(player.getCenter(), 1f);
