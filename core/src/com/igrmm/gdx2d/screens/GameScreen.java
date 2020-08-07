@@ -65,11 +65,6 @@ public class GameScreen extends AbstractScreen {
 		mapRenderer.render();
 
 		batch.begin();
-		batch.draw(
-				playerTex,
-				entityManager.cPositionHashMap.get(player.id).x,
-				entityManager.cPositionHashMap.get(player.id).y
-		);
 		batch.end();
 	}
 
