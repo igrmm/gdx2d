@@ -8,69 +8,76 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.igrmm.gdx2d.GameCamera;
 import com.igrmm.gdx2d.Gdx2D;
-import com.igrmm.gdx2d.World;
-import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.entities.Player;
+import com.igrmm.gdx2d.ecs.WorldFactory;
+import com.igrmm.gdx2d.ecs.World;
 
 public class GameScreen extends AbstractScreen {
-	private final Texture playerTex;
-	private final Player player;
-	private final EntityManager entityManager;
-	private final OrthogonalTiledMapRenderer mapRenderer;
-	private final GameCamera camera;
-	private final World world;
+    private final OrthogonalTiledMapRenderer mapRenderer;
+    private final GameCamera camera;
+    private final World world;
+    private final Texture playerTex;
 
-	public GameScreen(Gdx2D game) {
-		super(game);
+    public GameScreen(Gdx2D game) {
+        super(game);
 
-		playerTex = game.assets.get("images/player.png");
+        /* CREATE MAP AND SET MAP RENDERER */
+        TiledMap map = game.assets.get("maps/start.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map);
 
-		/* CREATE MAP AND SET MAP RENDERER */
-		TiledMap map = game.assets.get("maps/start.tmx");
-		mapRenderer = new OrthogonalTiledMapRenderer(map);
+        /* SETUP GAME CAMERA */
+        float mapWidth = map.getProperties().get("width", Integer.class)
+                * map.getProperties().get("tilewidth", Integer.class);
+        float mapHeight = map.getProperties().get("height", Integer.class)
+                * map.getProperties().get("tileheight", Integer.class);
+        camera = new GameCamera();
+        camera.setBounds(mapWidth, mapHeight);
 
-		/* SETUP GAME CAMERA */
-		float mapWidth = map.getProperties().get("width", Integer.class)
-				* map.getProperties().get("tilewidth", Integer.class);
-		float mapHeight = map.getProperties().get("height", Integer.class)
-				* map.getProperties().get("tileheight", Integer.class);
-		camera = new GameCamera();
-		camera.setBounds(mapWidth, mapHeight);
+        /* SETUP WORLD AND TEMP PLAYER TEX */
+        world = WorldFactory.make(map);
+        playerTex = game.assets.get("images/player.png");
+    }
 
-		entityManager = new EntityManager();
-		player = new Player(entityManager);
+    @Override
+    public void resize(int width, int height) {
+        camera.setToOrtho(false, width, height);
+    }
 
-		world = new World();
-	}
+    @Override
+    public void update(float delta) {
 
-	@Override
-	public void resize(int width, int height) {
-		camera.setToOrtho(false, width, height);
-	}
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            world.playerBoundingBox.y += 5;
+        }
 
-	@Override
-	public void update(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            world.playerBoundingBox.y -= 5;
+        }
 
-		world.update(delta);
-//		camera.lerp(player.getCenter(), 1f);
-	}
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            world.playerBoundingBox.x -= 5;
+        }
 
-	@Override
-	public void draw() {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            world.playerBoundingBox.x += 5;
+        }
+    }
 
-		mapRenderer.setView(camera);
-		mapRenderer.render();
+    @Override
+    public void draw() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
-		batch.begin();
-		batch.end();
-	}
+        mapRenderer.setView(camera);
+        mapRenderer.render();
+        batch.begin();
+        batch.draw(playerTex, world.playerBoundingBox.x, world.playerBoundingBox.y);
+        batch.end();
+    }
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		mapRenderer.dispose();
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
+        mapRenderer.dispose();
+    }
 }
