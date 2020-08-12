@@ -10,7 +10,7 @@ public class World {
     private int idCounter;
     public final HashSet<Entity> entities = new HashSet<>();
     public final HashMap<Integer, BoundingBox> blockBoundingBoxes = new HashMap<>();
-    public BoundingBox playerBoundingBox;
+    public BoundingBox playerBoundingBox = new BoundingBox();
 
     public int getUniqueId() {
         int uniqueId = idCounter;
