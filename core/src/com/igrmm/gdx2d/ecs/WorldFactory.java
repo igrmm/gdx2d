@@ -15,6 +15,7 @@ public class WorldFactory {
         for (MapLayer mapLayer : entitiesLayer.getLayers()) {
             for (MapObject mapObject : mapLayer.getObjects()) {
                 String type = mapObject.getProperties().get("type").toString();
+                RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
 
                 switch (type) {
                     case "waypoint":
@@ -23,7 +24,6 @@ public class WorldFactory {
                     case "block":
                         int blockId = world.getUniqueId();
                         world.entities.add(blockId);
-                        RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
                         world.blockBoundingBoxes.put(blockId, new BoundingBoxComponent(rectangleMapObject.getRectangle()));
                         break;
 
