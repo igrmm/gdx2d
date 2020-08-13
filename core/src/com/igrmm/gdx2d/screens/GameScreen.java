@@ -10,12 +10,14 @@ import com.igrmm.gdx2d.GameCamera;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.WorldFactory;
 import com.igrmm.gdx2d.ecs.World;
+import com.igrmm.gdx2d.ecs.components.InputComponent;
 
 public class GameScreen extends AbstractScreen {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final GameCamera camera;
     private final World world;
     private final Texture playerTex;
+    private final InputComponent inputs;
 
     public GameScreen(Gdx2D game) {
         super(game);
@@ -34,6 +36,7 @@ public class GameScreen extends AbstractScreen {
 
         /* SETUP WORLD AND TEMP PLAYER TEX */
         world = WorldFactory.make(map);
+        inputs = world.playerInputComponent;
         playerTex = game.assets.get("images/player.png");
     }
 
@@ -46,20 +49,22 @@ public class GameScreen extends AbstractScreen {
     public void update(float delta) {
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            world.playerBoundingBox.y += 5;
+            inputs.up = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            world.playerBoundingBox.y -= 5;
+            inputs.down = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            world.playerBoundingBox.x -= 5;
+            inputs.left = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            world.playerBoundingBox.x += 5;
+            inputs.right = true;
         }
+
+        world.update(delta);
     }
 
     @Override
@@ -71,7 +76,7 @@ public class GameScreen extends AbstractScreen {
         mapRenderer.setView(camera);
         mapRenderer.render();
         batch.begin();
-        batch.draw(playerTex, world.playerBoundingBox.x, world.playerBoundingBox.y);
+        batch.draw(playerTex, world.playerBoundingBoxComponent.x, world.playerBoundingBoxComponent.y);
         batch.end();
     }
 
