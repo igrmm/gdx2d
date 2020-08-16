@@ -1,15 +1,15 @@
 package com.igrmm.gdx2d.ecs.systems;
 
-import com.igrmm.gdx2d.ecs.World;
+import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.InputComponent;
 
 public class PlayerSystem implements System {
 
     @Override
-    public void update(World world) {
-        InputComponent inputs = world.playerInputComponent;
-        BoundingBoxComponent boundingBox = world.playerBoundingBoxComponent;
+    public void update(EntityManager entityManager) {
+        InputComponent inputs = entityManager.playerInputComponent;
+        BoundingBoxComponent boundingBox = entityManager.playerBoundingBoxComponent;
 
         if (inputs.right) {
             boundingBox.x += 5;
