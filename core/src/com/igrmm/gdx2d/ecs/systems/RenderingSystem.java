@@ -7,22 +7,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Components;
+import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 
 public class RenderingSystem implements System {
 
     @Override
-    public void update(EntityManager entityManager) {
-        OrthographicCamera camera = entityManager.graphicsContextComponent.camera;
-        float mapWidth = entityManager.graphicsContextComponent.mapWidth;
-        float mapHeight = entityManager.graphicsContextComponent.mapHeight;
-        OrthogonalTiledMapRenderer mapRenderer = entityManager.graphicsContextComponent.mapRenderer;
-        SpriteBatch batch = entityManager.graphicsContextComponent.batch;
-        Texture playerTexture = entityManager.playerAnimationComponent.texture;
-        float playerX = entityManager.playerBoundingBoxComponent.x;
-        float playerY = entityManager.playerBoundingBoxComponent.y;
-        float playerCenterX = playerX + entityManager.playerBoundingBoxComponent.width / 2f;
-        float playerCenterY = playerY + entityManager.playerBoundingBoxComponent.height / 2f;
+    public void update(Components components) {
+        OrthographicCamera camera = components.graphicsContextComponent.camera;
+        float mapWidth = components.graphicsContextComponent.mapWidth;
+        float mapHeight = components.graphicsContextComponent.mapHeight;
+        OrthogonalTiledMapRenderer mapRenderer = components.graphicsContextComponent.mapRenderer;
+        SpriteBatch batch = components.graphicsContextComponent.batch;
+
+        // TEMP PLAYER CODE
+        Texture playerTexture = components.animationComponents.get(components.playerID).texture;
+        BoundingBoxComponent playerBBox = components.dynamicBoundingBoxComponents.get(components.playerID);
+        float playerX = playerBBox.x;
+        float playerY = playerBBox.y;
+        float playerCenterX = playerX + playerBBox.width / 2f;
+        float playerCenterY = playerY + playerBBox.height / 2f;
 
         /* Make camera follow player */
         float alpha = 0.3f;

@@ -1,7 +1,7 @@
 package com.igrmm.gdx2d.ecs.systems;
 
-import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Components;
 
 public interface System {
-	public void update(EntityManager entityManager);
+    void update(Components components);
 }
