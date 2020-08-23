@@ -1,24 +1,30 @@
 package com.igrmm.gdx2d.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.igrmm.gdx2d.Gdx2D;
-import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.components.InputComponent;
+import com.igrmm.gdx2d.ecs.Components;
+import com.igrmm.gdx2d.ecs.Systems;
+import com.igrmm.gdx2d.ecs.systems.InputSystem;
+import com.igrmm.gdx2d.ecs.systems.PlayerSystem;
+import com.igrmm.gdx2d.ecs.systems.RenderingSystem;
 
 public class GameScreen extends ScreenAdapter {
     private final Gdx2D game;
-    private final EntityManager entityManager;
-    private final InputComponent inputs;
+    private final Components components;
+    private final Systems systems;
     private final OrthographicCamera camera;
 
     public GameScreen(Gdx2D game) {
         this.game = game;
-        entityManager = new EntityManager(game.assets);
-        inputs = entityManager.playerInputComponent;
-        camera = entityManager.graphicsContextComponent.camera;
+        components = Components.fromAssets(game.assets);
+        systems = new Systems();
+        camera = components.graphicsContextComponent.camera;
+    }
+
+    @Override
+    public void render(float delta) {
+        systems.update(components);
     }
 
     @Override
@@ -27,29 +33,14 @@ public class GameScreen extends ScreenAdapter {
     }
 
     @Override
-    public void render(float delta) {
-
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            inputs.up = true;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            inputs.down = true;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            inputs.left = true;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            inputs.right = true;
-        }
-
-        entityManager.update(delta);
+    public void show() {
+        systems.add(new InputSystem());
+        systems.add(new PlayerSystem());
+        systems.add(new RenderingSystem());
     }
 
     @Override
     public void dispose() {
-        entityManager.dispose();
+        systems.dispose(components);
     }
 }
