@@ -10,37 +10,37 @@ import com.igrmm.gdx2d.ecs.systems.PlayerSystem;
 import com.igrmm.gdx2d.ecs.systems.RenderingSystem;
 
 public class GameScreen extends ScreenAdapter {
-    private final Gdx2D game;
-    private final Components components;
-    private final Systems systems;
-    private final OrthographicCamera camera;
+	private final Gdx2D game;
+	private final Components components;
+	private final Systems systems;
+	private final OrthographicCamera camera;
 
-    public GameScreen(Gdx2D game) {
-        this.game = game;
-        components = Components.fromAssets(game.assets);
-        systems = new Systems();
-        camera = components.graphicsContextComponent.camera;
-    }
+	public GameScreen(Gdx2D game) {
+		this.game = game;
+		components = Components.fromAssets(game.assets);
+		systems = new Systems();
+		camera = components.graphicsContextComponent.camera;
+	}
 
-    @Override
-    public void render(float delta) {
-        systems.update(components);
-    }
+	@Override
+	public void render(float delta) {
+		systems.update(components);
+	}
 
-    @Override
-    public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
-    }
+	@Override
+	public void resize(int width, int height) {
+		camera.setToOrtho(false, width, height);
+	}
 
-    @Override
-    public void show() {
-        systems.add(new InputSystem());
-        systems.add(new PlayerSystem());
-        systems.add(new RenderingSystem());
-    }
+	@Override
+	public void show() {
+		systems.add(new InputSystem());
+		systems.add(new PlayerSystem());
+		systems.add(new RenderingSystem());
+	}
 
-    @Override
-    public void dispose() {
-        systems.dispose(components);
-    }
+	@Override
+	public void dispose() {
+		systems.dispose(components);
+	}
 }

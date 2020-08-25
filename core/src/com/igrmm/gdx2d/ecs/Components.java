@@ -17,63 +17,63 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class Components {
-    public final HashSet<String> IDs = new HashSet<>();
-    public final String playerID = getID();
+	public final HashSet<String> IDs = new HashSet<>();
+	public final String playerID = getID();
 
-    public final InputComponent inputComponent;
-    public final GraphicsContextComponent graphicsContextComponent;
-    public final HashMap<String, AnimationComponent> animationComponents;
-    public final HashMap<String, BoundingBoxComponent> dynamicBoundingBoxComponents;
-    public final HashMap<String, BoundingBoxComponent> blockBoundingBoxComponents;
+	public final InputComponent inputComponent;
+	public final GraphicsContextComponent graphicsContextComponent;
+	public final HashMap<String, AnimationComponent> animationComponents;
+	public final HashMap<String, BoundingBoxComponent> dynamicBoundingBoxComponents;
+	public final HashMap<String, BoundingBoxComponent> blockBoundingBoxComponents;
 
-    private Components(TiledMap map) {
-        inputComponent = new InputComponent();
-        graphicsContextComponent = new GraphicsContextComponent(map);
-        animationComponents = new HashMap<>();
-        dynamicBoundingBoxComponents = new HashMap<>();
-        blockBoundingBoxComponents = new HashMap<>();
-    }
+	private Components(TiledMap map) {
+		inputComponent = new InputComponent();
+		graphicsContextComponent = new GraphicsContextComponent(map);
+		animationComponents = new HashMap<>();
+		dynamicBoundingBoxComponents = new HashMap<>();
+		blockBoundingBoxComponents = new HashMap<>();
+	}
 
-    public String getID() {
-        String ID = UUID.randomUUID().toString();
-        IDs.add(ID);
-        return ID;
-    }
+	public String getID() {
+		String ID = UUID.randomUUID().toString();
+		IDs.add(ID);
+		return ID;
+	}
 
-    public static Components fromAssets(Assets assets) {
-        TiledMap map = assets.get("maps/start.tmx");
-        Components components = new Components(map);
+	public static Components fromAssets(Assets assets) {
+		TiledMap map = assets.get("maps/start.tmx");
+		Components components = new Components(map);
 
-        /* PLAYER */
-        components.animationComponents.put(components.playerID, new AnimationComponent(assets));
-        components.dynamicBoundingBoxComponents.put(components.playerID, new BoundingBoxComponent(100, 100, 32, 32));
+		/* PLAYER */
+		components.animationComponents.put(components.playerID, new AnimationComponent(assets));
+		components.dynamicBoundingBoxComponents.put(components.playerID, new BoundingBoxComponent(100, 100, 32, 32));
 
-        /* GRAPHICS */
-        String graphicsID = components.getID();
+		/* GRAPHICS */
+		String graphicsID = components.getID();
 
-        /* GET OBJECTS FROM TILED MAP */
-        MapGroupLayer objectsLayer = (MapGroupLayer) map.getLayers().get("objects");
-        for (MapLayer mapLayer : objectsLayer.getLayers()) {
-            for (MapObject mapObject : mapLayer.getObjects()) {
-                String type = mapObject.getProperties().get("type").toString();
-                RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
+		/* GET OBJECTS FROM TILED MAP */
+		MapGroupLayer objectsLayer = (MapGroupLayer) map.getLayers().get("objects");
+		for (MapLayer mapLayer : objectsLayer.getLayers()) {
+			for (MapObject mapObject : mapLayer.getObjects()) {
+				String type = mapObject.getProperties().get("type").toString();
+				RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
 
-                switch (type) {
-                    case "waypoint":
-                        break;
+				switch (type) {
+					case "waypoint":
+						break;
 
-                    case "block":
-                        String blockID = components.getID();
-                        Rectangle r = rectangleMapObject.getRectangle();
-                        components.blockBoundingBoxComponents.put(blockID, new BoundingBoxComponent(r));
-                        break;
+					case "block":
+						String blockID = components.getID();
+						Rectangle r = rectangleMapObject.getRectangle();
+						components.blockBoundingBoxComponents.put(blockID, new BoundingBoxComponent(r));
+						break;
 
-                    default:
-                        throw new NullPointerException();
-                }
-            }
-        }
+					default:
+						throw new NullPointerException();
+				}
+			}
+		}
 
-        return components;
-    }
+		return components;
+	}
 }
