@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.screens;
 
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.igrmm.gdx2d.Gdx2D;
@@ -7,9 +8,11 @@ import com.igrmm.gdx2d.Gdx2D;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class LoadScreen extends AbstractScreen {
+public class LoadScreen extends ScreenAdapter {
+	private final Gdx2D game;
+
 	public LoadScreen(Gdx2D game) {
-		super(game);
+		this.game = game;
 	}
 
 	@Override
