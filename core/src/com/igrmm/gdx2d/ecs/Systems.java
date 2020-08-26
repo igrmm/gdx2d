@@ -2,13 +2,13 @@ package com.igrmm.gdx2d.ecs;
 
 import com.igrmm.gdx2d.ecs.systems.System;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class Systems implements System {
-	private final HashSet<System> systems;
+	private final LinkedHashSet<System> systems;
 
 	public Systems() {
-		systems = new HashSet<>();
+		systems = new LinkedHashSet<>();
 	}
 
 	public void add(System system) {
