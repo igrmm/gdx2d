@@ -6,6 +6,7 @@ import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.Components;
 import com.igrmm.gdx2d.ecs.Systems;
 import com.igrmm.gdx2d.ecs.systems.InputSystem;
+import com.igrmm.gdx2d.ecs.systems.PhysicsSystem;
 import com.igrmm.gdx2d.ecs.systems.PlayerSystem;
 import com.igrmm.gdx2d.ecs.systems.RenderingSystem;
 
@@ -19,6 +20,10 @@ public class GameScreen extends ScreenAdapter {
 		this.game = game;
 		components = Components.fromAssets(game.assets);
 		systems = new Systems();
+		systems.add(new InputSystem());
+		systems.add(new PlayerSystem());
+		systems.add(new PhysicsSystem());
+		systems.add(new RenderingSystem());
 		camera = components.graphicsContextComponent.camera;
 	}
 
@@ -30,13 +35,6 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, width, height);
-	}
-
-	@Override
-	public void show() {
-		systems.add(new InputSystem());
-		systems.add(new PlayerSystem());
-		systems.add(new RenderingSystem());
 	}
 
 	@Override
