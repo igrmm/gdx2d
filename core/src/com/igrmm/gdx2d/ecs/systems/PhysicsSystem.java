@@ -5,9 +5,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.Components;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PhysicsSystem implements System {
+	private final ArrayList<BoundingBoxComponent> queue = new ArrayList<>();
+	private final Rectangle intersection = new Rectangle();
 
 	@Override
 	public void update(Components components) {
@@ -15,26 +18,67 @@ public class PhysicsSystem implements System {
 		HashMap<String, BoundingBoxComponent> blockBBoxes = components.blockBoundingBoxComponents;
 
 		for (BoundingBoxComponent dynamicBBox : dynamicBBoxes.values()) {
-			if (dynamicBBox.x != dynamicBBox.oldX || dynamicBBox.y != dynamicBBox.oldY) {
-				for (BoundingBoxComponent blockBBox : blockBBoxes.values()) {
-					Rectangle intersection = new Rectangle();
+			for (BoundingBoxComponent blockBBox : blockBBoxes.values()) {
+				if (dynamicBBox.overlaps(blockBBox)) {
+					queue.add(blockBBox);
+				}
+			}
+
+			if (!queue.isEmpty()) {
+				for (BoundingBoxComponent blockBBox : queue) {
 					if (Intersector.intersectRectangles(dynamicBBox, blockBBox, intersection)) {
-						if (intersection.width > intersection.height) {
-							if (dynamicBBox.y > dynamicBBox.oldY) {
-								dynamicBBox.y = intersection.y - dynamicBBox.height;
-							} else {
+
+						//upper left corner
+						if (dynamicBBox.x != intersection.x && dynamicBBox.y == intersection.y) {
+							if (intersection.width > intersection.height) {
 								dynamicBBox.y = intersection.y + intersection.height;
-							}
-						} else if (intersection.width < intersection.height) {
-							if (dynamicBBox.x > dynamicBBox.oldX) {
+							} else if (intersection.width < intersection.height) {
 								dynamicBBox.x = intersection.x - dynamicBBox.width;
-							} else {
+							} else if (intersection.width == intersection.height && queue.size() == 1) {
+								dynamicBBox.y = intersection.y + intersection.height;
+								//dynamicBBox.x = intersection.x - dynamicBBox.width;
+							}
+						}
+
+						//upper right corner
+						else if (dynamicBBox.x == intersection.x && dynamicBBox.y == intersection.y) {
+							if (intersection.width > intersection.height) {
+								dynamicBBox.y = intersection.y + intersection.height;
+							} else if (intersection.width < intersection.height) {
 								dynamicBBox.x = intersection.x + intersection.width;
+							} else if (intersection.width == intersection.height && queue.size() == 1) {
+								dynamicBBox.y = intersection.y + intersection.height;
+								//dynamicBBox.x = intersection.x + intersection.width;
+							}
+						}
+
+						//lower left corner
+						else if (dynamicBBox.x != intersection.x && dynamicBBox.y != intersection.y) {
+							if (intersection.width > intersection.height) {
+								dynamicBBox.y = intersection.y - dynamicBBox.height;
+							} else if (intersection.width < intersection.height) {
+								dynamicBBox.x = intersection.x - dynamicBBox.width;
+							} else if (intersection.width == intersection.height && queue.size() == 1) {
+								dynamicBBox.y = intersection.y - dynamicBBox.height;
+								//dynamicBBox.x = intersection.x - dynamicBBox.width;
+							}
+						}
+
+						//lower right corner
+						else if (dynamicBBox.x == intersection.x && dynamicBBox.y != intersection.y) {
+							if (intersection.width > intersection.height) {
+								dynamicBBox.y = intersection.y - dynamicBBox.height;
+							} else if (intersection.width < intersection.height) {
+								dynamicBBox.x = intersection.x + intersection.width;
+							} else if (intersection.width == intersection.height && queue.size() == 1) {
+								dynamicBBox.y = intersection.y - dynamicBBox.height;
+								//dynamicBBox.x = intersection.x + intersection.width;
 							}
 						}
 					}
 				}
 			}
+			queue.clear();
 		}
 	}
 }
