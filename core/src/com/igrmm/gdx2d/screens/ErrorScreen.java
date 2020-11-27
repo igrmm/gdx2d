@@ -20,14 +20,14 @@ public class ErrorScreen extends ScreenAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+		batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, width, height);
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		font.draw(batch, error, 0, Gdx.graphics.getHeight());
+		font.draw(batch, error, 0.0f, Gdx.graphics.getHeight());
 		batch.end();
 	}
 

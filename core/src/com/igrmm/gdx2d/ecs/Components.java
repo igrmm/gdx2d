@@ -47,7 +47,7 @@ public class Components {
 
 		/* PLAYER */
 		components.animationComponents.put(components.playerID, new AnimationComponent(assets));
-		components.dynamicBoundingBoxComponents.put(components.playerID, new BoundingBoxComponent(100, 100, 32, 32));
+		components.dynamicBoundingBoxComponents.put(components.playerID, new BoundingBoxComponent(100.0f, 100.0f, 32.0f, 32.0f));
 		VelocityComponent velocityComponent = new VelocityComponent();
 		velocityComponent.maxVelocity.set(10.0f, 10.0f);
 		components.velocityComponents.put(components.playerID, velocityComponent);

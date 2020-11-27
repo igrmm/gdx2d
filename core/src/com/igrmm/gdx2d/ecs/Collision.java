@@ -15,7 +15,7 @@ public abstract class Collision {
 	}
 
 	private float getTime(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 velocity) {
-		if (velocity.x == 0 && velocity.y == 0)
+		if (velocity.x == 0.0f && velocity.y == 0.0f)
 			return 1.0f;
 
 		/*
@@ -83,15 +83,15 @@ public abstract class Collision {
 		//set contact normal for collision solving
 		if (t0X > t0Y) {
 			if (rayOriginX > expandedRectangleX)
-				normal.set(1, 0);
+				normal.set(1.0f, 0.0f);
 			else
-				normal.set(-1, 0);
+				normal.set(-1.0f, 0.0f);
 
 		} else if (t0X < t0Y) {
 			if (rayOriginY > expandedRectangleY)
-				normal.set(0, 1);
+				normal.set(0.0f, 1.0f);
 			else
-				normal.set(0, -1);
+				normal.set(0.0f, -1.0f);
 		}
 
 		return tMin;

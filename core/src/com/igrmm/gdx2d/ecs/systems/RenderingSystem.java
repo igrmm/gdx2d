@@ -25,8 +25,8 @@ public class RenderingSystem implements System {
 		BoundingBoxComponent playerBBox = components.dynamicBoundingBoxComponents.get(components.playerID);
 		float playerX = playerBBox.x;
 		float playerY = playerBBox.y;
-		float playerCenterX = playerX + playerBBox.width / 2f;
-		float playerCenterY = playerY + playerBBox.height / 2f;
+		float playerCenterX = playerX + playerBBox.width / 2.0f;
+		float playerCenterY = playerY + playerBBox.height / 2.0f;
 
 		/* Make camera follow player */
 		float alpha = 0.3f;
@@ -34,8 +34,8 @@ public class RenderingSystem implements System {
 		camera.position.y += alpha * (playerCenterY - camera.position.y);
 
 		/* Limit camera position inside tiled map bounds */
-		float minCameraPositionX = camera.viewportWidth / 2f;
-		float minCameraPositionY = camera.viewportHeight / 2f;
+		float minCameraPositionX = camera.viewportWidth / 2.0f;
+		float minCameraPositionY = camera.viewportHeight / 2.0f;
 		float maxCameraPositionX = mapWidth - minCameraPositionX;
 		float maxCameraPositionY = mapHeight - minCameraPositionY;
 
