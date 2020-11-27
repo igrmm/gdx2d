@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.Components;
 import com.igrmm.gdx2d.ecs.Systems;
-import com.igrmm.gdx2d.ecs.systems.InputSystem;
-import com.igrmm.gdx2d.ecs.systems.PhysicsSystem;
-import com.igrmm.gdx2d.ecs.systems.PlayerSystem;
-import com.igrmm.gdx2d.ecs.systems.RenderingSystem;
+import com.igrmm.gdx2d.ecs.systems.*;
 
 public class GameScreen extends ScreenAdapter {
 	private final Gdx2D game;
@@ -22,6 +19,7 @@ public class GameScreen extends ScreenAdapter {
 		systems = new Systems();
 		systems.add(new InputSystem());
 		systems.add(new PlayerSystem());
+		systems.add(new BlockSystem());
 		systems.add(new PhysicsSystem());
 		systems.add(new RenderingSystem());
 		camera = components.graphicsContextComponent.camera;
