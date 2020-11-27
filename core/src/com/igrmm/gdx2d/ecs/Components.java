@@ -7,10 +7,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.Assets;
-import com.igrmm.gdx2d.ecs.components.AnimationComponent;
-import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
-import com.igrmm.gdx2d.ecs.components.GraphicsContextComponent;
-import com.igrmm.gdx2d.ecs.components.InputComponent;
+import com.igrmm.gdx2d.ecs.components.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,14 +21,18 @@ public class Components {
 	public final GraphicsContextComponent graphicsContextComponent;
 	public final HashMap<String, AnimationComponent> animationComponents;
 	public final HashMap<String, BoundingBoxComponent> dynamicBoundingBoxComponents;
+	public final HashMap<String, VelocityComponent> velocityComponents;
 	public final HashMap<String, BoundingBoxComponent> blockBoundingBoxComponents;
+	public final HashMap<String, BroadPhaseCollisionComponent> broadPhaseCollisionComponents;
 
 	private Components(TiledMap map) {
 		inputComponent = new InputComponent();
 		graphicsContextComponent = new GraphicsContextComponent(map);
 		animationComponents = new HashMap<>();
 		dynamicBoundingBoxComponents = new HashMap<>();
+		velocityComponents = new HashMap<>();
 		blockBoundingBoxComponents = new HashMap<>();
+		broadPhaseCollisionComponents = new HashMap<>();
 	}
 
 	public String getID() {
@@ -47,6 +48,10 @@ public class Components {
 		/* PLAYER */
 		components.animationComponents.put(components.playerID, new AnimationComponent(assets));
 		components.dynamicBoundingBoxComponents.put(components.playerID, new BoundingBoxComponent(100, 100, 32, 32));
+		VelocityComponent velocityComponent = new VelocityComponent();
+		velocityComponent.maxVelocity.set(10.0f, 10.0f);
+		components.velocityComponents.put(components.playerID, velocityComponent);
+		components.broadPhaseCollisionComponents.put(components.playerID, new BroadPhaseCollisionComponent());
 
 		/* GRAPHICS */
 		String graphicsID = components.getID();
