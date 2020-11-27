@@ -16,4 +16,8 @@ public class Assets extends AssetManager {
 			load(map.getPath(), TiledMap.class);
 		}
 	}
+
+	public TiledMap getTiledMap(Map map) {
+		return get(map.getPath());
+	}
 }
