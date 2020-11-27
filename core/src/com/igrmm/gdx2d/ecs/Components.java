@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.Assets;
+import com.igrmm.gdx2d.assets.Map;
 import com.igrmm.gdx2d.ecs.components.*;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class Components {
 	public final HashMap<String, VelocityComponent> velocityComponents;
 	public final HashMap<String, BoundingBoxComponent> blockBoundingBoxComponents;
 	public final HashMap<String, BroadPhaseCollisionComponent> broadPhaseCollisionComponents;
+	public final HashMap<String, MapComponent> mapComponents;
 
 	private Components(TiledMap map) {
 		inputComponent = new InputComponent();
@@ -33,6 +35,7 @@ public class Components {
 		velocityComponents = new HashMap<>();
 		blockBoundingBoxComponents = new HashMap<>();
 		broadPhaseCollisionComponents = new HashMap<>();
+		mapComponents = new HashMap<>();
 	}
 
 	public String getID() {
@@ -42,8 +45,14 @@ public class Components {
 	}
 
 	public static Components fromAssets(Assets assets) {
-		TiledMap map = assets.get("maps/start.tmx");
-		Components components = new Components(map);
+		TiledMap tiledMap = assets.getTiledMap(Map.START);
+		Components components = new Components(tiledMap);
+
+		/* TILED MAPS */
+		for (Map map : Map.values()) {
+			String mapID = components.getID();
+			components.mapComponents.put(mapID, new MapComponent(map));
+		}
 
 		/* PLAYER */
 		components.animationComponents.put(components.playerID, new AnimationComponent(assets));
@@ -57,7 +66,7 @@ public class Components {
 		String graphicsID = components.getID();
 
 		/* GET OBJECTS FROM TILED MAP */
-		MapGroupLayer objectsLayer = (MapGroupLayer) map.getLayers().get("objects");
+		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
 			for (MapObject mapObject : mapLayer.getObjects()) {
 				String type = mapObject.getProperties().get("type").toString();
