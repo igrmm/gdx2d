@@ -1,6 +1,5 @@
 package com.igrmm.gdx2d.ecs;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -106,7 +105,6 @@ public abstract class Collision {
 		if (hasOccurred()) {
 			velocity.x += Math.abs(velocity.x) * normal.x * (1.0f - time);
 			velocity.y += Math.abs(velocity.y) * normal.y * (1.0f - time);
-			Gdx.graphics.setTitle(velocity.toString());
 			return true;
 		} else {
 			return false;
