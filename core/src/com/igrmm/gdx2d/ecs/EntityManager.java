@@ -52,4 +52,13 @@ public class EntityManager {
 			return new ArrayList<>((Collection<T>) componentsOfType.values());
 		}
 	}
+
+	public <T extends Component> Set<String> getAllEntitiesPossessingComponent(Class<T> componentType) {
+		Map<String, ? extends Component> componentsOfType = components.get(componentType);
+
+		if (componentsOfType == null)
+			return new HashSet<>();
+
+		return componentsOfType.keySet();
+	}
 }
