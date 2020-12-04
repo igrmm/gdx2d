@@ -19,6 +19,13 @@ public class EntityManager {
 		return entity;
 	}
 
+	public void killEntity(String entity) {
+		entities.remove(entity);
+		for (Map<String, ? extends Component> component : components.values()) {
+			component.remove(entity);
+		}
+	}
+
 	public <T extends Component> T getComponent(String entity, Class<T> componentType) {
 		Map<String, ? extends Component> componentsOfType = components.get(componentType);
 
