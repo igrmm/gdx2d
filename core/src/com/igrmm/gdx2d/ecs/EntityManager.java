@@ -31,4 +31,14 @@ public class EntityManager {
 
 		return component;
 	}
+
+	public <T extends Component> List<T> getAllComponentsOfType(Class<T> componentType) {
+		Map<String, ? extends Component> componentsOfType = components.get(componentType);
+
+		if (componentsOfType == null) {
+			return new LinkedList<>();
+		} else {
+			return new ArrayList<>((Collection<T>) componentsOfType.values());
+		}
+	}
 }
