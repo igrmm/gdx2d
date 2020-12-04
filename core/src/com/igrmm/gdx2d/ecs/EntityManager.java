@@ -32,6 +32,17 @@ public class EntityManager {
 		return component;
 	}
 
+	public <T extends Component> void addComponent(String entity, T component) {
+		Map<String, ? extends Component> componentsOfType = components.get(component.getClass());
+
+		if (componentsOfType == null) {
+			componentsOfType = new HashMap<String, T>();
+			components.put(component.getClass(), componentsOfType);
+		}
+
+		((Map<String, T>) componentsOfType).put(entity, component);
+	}
+
 	public <T extends Component> List<T> getAllComponentsOfType(Class<T> componentType) {
 		Map<String, ? extends Component> componentsOfType = components.get(componentType);
 
