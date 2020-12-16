@@ -39,6 +39,7 @@ public class EntityManager {
 		return component;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Component> void addComponent(String entity, T component) {
 		Map<String, ? extends Component> componentsOfType = components.get(component.getClass());
 
@@ -50,6 +51,7 @@ public class EntityManager {
 		((Map<String, T>) componentsOfType).put(entity, component);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Component> List<T> getAllComponentsOfType(Class<T> componentType) {
 		Map<String, ? extends Component> componentsOfType = components.get(componentType);
 
