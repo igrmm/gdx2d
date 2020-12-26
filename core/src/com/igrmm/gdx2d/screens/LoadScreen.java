@@ -17,9 +17,7 @@ public class LoadScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 		try {
-			game.assets.loadMaps();
-			game.assets.load("images/player.png", Texture.class);
-			game.assets.finishLoading();
+			game.assets.load();
 			game.setScreen(new GameScreen(game));
 		} catch (Exception ex) {
 			ex.printStackTrace();
