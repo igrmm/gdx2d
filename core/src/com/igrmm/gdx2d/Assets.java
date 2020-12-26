@@ -20,4 +20,18 @@ public class Assets extends AssetManager {
 	public TiledMap getTiledMap(Map map) {
 		return get(map.getPath());
 	}
+
+	public enum MapAsset {
+		START("maps/start.tmx");
+
+		private final String path;
+
+		MapAsset(String path) {
+			this.path = path;
+		}
+
+		public String getPath() {
+			return path;
+		}
+	}
 }
