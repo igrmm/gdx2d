@@ -33,4 +33,18 @@ public class Assets extends AssetManager {
 			return path;
 		}
 	}
+
+	public enum TextureAsset {
+		PLAYER("images/player.png");
+
+		private final String path;
+
+		TextureAsset(String path) {
+			this.path = path;
+		}
+
+		public String getPath() {
+			return path;
+		}
+	}
 }
