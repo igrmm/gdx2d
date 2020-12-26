@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.Assets;
-import com.igrmm.gdx2d.assets.Map;
+import com.igrmm.gdx2d.Assets.MapAsset;
 import com.igrmm.gdx2d.ecs.components.*;
 
 import java.util.HashMap;
@@ -45,13 +45,13 @@ public class Components {
 	}
 
 	public static Components fromAssets(Assets assets) {
-		TiledMap tiledMap = assets.getTiledMap(Map.START);
+		TiledMap tiledMap = assets.getTiledMap(MapAsset.START);
 		Components components = new Components(tiledMap);
 
 		/* TILED MAPS */
-		for (Map map : Map.values()) {
+		for (MapAsset mapAsset : MapAsset.values()) {
 			String mapID = components.getID();
-			components.mapComponents.put(mapID, new MapComponent(map));
+			components.mapComponents.put(mapID, new MapComponent(mapAsset));
 		}
 
 		/* PLAYER */
