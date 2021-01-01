@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="56">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="73">
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <layer id="1" name="0" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -8,22 +8,23 @@
  </layer>
  <group id="3" name="objects">
   <objectgroup id="2" name="blocks">
-   <object id="40" name="block" type="block" x="0" y="2560" width="96" height="96"/>
-   <object id="41" name="block" type="block" x="0" y="2656" width="32" height="448"/>
-   <object id="42" name="block" type="block" x="0" y="3104" width="64" height="96"/>
-   <object id="43" name="block" type="block" x="64" y="3136" width="96" height="64"/>
-   <object id="44" name="block" type="block" x="160" y="3168" width="1152" height="32"/>
-   <object id="45" name="block" type="block" x="608" y="3072" width="96" height="96"/>
-   <object id="46" name="block" type="block" x="640" y="3008" width="64" height="64"/>
-   <object id="47" name="block" type="block" x="704" y="3104" width="32" height="64"/>
-   <object id="48" name="block" type="block" x="576" y="3136" width="32" height="32"/>
-   <object id="49" name="block" type="block" x="736" y="3136" width="32" height="32"/>
-   <object id="50" name="block" type="block" x="96" y="2560" width="1216" height="32"/>
-   <object id="51" name="block" type="block" x="1280" y="2592" width="32" height="576"/>
-   <object id="52" name="block" type="block" x="1184" y="3104" width="96" height="64"/>
-   <object id="53" name="block" type="block" x="1184" y="3072" width="32" height="32"/>
-   <object id="54" name="block" type="block" x="1248" y="2592" width="32" height="64"/>
-   <object id="55" name="waypoint" type="waypoint" x="672" y="3008">
+   <object id="56" name="BLOCK" type="BLOCK" x="0" y="2560" width="96" height="96"/>
+   <object id="57" name="BLOCK" type="BLOCK" x="96" y="2560" width="1216" height="32"/>
+   <object id="58" name="BLOCK" type="BLOCK" x="1280" y="2592" width="32" height="512"/>
+   <object id="59" name="BLOCK" type="BLOCK" x="1248" y="2592" width="32" height="64"/>
+   <object id="60" name="BLOCK" type="BLOCK" x="1184" y="3104" width="128" height="96"/>
+   <object id="61" name="BLOCK" type="BLOCK" x="1184" y="3072" width="32" height="32"/>
+   <object id="62" name="BLOCK" type="BLOCK" x="160" y="3168" width="1024" height="32"/>
+   <object id="63" name="BLOCK" type="BLOCK" x="0" y="3136" width="160" height="64"/>
+   <object id="64" name="BLOCK" type="BLOCK" x="0" y="2656" width="32" height="480"/>
+   <object id="65" name="BLOCK" type="BLOCK" x="32" y="3104" width="32" height="32"/>
+   <object id="66" name="BLOCK" type="BLOCK" x="704" y="3136" width="32" height="32"/>
+   <object id="67" name="BLOCK" type="BLOCK" x="640" y="3008" width="64" height="160"/>
+   <object id="68" name="BLOCK" type="BLOCK" x="608" y="3072" width="32" height="96"/>
+   <object id="69" name="BLOCK" type="BLOCK" x="576" y="3136" width="32" height="32"/>
+   <object id="70" name="BLOCK" type="BLOCK" x="704" y="3104" width="32" height="32"/>
+   <object id="71" name="BLOCK" type="BLOCK" x="736" y="3136" width="32" height="32"/>
+   <object id="72" name="WAYPOINT" type="WAYPOINT" x="672" y="3008">
     <point/>
    </object>
   </objectgroup>

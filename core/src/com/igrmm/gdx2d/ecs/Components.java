@@ -79,10 +79,10 @@ public class Components {
 				RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
 
 				switch (type) {
-					case "waypoint":
+					case "WAYPOINT":
 						break;
 
-					case "block":
+					case "BLOCK":
 						String blockID = components.getID();
 						Rectangle r = rectangleMapObject.getRectangle();
 						components.blockBoundingBoxComponents.put(blockID, new BoundingBoxComponent(r));

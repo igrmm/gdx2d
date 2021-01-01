@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object name="waypoint" type="waypoint">
+ <object name="WAYPOINT" type="WAYPOINT">
   <point/>
  </object>
 </template>

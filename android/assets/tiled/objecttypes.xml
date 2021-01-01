@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
- <objecttype name="block" color="#a0a0a4"/>
- <objecttype name="waypoint" color="#00ff00">
+ <objecttype name="BLOCK" color="#a0a0a4"/>
+ <objecttype name="WAYPOINT" color="#00ff00">
   <property name="mapAsset" type="string" default="null"/>
  </objecttype>
 </objecttypes>
