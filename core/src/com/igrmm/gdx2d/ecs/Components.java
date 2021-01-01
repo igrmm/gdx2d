@@ -68,8 +68,14 @@ public class Components {
 		/* GET OBJECTS FROM TILED MAP */
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
+			String type="";
 			for (MapObject mapObject : mapLayer.getObjects()) {
-				String type = mapObject.getProperties().get("type").toString();
+				try {
+					type = mapObject.getProperties().get("type").toString();
+				} catch (Exception e) {
+					System.out.println("Exception: missing type property");
+				}
+
 				RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
 
 				switch (type) {
@@ -83,7 +89,7 @@ public class Components {
 						break;
 
 					default:
-						throw new NullPointerException();
+						throw new NullPointerException("Unidentified type property: " + type);
 				}
 			}
 		}
