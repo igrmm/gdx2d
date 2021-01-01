@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="56">
+ <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
+ <layer id="1" name="0" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2TEKw0AQBEFF+v+THTh2Yo2hzVXBgSIxo71Ie10AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb/cfnJOUe1dz/ZJ5tNT71vOt1fvW863V+9bzrdX71vOt1fvW863V+9bzrdX71vOt1fvW863V+9bzrdX71vOt1fvW862t+67/OZnH8/eZx/fW324xj/vD8wmW93m1R7KPet5/udszj/Y5yQspBAOX
+  </data>
+ </layer>
+ <group id="3" name="objects">
+  <objectgroup id="2" name="blocks">
+   <object id="40" name="block" type="block" x="0" y="2560" width="96" height="96"/>
+   <object id="41" name="block" type="block" x="0" y="2656" width="32" height="448"/>
+   <object id="42" name="block" type="block" x="0" y="3104" width="64" height="96"/>
+   <object id="43" name="block" type="block" x="64" y="3136" width="96" height="64"/>
+   <object id="44" name="block" type="block" x="160" y="3168" width="1152" height="32"/>
+   <object id="45" name="block" type="block" x="608" y="3072" width="96" height="96"/>
+   <object id="46" name="block" type="block" x="640" y="3008" width="64" height="64"/>
+   <object id="47" name="block" type="block" x="704" y="3104" width="32" height="64"/>
+   <object id="48" name="block" type="block" x="576" y="3136" width="32" height="32"/>
+   <object id="49" name="block" type="block" x="736" y="3136" width="32" height="32"/>
+   <object id="50" name="block" type="block" x="96" y="2560" width="1216" height="32"/>
+   <object id="51" name="block" type="block" x="1280" y="2592" width="32" height="576"/>
+   <object id="52" name="block" type="block" x="1184" y="3104" width="96" height="64"/>
+   <object id="53" name="block" type="block" x="1184" y="3072" width="32" height="32"/>
+   <object id="54" name="block" type="block" x="1248" y="2592" width="32" height="64"/>
+   <object id="55" name="waypoint" type="waypoint" x="672" y="3008">
+    <point/>
+   </object>
+  </objectgroup>
+  <objectgroup id="4" name="waypoints"/>
+ </group>
+</map>
