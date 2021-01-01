@@ -15,11 +15,10 @@ public class ComponentFactory {
 
 			case "mapAsset":
 				for (MapAsset mapAsset : MapAsset.values()) {
-					if (mapAsset.name().equals((value))) {
+					if (mapAsset.name().equals((value)))
 						return new MapComponent(mapAsset);
-					}
-					throw new NullPointerException("Unexpected [" + key + "]: " + value);
 				}
+				throw new NullPointerException("Unexpected [" + key + "]: " + value);
 
 			default:
 				throw new NullPointerException("Unexpected game object property: " + key);
