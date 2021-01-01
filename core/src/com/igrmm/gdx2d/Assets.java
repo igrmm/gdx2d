@@ -39,7 +39,7 @@ public class Assets {
 	}
 
 	public enum MapAsset {
-		START("maps/start.tmx");
+		START("tiled/maps/start.tmx");
 
 		private final String path;
 
