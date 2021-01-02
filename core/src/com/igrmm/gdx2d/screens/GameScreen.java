@@ -20,12 +20,16 @@ public class GameScreen extends ScreenAdapter {
 		this.game = game;
 		systems = new LinkedHashSet<>();
 		components = Components.fromAssets(game.assets);
+		camera = components.graphicsContextComponent.camera;
+	}
+
+	@Override
+	public void show() {
 		systems.add(new InputSystem());
 		systems.add(new PlayerSystem());
 		systems.add(new BlockSystem());
 		systems.add(new PhysicsSystem());
 		systems.add(new RenderingSystem());
-		camera = components.graphicsContextComponent.camera;
 	}
 
 	@Override
