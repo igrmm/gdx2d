@@ -2,9 +2,15 @@ package com.igrmm.gdx2d.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.igrmm.gdx2d.Assets;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.Components;
 import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Type;
+import com.igrmm.gdx2d.ecs.components.DisposableComponent;
+import com.igrmm.gdx2d.ecs.components.GraphicsContextComponent;
+import com.igrmm.gdx2d.ecs.components.TypeComponent;
 import com.igrmm.gdx2d.ecs.systems.*;
 import com.igrmm.gdx2d.ecs.systems.System;
 
@@ -28,6 +34,15 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
+
+		//GENERATE GRAPHICS ENTITY
+		TiledMap tiledMap = game.assets.getTiledMap(Assets.MapAsset.START);
+		String graphicsUUID = entityManager.createEntity();
+		entityManager.addComponent(graphicsUUID, new TypeComponent(Type.GRAPHICS));
+		entityManager.addComponent(graphicsUUID, new GraphicsContextComponent(tiledMap));
+		entityManager.addComponent(graphicsUUID, new DisposableComponent());
+
+		//GENERATE SYSTEMS
 		systems.add(new InputSystem());
 		systems.add(new PlayerSystem());
 		systems.add(new BlockSystem());
