@@ -21,7 +21,7 @@ public class ComponentFactory {
 				throw new NullPointerException("Unexpected [" + key + "]: " + value);
 
 			default:
-				throw new NullPointerException("Unexpected game object property: " + key);
+				return null;
 		}
 	}
 }
