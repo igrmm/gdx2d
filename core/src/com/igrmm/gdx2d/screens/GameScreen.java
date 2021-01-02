@@ -4,19 +4,22 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.Components;
-import com.igrmm.gdx2d.ecs.Systems;
 import com.igrmm.gdx2d.ecs.systems.*;
+import com.igrmm.gdx2d.ecs.systems.System;
+
+import java.util.LinkedHashSet;
 
 public class GameScreen extends ScreenAdapter {
 	private final Gdx2D game;
+	private final LinkedHashSet<System> systems;
 	private final Components components;
-	private final Systems systems;
 	private final OrthographicCamera camera;
+
 
 	public GameScreen(Gdx2D game) {
 		this.game = game;
+		systems = new LinkedHashSet<>();
 		components = Components.fromAssets(game.assets);
-		systems = new Systems();
 		systems.add(new InputSystem());
 		systems.add(new PlayerSystem());
 		systems.add(new BlockSystem());
@@ -27,7 +30,8 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		systems.update(components);
+		for (System system : systems)
+			system.update(components);
 	}
 
 	@Override
@@ -37,6 +41,7 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void dispose() {
-		systems.dispose(components);
+		components.graphicsContextComponent.batch.dispose();
+		components.graphicsContextComponent.mapRenderer.dispose();
 	}
 }
