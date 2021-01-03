@@ -7,12 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 
 public class RenderingSystem implements System {
 
 	@Override
-	public void update(Components components) {
+	public void update(EntityManager entityManager) {
 		OrthographicCamera camera = components.graphicsContextComponent.camera;
 		float mapWidth = components.graphicsContextComponent.mapWidth;
 		float mapHeight = components.graphicsContextComponent.mapHeight;

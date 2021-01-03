@@ -1,6 +1,7 @@
 package com.igrmm.gdx2d.ecs.systems;
 
 import com.igrmm.gdx2d.ecs.Collision;
+import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 
 public class BlockSystem implements System {
 	@Override
-	public void update(Components components) {
+	public void update(EntityManager entityManager) {
 
 		HashMap<String, BoundingBoxComponent> blocks = components.blockBoundingBoxComponents;
 

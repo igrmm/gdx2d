@@ -3,6 +3,7 @@ package com.igrmm.gdx2d.ecs.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.igrmm.gdx2d.ecs.EntityManager;
 
 public class InputSystem implements InputProcessor, System {
 	private boolean right = false;
@@ -83,7 +84,7 @@ public class InputSystem implements InputProcessor, System {
 	}
 
 	@Override
-	public void update(Components components) {
+	public void update(EntityManager entityManager) {
 		components.inputComponent.right = this.right;
 		components.inputComponent.left = this.left;
 		components.inputComponent.up = this.up;

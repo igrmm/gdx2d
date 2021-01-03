@@ -2,6 +2,7 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.Collision;
+import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
@@ -14,7 +15,7 @@ public class PhysicsSystem implements System {
 	private final Rectangle intersection = new Rectangle();
 
 	@Override
-	public void update(Components components) {
+	public void update(EntityManager entityManager) {
 
 		BroadPhaseCollisionComponent broadPhaseCollisionComponent = components.broadPhaseCollisionComponents.get(components.playerID);
 		List<Collision> collisions = broadPhaseCollisionComponent.collisions;

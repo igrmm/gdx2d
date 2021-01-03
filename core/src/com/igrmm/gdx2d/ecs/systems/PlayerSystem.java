@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs.systems;
 
+import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.InputComponent;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
@@ -7,7 +8,7 @@ import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 public class PlayerSystem implements System {
 
 	@Override
-	public void update(Components components) {
+	public void update(EntityManager entityManager) {
 		InputComponent inputs = components.inputComponent;
 		BoundingBoxComponent boundingBoxComponent = components.dynamicBoundingBoxComponents.get(components.playerID);
 		VelocityComponent velocityComponent = components.velocityComponents.get(components.playerID);

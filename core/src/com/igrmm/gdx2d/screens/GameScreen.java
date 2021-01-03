@@ -88,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		for (System system : systems)
-			system.update(components);
+			system.update(entityManager);
 	}
 
 	@Override
