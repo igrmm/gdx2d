@@ -27,7 +27,6 @@ public class GameScreen extends ScreenAdapter {
 	private final Gdx2D game;
 	private final EntityManager entityManager;
 	private final LinkedHashSet<System> systems;
-	private final Components components;
 	private final OrthographicCamera camera;
 
 
@@ -35,7 +34,6 @@ public class GameScreen extends ScreenAdapter {
 		this.game = game;
 		entityManager = new EntityManager();
 		systems = new LinkedHashSet<>();
-		components = Components.fromAssets(game.assets);
 		camera = components.graphicsContextComponent.camera;
 	}
 
