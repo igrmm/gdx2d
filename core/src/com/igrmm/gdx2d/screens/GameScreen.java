@@ -1,7 +1,6 @@
 package com.igrmm.gdx2d.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -27,14 +26,11 @@ public class GameScreen extends ScreenAdapter {
 	private final Gdx2D game;
 	private final EntityManager entityManager;
 	private final LinkedHashSet<System> systems;
-	private final OrthographicCamera camera;
-
 
 	public GameScreen(Gdx2D game) {
 		this.game = game;
 		entityManager = new EntityManager();
 		systems = new LinkedHashSet<>();
-		camera = components.graphicsContextComponent.camera;
 	}
 
 	@Override
@@ -88,11 +84,6 @@ public class GameScreen extends ScreenAdapter {
 	public void render(float delta) {
 		for (System system : systems)
 			system.update(entityManager);
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		camera.setToOrtho(false, width, height);
 	}
 
 	@Override

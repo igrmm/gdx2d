@@ -8,21 +8,29 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.components.AnimationComponent;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
+import com.igrmm.gdx2d.ecs.components.GraphicsContextComponent;
+
 
 public class RenderingSystem implements System {
 
 	@Override
 	public void update(EntityManager entityManager) {
-		OrthographicCamera camera = components.graphicsContextComponent.camera;
-		float mapWidth = components.graphicsContextComponent.mapWidth;
-		float mapHeight = components.graphicsContextComponent.mapHeight;
-		OrthogonalTiledMapRenderer mapRenderer = components.graphicsContextComponent.mapRenderer;
-		SpriteBatch batch = components.graphicsContextComponent.batch;
+		String graphicsUUID = entityManager.graphicsUUID;
+		GraphicsContextComponent GCComponent = entityManager.getComponent(graphicsUUID, GraphicsContextComponent.class);
+
+		OrthographicCamera camera = GCComponent.camera;
+		float mapWidth = GCComponent.mapWidth;
+		float mapHeight = GCComponent.mapHeight;
+		OrthogonalTiledMapRenderer mapRenderer = GCComponent.mapRenderer;
+		SpriteBatch batch = GCComponent.batch;
 
 		// TEMP PLAYER CODE
-		Texture playerTexture = components.animationComponents.get(components.playerID).texture;
-		BoundingBoxComponent playerBBox = components.dynamicBoundingBoxComponents.get(components.playerID);
+		String playerUUID = entityManager.playerUUID;
+		AnimationComponent animationComponent = entityManager.getComponent(playerUUID, AnimationComponent.class);
+		Texture playerTexture = animationComponent.texture;
+		BoundingBoxComponent playerBBox = entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
 		float playerX = playerBBox.x;
 		float playerY = playerBBox.y;
 		float playerCenterX = playerX + playerBBox.width / 2.0f;
