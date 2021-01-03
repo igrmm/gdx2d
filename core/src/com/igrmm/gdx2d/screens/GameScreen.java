@@ -43,7 +43,7 @@ public class GameScreen extends ScreenAdapter {
 		TiledMap tiledMap = game.assets.getTiledMap(MapAsset.START);
 
 		//GENERATE PLAYER ENTITY
-		String playerUUID = entityManager.createEntity();
+		String playerUUID = entityManager.playerUUID;
 		entityManager.addComponent(playerUUID, new AnimationComponent(game.assets));
 		entityManager.addComponent(playerUUID, new BoundingBoxComponent(100.0f, 100.0f, 32.0f, 32.0f));
 		VelocityComponent velocityComponent = new VelocityComponent();
@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
 
 		//GENERATE GRAPHICS ENTITY
-		String graphicsUUID = entityManager.createEntity();
+		String graphicsUUID = entityManager.graphicsUUID;
 		entityManager.addComponent(graphicsUUID, new TypeComponent(Type.GRAPHICS));
 		entityManager.addComponent(graphicsUUID, new GraphicsContextComponent(tiledMap));
 		entityManager.addComponent(graphicsUUID, new DisposableComponent());
