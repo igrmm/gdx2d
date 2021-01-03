@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.Assets.*;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
-import com.igrmm.gdx2d.ecs.Components;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.Type;
 import com.igrmm.gdx2d.ecs.components.*;

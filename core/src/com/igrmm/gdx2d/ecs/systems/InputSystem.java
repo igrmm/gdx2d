@@ -3,7 +3,6 @@ package com.igrmm.gdx2d.ecs.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.igrmm.gdx2d.ecs.Components;
 
 public class InputSystem implements InputProcessor, System {
 	private boolean right = false;
