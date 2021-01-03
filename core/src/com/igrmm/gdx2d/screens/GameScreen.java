@@ -20,6 +20,7 @@ import com.igrmm.gdx2d.ecs.systems.System;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 
 public class GameScreen extends ScreenAdapter {
@@ -98,7 +99,10 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void dispose() {
-		components.graphicsContextComponent.batch.dispose();
-		components.graphicsContextComponent.mapRenderer.dispose();
+		List<GraphicsContextComponent> graphicsContextComponents = entityManager.getAllComponentsOfType(GraphicsContextComponent.class);
+		for (GraphicsContextComponent graphicsContextComponent : graphicsContextComponents) {
+			graphicsContextComponent.mapRenderer.dispose();
+			graphicsContextComponent.batch.dispose();
+		}
 	}
 }
