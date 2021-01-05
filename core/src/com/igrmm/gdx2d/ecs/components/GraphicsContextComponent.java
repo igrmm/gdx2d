@@ -17,5 +17,7 @@ public class GraphicsContextComponent implements Component {
 				* map.getProperties().get("tilewidth", Integer.class);
 		mapHeight = map.getProperties().get("height", Integer.class)
 				* map.getProperties().get("tileheight", Integer.class);
+
+		camera.setToOrtho(false);
 	}
 }

@@ -3,7 +3,8 @@ package com.igrmm.gdx2d.ecs.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.igrmm.gdx2d.ecs.Components;
+import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.components.InputComponent;
 
 public class InputSystem implements InputProcessor, System {
 	private boolean right = false;
@@ -84,10 +85,11 @@ public class InputSystem implements InputProcessor, System {
 	}
 
 	@Override
-	public void update(Components components) {
-		components.inputComponent.right = this.right;
-		components.inputComponent.left = this.left;
-		components.inputComponent.up = this.up;
-		components.inputComponent.down = this.down;
+	public void update(EntityManager entityManager) {
+		InputComponent inputComponent = entityManager.getComponent(entityManager.playerUUID, InputComponent.class);
+		inputComponent.right = this.right;
+		inputComponent.left = this.left;
+		inputComponent.up = this.up;
+		inputComponent.down = this.down;
 	}
 }
