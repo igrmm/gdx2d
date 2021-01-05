@@ -72,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
 				}
 			}
 		}
+		java.lang.System.out.println("Number of entities: " + entityManager.entities.size());
 
 		//GENERATE SYSTEMS
 		systems.add(new InputSystem());
