@@ -1,4 +1,4 @@
-package com.igrmm.gdx2d.ecs;
+package com.igrmm.gdx2d.enums;
 
 public enum Type {
 	PLAYER,

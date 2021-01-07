@@ -2,6 +2,7 @@ package com.igrmm.gdx2d.ecs;
 
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.Assets.MapAsset;
+import com.igrmm.gdx2d.enums.Type;
 
 public class ComponentFactory {
 	public static Component getComponent(String key, Object value) {

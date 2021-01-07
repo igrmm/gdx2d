@@ -12,7 +12,7 @@ import com.igrmm.gdx2d.Assets.*;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
 import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.Type;
+import com.igrmm.gdx2d.enums.Type;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.ecs.systems.*;
 import com.igrmm.gdx2d.ecs.systems.System;
