@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.igrmm.gdx2d.enums.MapAsset;
 
 public class Assets {
 	private final AssetManager assetManager;
@@ -36,20 +37,6 @@ public class Assets {
 
 	public void dispose() {
 		assetManager.dispose();
-	}
-
-	public enum MapAsset {
-		START("tiled/maps/start.tmx");
-
-		private final String path;
-
-		MapAsset(String path) {
-			this.path = path;
-		}
-
-		public String getPath() {
-			return path;
-		}
 	}
 
 	public enum TextureAsset {

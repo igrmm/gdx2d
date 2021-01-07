@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.igrmm.gdx2d.Assets.*;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
 import com.igrmm.gdx2d.ecs.EntityManager;
@@ -16,6 +15,7 @@ import com.igrmm.gdx2d.enums.EntityType;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.ecs.systems.*;
 import com.igrmm.gdx2d.ecs.systems.System;
+import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;

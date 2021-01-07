@@ -1,8 +1,8 @@
 package com.igrmm.gdx2d.ecs;
 
 import com.igrmm.gdx2d.ecs.components.*;
-import com.igrmm.gdx2d.Assets.MapAsset;
 import com.igrmm.gdx2d.enums.EntityType;
+import com.igrmm.gdx2d.enums.MapAsset;
 
 public class ComponentFactory {
 	public static Component getComponent(String key, Object value) {
