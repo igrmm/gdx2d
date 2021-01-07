@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.igrmm.gdx2d.enums.MapAsset;
+import com.igrmm.gdx2d.enums.TextureAsset;
 
 public class Assets {
 	private final AssetManager assetManager;
@@ -37,19 +38,5 @@ public class Assets {
 
 	public void dispose() {
 		assetManager.dispose();
-	}
-
-	public enum TextureAsset {
-		PLAYER("images/player.png");
-
-		private final String path;
-
-		TextureAsset(String path) {
-			this.path = path;
-		}
-
-		public String getPath() {
-			return path;
-		}
 	}
 }
