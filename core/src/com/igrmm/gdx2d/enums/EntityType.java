@@ -1,6 +1,6 @@
 package com.igrmm.gdx2d.enums;
 
-public enum Type {
+public enum EntityType {
 	PLAYER,
 	GRAPHICS,
 	WAYPOINT,

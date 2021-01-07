@@ -2,13 +2,13 @@ package com.igrmm.gdx2d.ecs;
 
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.Assets.MapAsset;
-import com.igrmm.gdx2d.enums.Type;
+import com.igrmm.gdx2d.enums.EntityType;
 
 public class ComponentFactory {
 	public static Component getComponent(String key, Object value) {
 		switch (key) {
 			case "type":
-				for (Type type : Type.values()) {
+				for (EntityType type : EntityType.values()) {
 					if (type.name().equals(value))
 						return new TypeComponent(type);
 				}
