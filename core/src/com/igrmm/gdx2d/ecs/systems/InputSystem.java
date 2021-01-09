@@ -85,7 +85,7 @@ public class InputSystem implements InputProcessor, System {
 	}
 
 	@Override
-	public void update(EntityManager entityManager) {
+	public void update(EntityManager entityManager, float delta) {
 		InputComponent inputComponent = entityManager.getComponent(entityManager.playerUUID, InputComponent.class);
 		inputComponent.right = this.right;
 		inputComponent.left = this.left;

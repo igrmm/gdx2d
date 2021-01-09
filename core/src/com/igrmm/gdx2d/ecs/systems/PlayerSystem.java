@@ -7,7 +7,7 @@ import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 public class PlayerSystem implements System {
 
 	@Override
-	public void update(EntityManager entityManager) {
+	public void update(EntityManager entityManager, float delta) {
 		InputComponent inputComponent = entityManager.getComponent(entityManager.playerUUID, InputComponent.class);
 		VelocityComponent velocityComponent = entityManager.getComponent(entityManager.playerUUID, VelocityComponent.class);
 

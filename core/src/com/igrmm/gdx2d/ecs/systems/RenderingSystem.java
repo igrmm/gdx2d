@@ -16,7 +16,7 @@ import com.igrmm.gdx2d.ecs.components.GraphicsContextComponent;
 public class RenderingSystem implements System {
 
 	@Override
-	public void update(EntityManager entityManager) {
+	public void update(EntityManager entityManager, float delta) {
 		String graphicsUUID = entityManager.graphicsUUID;
 		GraphicsContextComponent GCComponent = entityManager.getComponent(graphicsUUID, GraphicsContextComponent.class);
 

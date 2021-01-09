@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BlockSystem implements System {
 	@Override
-	public void update(EntityManager entityManager) {
+	public void update(EntityManager entityManager, float delta) {
 
 		List<BoundingBoxComponent> blocks = entityManager.getAllComponentsOfType(BoundingBoxComponent.class);
 

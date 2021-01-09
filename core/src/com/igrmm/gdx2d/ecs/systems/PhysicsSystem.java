@@ -11,7 +11,7 @@ import java.util.List;
 public class PhysicsSystem implements System {
 
 	@Override
-	public void update(EntityManager entityManager) {
+	public void update(EntityManager entityManager, float delta) {
 
 		BroadPhaseCollisionComponent broadPhaseCollisionComponent = entityManager.getComponent(entityManager.playerUUID, BroadPhaseCollisionComponent.class);
 		List<Collision> collisions = broadPhaseCollisionComponent.collisions;
