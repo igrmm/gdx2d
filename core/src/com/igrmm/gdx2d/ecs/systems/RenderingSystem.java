@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.components.AnimationComponent;
+import com.igrmm.gdx2d.ecs.components.PlayerAnimationComponent;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.GraphicsContextComponent;
 
@@ -28,8 +28,8 @@ public class RenderingSystem implements System {
 
 		// TEMP PLAYER CODE
 		String playerUUID = entityManager.playerUUID;
-		AnimationComponent animationComponent = entityManager.getComponent(playerUUID, AnimationComponent.class);
-		Texture playerTexture = animationComponent.texture;
+		PlayerAnimationComponent playerAnimationComponent = entityManager.getComponent(playerUUID, PlayerAnimationComponent.class);
+		Texture playerTexture = playerAnimationComponent.texture;
 		BoundingBoxComponent playerBBox = entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
 		float playerX = playerBBox.x;
 		float playerY = playerBBox.y;

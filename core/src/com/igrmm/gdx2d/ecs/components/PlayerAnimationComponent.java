@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.igrmm.gdx2d.Assets;
 import com.igrmm.gdx2d.enums.TextureAsset;
 
-public class AnimationComponent implements Component {
+public class PlayerAnimationComponent implements Component {
 	public final Texture texture;
 
-	public AnimationComponent(Assets assets) {
+	public PlayerAnimationComponent(Assets assets) {
 		texture = assets.getTexture(TextureAsset.PLAYER);
 	}
 }
