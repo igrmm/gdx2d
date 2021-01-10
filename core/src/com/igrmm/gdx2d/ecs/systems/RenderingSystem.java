@@ -29,7 +29,6 @@ public class RenderingSystem implements System {
 		// TEMP PLAYER CODE
 		String playerUUID = entityManager.playerUUID;
 		PlayerAnimationComponent playerAnimationComponent = entityManager.getComponent(playerUUID, PlayerAnimationComponent.class);
-		Texture playerTexture = playerAnimationComponent.texture;
 		BoundingBoxComponent playerBBox = entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
 		float playerX = playerBBox.x;
 		float playerY = playerBBox.y;
@@ -64,7 +63,11 @@ public class RenderingSystem implements System {
 		mapRenderer.render();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(playerTexture, playerX, playerY);
+		batch.draw(
+				playerAnimationComponent.getKeyFrame(delta),
+				playerX - PlayerAnimationComponent.SPRITE_OFFSET,
+				playerY - PlayerAnimationComponent.SPRITE_OFFSET
+		);
 		batch.end();
 	}
 }
