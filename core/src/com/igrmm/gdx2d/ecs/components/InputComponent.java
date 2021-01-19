@@ -5,4 +5,5 @@ public class InputComponent implements Component {
 	public boolean left = false;
 	public boolean up = false;
 	public boolean down = false;
+	public boolean jump = false;
 }
