@@ -40,6 +40,7 @@ public class GameScreen extends ScreenAdapter {
 
 		//GENERATE PLAYER ENTITY
 		String playerUUID = entityManager.playerUUID;
+		entityManager.addComponent(playerUUID, new TypeComponent(EntityType.PLAYER));
 		entityManager.addComponent(playerUUID, new PlayerAnimationComponent(game.assets));
 		entityManager.addComponent(playerUUID, new InputComponent());
 		entityManager.addComponent(playerUUID, new BoundingBoxComponent(100.0f, 100.0f, 32.0f, 32.0f));
