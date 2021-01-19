@@ -11,6 +11,7 @@ public class InputSystem implements InputProcessor, System {
 	private boolean left = false;
 	private boolean up = false;
 	private boolean down = false;
+	private boolean jump = false;
 
 	public InputSystem() {
 		Gdx.input.setInputProcessor(this);
@@ -31,6 +32,9 @@ public class InputSystem implements InputProcessor, System {
 			case Input.Keys.S:
 				down = true;
 				break;
+			case Input.Keys.SPACE:
+				jump = true;
+				break;
 		}
 		return false;
 	}
@@ -49,6 +53,9 @@ public class InputSystem implements InputProcessor, System {
 				break;
 			case Input.Keys.S:
 				down = false;
+				break;
+			case Input.Keys.SPACE:
+				jump = false;
 				break;
 		}
 		return false;
@@ -91,5 +98,6 @@ public class InputSystem implements InputProcessor, System {
 		inputComponent.left = this.left;
 		inputComponent.up = this.up;
 		inputComponent.down = this.down;
+		inputComponent.jump = this.jump;
 	}
 }
