@@ -2,6 +2,7 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.InputComponent;
+import com.igrmm.gdx2d.ecs.components.JumpComponent;
 import com.igrmm.gdx2d.ecs.components.PlayerAnimationComponent;
 import com.igrmm.gdx2d.ecs.components.PlayerAnimationComponent.PlayerAnimation;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
@@ -12,6 +13,7 @@ public class PlayerSystem implements System {
 	public void update(EntityManager entityManager, float delta) {
 		InputComponent inputComponent = entityManager.getComponent(entityManager.playerUUID, InputComponent.class);
 		VelocityComponent velocityComponent = entityManager.getComponent(entityManager.playerUUID, VelocityComponent.class);
+		JumpComponent jumpComponent = entityManager.getComponent(entityManager.playerUUID, JumpComponent.class);
 		PlayerAnimationComponent animationComponent =
 				entityManager.getComponent(entityManager.playerUUID, PlayerAnimationComponent.class);
 
@@ -26,12 +28,17 @@ public class PlayerSystem implements System {
 		}
 
 		if (inputComponent.up) {
-			velocityComponent.velocity.y = velocityComponent.maxVelocity.y;
 		}
 
 		if (inputComponent.down) {
-			velocityComponent.velocity.y = velocityComponent.maxVelocity.y * -1.0f;
 		}
+
+		if (inputComponent.jump) {
+			if (jumpComponent.grounded && !jumpComponent.jumped) {
+				velocityComponent.velocity.y += jumpComponent.jumpVelocity;
+				jumpComponent.jumped = true;
+			}
+		} else jumpComponent.jumped = false;
 
 		if (velocityComponent.velocity.x == 0 && velocityComponent.velocity.y == 0)
 			animationComponent.setAnimation(PlayerAnimationComponent.PlayerAnimation.IDLE);
