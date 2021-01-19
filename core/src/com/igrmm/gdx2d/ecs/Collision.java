@@ -97,6 +97,14 @@ public abstract class Collision {
 		return tMin;
 	}
 
+	public float getNormalX() {
+		return normal.x;
+	}
+
+	public float getNormalY() {
+		return normal.y;
+	}
+
 	public final boolean hasOccurred() {
 		return (time >= 0.0f && time < 1.0f);
 	}
