@@ -25,6 +25,6 @@ public class PhysicsSystem implements System {
 		VelocityComponent velocityComponent = entityManager.getComponent(entityManager.playerUUID, VelocityComponent.class);
 		player.x += velocityComponent.velocity.x;
 		player.y += velocityComponent.velocity.y;
-		velocityComponent.velocity.set(0.0f, 0.0f);
+		velocityComponent.velocity.x = 0.0f;
 	}
 }
