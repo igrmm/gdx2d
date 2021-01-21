@@ -2,36 +2,52 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
-import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
-import com.igrmm.gdx2d.ecs.components.JumpComponent;
-import com.igrmm.gdx2d.ecs.components.VelocityComponent;
+import com.igrmm.gdx2d.ecs.components.*;
+import com.igrmm.gdx2d.enums.EntityType;
 
-import java.util.List;
+import java.util.Set;
 
 public class BlockSystem implements System {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 
-		List<BoundingBoxComponent> blocks = entityManager.getAllComponentsOfType(BoundingBoxComponent.class);
+		Set<String> blocks = entityManager.getAllEntitiesPossessingComponent(BoundingBoxComponent.class);
+		Set<String> mobiles = entityManager.getAllEntitiesPossessingComponent(VelocityComponent.class);
+		Set<String> jumpers = entityManager.getAllEntitiesPossessingComponent(JumpComponent.class);
 
-		//TEMP PLAYER CODE
-		BoundingBoxComponent player = entityManager.getComponent(entityManager.playerUUID, BoundingBoxComponent.class);
-		VelocityComponent velocityComponent = entityManager.getComponent(entityManager.playerUUID, VelocityComponent.class);
-		JumpComponent jumpComponent = entityManager.getComponent(entityManager.playerUUID, JumpComponent.class);
-		jumpComponent.grounded = false;
-		BroadPhaseCollisionComponent broadPhaseCollisionComponent = entityManager.getComponent(entityManager.playerUUID, BroadPhaseCollisionComponent.class);
-		for (BoundingBoxComponent blockBBox : blocks) {
-			Collision collision = new Collision(player, blockBBox, velocityComponent.velocity) {
-				@Override
-				public boolean resolve() {
-					if (super.resolve()) {
-						if (getNormalY() > 0) jumpComponent.grounded = true;
-						return true;
-					} else return false;
+		for (String block : blocks) {
+			TypeComponent typeComponent = entityManager.getComponent(block, TypeComponent.class);
+			if (typeComponent.type == EntityType.BLOCK) {
+				BoundingBoxComponent staticBBoxComponent =
+						entityManager.getComponent(block, BoundingBoxComponent.class);
+
+				for (String mobile : mobiles) {
+					BoundingBoxComponent dynamicBBoxComponent =
+							entityManager.getComponent(mobile, BoundingBoxComponent.class);
+					VelocityComponent velocityComponent =
+							entityManager.getComponent(mobile, VelocityComponent.class);
+					BroadPhaseCollisionComponent broadPhaseCollisionComponent =
+							entityManager.getComponent(mobile, BroadPhaseCollisionComponent.class);
+
+					Collision collision =
+							new Collision(dynamicBBoxComponent, staticBBoxComponent, velocityComponent.velocity) {
+								@Override
+								public boolean resolve() {
+									if (super.resolve()) {
+										if (getNormalY() > 0) {
+											if (jumpers.contains(mobile)) {
+												JumpComponent jumpComponent =
+														entityManager.getComponent(mobile, JumpComponent.class);
+												jumpComponent.grounded = true;
+											}
+										}
+										return true;
+									} else return false;
+								}
+							};
+					broadPhaseCollisionComponent.collisions.add(collision);
 				}
-			};
-			broadPhaseCollisionComponent.collisions.add(collision);
+			}
 		}
 	}
 }
