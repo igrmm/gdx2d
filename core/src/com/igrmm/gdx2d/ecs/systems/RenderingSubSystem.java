@@ -9,7 +9,7 @@ import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
 
-public class RenderingSystem implements System {
+public class RenderingSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {

@@ -8,7 +8,7 @@ import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 
 import java.util.List;
 
-public class PhysicsSystem implements System {
+public class PhysicsSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {

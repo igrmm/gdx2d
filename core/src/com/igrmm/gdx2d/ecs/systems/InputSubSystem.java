@@ -9,12 +9,12 @@ import com.igrmm.gdx2d.ecs.components.JumpComponent;
 import com.igrmm.gdx2d.ecs.components.PlayerAnimationComponent;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 
-public class InputSystem implements InputProcessor, System {
+public class InputSubSystem implements InputProcessor, SubSystem {
 	private boolean right = false;
 	private boolean left = false;
 	private boolean jump = false;
 
-	public InputSystem() {
+	public InputSubSystem() {
 		Gdx.input.setInputProcessor(this);
 	}
 

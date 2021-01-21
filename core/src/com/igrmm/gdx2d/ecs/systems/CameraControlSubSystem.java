@@ -6,7 +6,7 @@ import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.CameraComponent;
 
-public class CameraControlSystem implements System {
+public class CameraControlSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		String playerUUID = entityManager.playerUUID;

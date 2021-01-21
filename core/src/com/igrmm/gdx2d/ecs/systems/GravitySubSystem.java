@@ -7,7 +7,7 @@ import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 
 import java.util.Set;
 
-public class GravitySystem implements System {
+public class GravitySubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		Set<String> entities = entityManager.getAllEntitiesPossessingComponent(GravityComponent.class);

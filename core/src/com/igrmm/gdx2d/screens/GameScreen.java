@@ -14,7 +14,7 @@ import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.enums.EntityType;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.ecs.systems.*;
-import com.igrmm.gdx2d.ecs.systems.System;
+import com.igrmm.gdx2d.ecs.systems.SubSystem;
 import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
@@ -24,12 +24,12 @@ import java.util.Objects;
 public class GameScreen extends ScreenAdapter {
 	private final Gdx2D game;
 	private final EntityManager entityManager;
-	private final LinkedHashSet<System> systems;
+	private final LinkedHashSet<SubSystem> subSystems;
 
 	public GameScreen(Gdx2D game) {
 		this.game = game;
 		entityManager = new EntityManager();
-		systems = new LinkedHashSet<>();
+		subSystems = new LinkedHashSet<>();
 	}
 
 	@Override
@@ -76,20 +76,20 @@ public class GameScreen extends ScreenAdapter {
 				}
 			}
 		}
-		java.lang.System.out.println("Number of entities: " + entityManager.entities.size());
+		System.out.println("Number of entities: " + entityManager.entities.size());
 
 		//GENERATE SYSTEMS
-		systems.add(new InputSystem());
-		systems.add(new GravitySystem());
-		systems.add(new BlockSystem());
-		systems.add(new PhysicsSystem());
-		systems.add(new CameraControlSystem());
-		systems.add(new RenderingSystem());
+		subSystems.add(new InputSubSystem());
+		subSystems.add(new GravitySubSystem());
+		subSystems.add(new BlockSubSystem());
+		subSystems.add(new PhysicsSubSystem());
+		subSystems.add(new CameraControlSubSystem());
+		subSystems.add(new RenderingSubSystem());
 	}
 
 	@Override
 	public void render(float delta) {
-		for (System system : systems)
-			system.update(entityManager, delta);
+		for (SubSystem subSystem : subSystems)
+			subSystem.update(entityManager, delta);
 	}
 }

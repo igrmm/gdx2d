@@ -7,7 +7,7 @@ import com.igrmm.gdx2d.enums.EntityType;
 
 import java.util.Set;
 
-public class BlockSystem implements System {
+public class BlockSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 
