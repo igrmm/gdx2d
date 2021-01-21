@@ -42,7 +42,6 @@ public class GameScreen extends ScreenAdapter {
 		String playerUUID = entityManager.playerUUID;
 		entityManager.addComponent(playerUUID, new TypeComponent(EntityType.PLAYER));
 		entityManager.addComponent(playerUUID, new PlayerAnimationComponent(game.assets));
-		entityManager.addComponent(playerUUID, new InputComponent());
 		entityManager.addComponent(playerUUID, new BoundingBoxComponent(100.0f, 100.0f, 32.0f, 32.0f));
 		VelocityComponent velocityComponent = new VelocityComponent();
 		velocityComponent.maxVelocity.set(4.0f, 4.0f);
@@ -81,7 +80,6 @@ public class GameScreen extends ScreenAdapter {
 
 		//GENERATE SYSTEMS
 		systems.add(new InputSystem());
-		systems.add(new PlayerSystem());
 		systems.add(new GravitySystem());
 		systems.add(new BlockSystem());
 		systems.add(new PhysicsSystem());
