@@ -56,7 +56,6 @@ public class GameScreen extends ScreenAdapter {
 		String graphicsUUID = entityManager.graphicsUUID;
 		entityManager.addComponent(graphicsUUID, new TypeComponent(EntityType.GRAPHICS));
 		entityManager.addComponent(graphicsUUID, new GraphicsContextComponent(tiledMap));
-		entityManager.addComponent(graphicsUUID, new DisposableComponent());
 
 		//GENERATE ENTITIES AND COMPONENTS FROM TILED MAP (will handle exceptions in the future)
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
@@ -91,14 +90,5 @@ public class GameScreen extends ScreenAdapter {
 	public void render(float delta) {
 		for (System system : systems)
 			system.update(entityManager, delta);
-	}
-
-	@Override
-	public void dispose() {
-		List<GraphicsContextComponent> graphicsContextComponents = entityManager.getAllComponentsOfType(GraphicsContextComponent.class);
-		for (GraphicsContextComponent graphicsContextComponent : graphicsContextComponents) {
-			graphicsContextComponent.mapRenderer.dispose();
-			graphicsContextComponent.batch.dispose();
-		}
 	}
 }
