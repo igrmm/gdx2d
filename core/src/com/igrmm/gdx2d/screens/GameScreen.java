@@ -19,7 +19,6 @@ import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
 
 public class GameScreen extends ScreenAdapter {
@@ -86,6 +85,7 @@ public class GameScreen extends ScreenAdapter {
 		systems.add(new GravitySystem());
 		systems.add(new BlockSystem());
 		systems.add(new PhysicsSystem());
+		systems.add(new CameraControlSystem());
 		systems.add(new RenderingSystem());
 	}
 
