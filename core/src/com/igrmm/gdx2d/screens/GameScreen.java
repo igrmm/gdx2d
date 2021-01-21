@@ -37,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
 	public void show() {
 
 		TiledMap tiledMap = game.assets.getTiledMap(MapAsset.START);
+		game.mapRenderer.setMap(tiledMap);
 
 		//GENERATE PLAYER ENTITY
 		String playerUUID = entityManager.playerUUID;
@@ -55,7 +56,9 @@ public class GameScreen extends ScreenAdapter {
 		//GENERATE GRAPHICS ENTITY
 		String graphicsUUID = entityManager.graphicsUUID;
 		entityManager.addComponent(graphicsUUID, new TypeComponent(EntityType.GRAPHICS));
-		entityManager.addComponent(graphicsUUID, new GraphicsContextComponent(tiledMap));
+		entityManager.addComponent(graphicsUUID, new CameraComponent(tiledMap));
+		entityManager.addComponent(graphicsUUID, new BatchComponent(game.batch));
+		entityManager.addComponent(graphicsUUID, new MapRendererComponent(game.mapRenderer));
 
 		//GENERATE ENTITIES AND COMPONENTS FROM TILED MAP (will handle exceptions in the future)
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");

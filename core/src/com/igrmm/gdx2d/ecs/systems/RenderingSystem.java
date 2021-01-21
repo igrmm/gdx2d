@@ -3,14 +3,11 @@ package com.igrmm.gdx2d.ecs.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.components.PlayerAnimationComponent;
-import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
-import com.igrmm.gdx2d.ecs.components.GraphicsContextComponent;
+import com.igrmm.gdx2d.ecs.components.*;
 
 
 public class RenderingSystem implements System {
@@ -18,13 +15,18 @@ public class RenderingSystem implements System {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		String graphicsUUID = entityManager.graphicsUUID;
-		GraphicsContextComponent GCComponent = entityManager.getComponent(graphicsUUID, GraphicsContextComponent.class);
+		CameraComponent cameraComponent =
+				entityManager.getComponent(graphicsUUID, CameraComponent.class);
+		BatchComponent batchComponent =
+				entityManager.getComponent(graphicsUUID, BatchComponent.class);
+		MapRendererComponent mapRendererComponent =
+				entityManager.getComponent(graphicsUUID, MapRendererComponent.class);
 
-		OrthographicCamera camera = GCComponent.camera;
-		float mapWidth = GCComponent.mapWidth;
-		float mapHeight = GCComponent.mapHeight;
-		OrthogonalTiledMapRenderer mapRenderer = GCComponent.mapRenderer;
-		SpriteBatch batch = GCComponent.batch;
+		OrthographicCamera camera = cameraComponent.camera;
+		float mapWidth = cameraComponent.mapWidth;
+		float mapHeight = cameraComponent.mapHeight;
+		OrthogonalTiledMapRenderer mapRenderer = mapRendererComponent.mapRenderer;
+		SpriteBatch batch = batchComponent.batch;
 
 		// TEMP PLAYER CODE
 		String playerUUID = entityManager.playerUUID;
