@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
+import java.util.Set;
 
 public class RenderingSubSystem implements SubSystem {
 
@@ -25,27 +26,27 @@ public class RenderingSubSystem implements SubSystem {
 		OrthogonalTiledMapRenderer mapRenderer = mapRendererComponent.mapRenderer;
 		SpriteBatch batch = batchComponent.batch;
 
-		// TEMP PLAYER CODE
-		String playerUUID = entityManager.playerUUID;
-		PlayerAnimationComponent playerAnimationComponent =
-				entityManager.getComponent(playerUUID, PlayerAnimationComponent.class);
-		BoundingBoxComponent playerBBox =
-				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
-		float playerX = playerBBox.x;
-		float playerY = playerBBox.y;
-
-		/* Render map and player */
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		mapRenderer.setView(camera);
 		mapRenderer.render();
 		batch.setProjectionMatrix(camera.combined);
+
+		/* Render all sprites */
 		batch.begin();
-		batch.draw(
-				playerAnimationComponent.getKeyFrame(delta),
-				playerX - PlayerAnimationComponent.SPRITE_OFFSET,
-				playerY - PlayerAnimationComponent.SPRITE_OFFSET
-		);
+		Set<String> haveKeyFrameComponents =
+				entityManager.getAllEntitiesPossessingComponent(KeyFrameComponent.class);
+		for (String hasKeyFrameComponent : haveKeyFrameComponents) {
+			KeyFrameComponent keyFrameComponent =
+					entityManager.getComponent(hasKeyFrameComponent, KeyFrameComponent.class);
+			BoundingBoxComponent boundingBoxComponent =
+					entityManager.getComponent(hasKeyFrameComponent, BoundingBoxComponent.class);
+			batch.draw(
+					keyFrameComponent.getKeyFrame(),
+					keyFrameComponent.getX(boundingBoxComponent.x),
+					keyFrameComponent.getY(boundingBoxComponent.y)
+			);
+		}
 		batch.end();
 	}
 }
