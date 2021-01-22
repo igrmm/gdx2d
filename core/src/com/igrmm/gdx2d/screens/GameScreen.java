@@ -52,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
 		entityManager.addComponent(playerUUID, new JumpComponent());
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
 		entityManager.addComponent(playerUUID, new ShapeRendererComponent(game.shapeRenderer));
+		entityManager.addComponent(playerUUID, new EntityQueueComponent());
 
 		//GENERATE GRAPHICS ENTITY
 		String graphicsUUID = entityManager.graphicsUUID;
