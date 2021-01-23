@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
 import com.igrmm.gdx2d.ecs.EntityManager;
@@ -17,26 +18,25 @@ import com.igrmm.gdx2d.ecs.systems.*;
 import com.igrmm.gdx2d.ecs.systems.SubSystem;
 import com.igrmm.gdx2d.enums.MapAsset;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class GameScreen extends ScreenAdapter {
 	private final Gdx2D game;
 	private final EntityManager entityManager;
 	private final LinkedHashSet<SubSystem> subSystems;
+	private final List<Disposable> disposables;
 
 	public GameScreen(Gdx2D game) {
 		this.game = game;
 		entityManager = new EntityManager();
 		subSystems = new LinkedHashSet<>();
+		disposables = new ArrayList<>();
 	}
 
 	@Override
 	public void show() {
 
 		TiledMap tiledMap = game.assets.getTiledMap(MapAsset.START);
-		game.mapRenderer.setMap(tiledMap);
 
 		//GENERATE PLAYER ENTITY
 		String playerUUID = entityManager.playerUUID;
@@ -51,15 +51,21 @@ public class GameScreen extends ScreenAdapter {
 		entityManager.addComponent(playerUUID, new GravityComponent());
 		entityManager.addComponent(playerUUID, new JumpComponent());
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
-		entityManager.addComponent(playerUUID, new ShapeRendererComponent(game.shapeRenderer));
 		entityManager.addComponent(playerUUID, new EntityQueueComponent());
+		ShapeRendererComponent shapeRendererComponent = new ShapeRendererComponent();
+		entityManager.addComponent(playerUUID, shapeRendererComponent);
+		disposables.add(shapeRendererComponent);
 
 		//GENERATE GRAPHICS ENTITY
 		String graphicsUUID = entityManager.graphicsUUID;
 		entityManager.addComponent(graphicsUUID, new TypeComponent(EntityType.GRAPHICS));
 		entityManager.addComponent(graphicsUUID, new CameraComponent(tiledMap));
-		entityManager.addComponent(graphicsUUID, new BatchComponent(game.batch));
-		entityManager.addComponent(graphicsUUID, new MapRendererComponent(game.mapRenderer));
+		BatchComponent batchComponent = new BatchComponent();
+		entityManager.addComponent(graphicsUUID, batchComponent);
+		disposables.add(batchComponent);
+		MapRendererComponent mapRendererComponent = new MapRendererComponent(tiledMap);
+		entityManager.addComponent(graphicsUUID, mapRendererComponent);
+		disposables.add(mapRendererComponent);
 
 		//GENERATE ENTITIES AND COMPONENTS FROM TILED MAP (will handle exceptions in the future)
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
@@ -82,6 +88,7 @@ public class GameScreen extends ScreenAdapter {
 		System.out.println("Number of entities: " + entityManager.entities.size());
 
 		//GENERATE SYSTEMS
+		subSystems.add(new EntityFilterSubSystem());
 		subSystems.add(new InputSubSystem());
 		subSystems.add(new GravitySubSystem());
 		subSystems.add(new BlockSubSystem());
@@ -95,5 +102,11 @@ public class GameScreen extends ScreenAdapter {
 	public void render(float delta) {
 		for (SubSystem subSystem : subSystems)
 			subSystem.update(entityManager, delta);
+	}
+
+	@Override
+	public void dispose() {
+		for (Disposable disposable : disposables)
+			disposable.dispose();
 	}
 }

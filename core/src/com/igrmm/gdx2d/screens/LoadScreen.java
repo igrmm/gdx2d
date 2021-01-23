@@ -18,7 +18,7 @@ public class LoadScreen extends ScreenAdapter {
 	public void show() {
 		try {
 			game.assets.load();
-			game.setScreen(new GameScreen(game));
+			game.setScreen(game.gameScreen);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			StringWriter error = new StringWriter();
