@@ -51,9 +51,6 @@ public class GameScreen extends ScreenAdapter {
 		entityManager.addComponent(playerUUID, new GravityComponent());
 		entityManager.addComponent(playerUUID, new JumpComponent());
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
-		ShapeRendererComponent shapeRendererComponent = new ShapeRendererComponent();
-		entityManager.addComponent(playerUUID, shapeRendererComponent);
-		disposables.add(shapeRendererComponent);
 
 		//GENERATE GRAPHICS ENTITY
 		String graphicsUUID = entityManager.graphicsUUID;
@@ -65,6 +62,9 @@ public class GameScreen extends ScreenAdapter {
 		MapRendererComponent mapRendererComponent = new MapRendererComponent(tiledMap);
 		entityManager.addComponent(graphicsUUID, mapRendererComponent);
 		disposables.add(mapRendererComponent);
+		ShapeRendererComponent shapeRendererComponent = new ShapeRendererComponent();
+		entityManager.addComponent(graphicsUUID, shapeRendererComponent);
+		disposables.add(shapeRendererComponent);
 
 		//GENERATE ENTITIES AND COMPONENTS FROM TILED MAP (will handle exceptions in the future)
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
