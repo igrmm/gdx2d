@@ -51,7 +51,6 @@ public class GameScreen extends ScreenAdapter {
 		entityManager.addComponent(playerUUID, new GravityComponent());
 		entityManager.addComponent(playerUUID, new JumpComponent());
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
-		entityManager.addComponent(playerUUID, new EntityQueueComponent());
 		ShapeRendererComponent shapeRendererComponent = new ShapeRendererComponent();
 		entityManager.addComponent(playerUUID, shapeRendererComponent);
 		disposables.add(shapeRendererComponent);
@@ -88,7 +87,6 @@ public class GameScreen extends ScreenAdapter {
 		System.out.println("Number of entities: " + entityManager.entities.size());
 
 		//GENERATE SYSTEMS
-		subSystems.add(new EntityFilterSubSystem());
 		subSystems.add(new InputSubSystem());
 		subSystems.add(new GravitySubSystem());
 		subSystems.add(new BlockSubSystem());
