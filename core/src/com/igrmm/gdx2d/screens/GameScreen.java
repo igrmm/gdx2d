@@ -79,7 +79,7 @@ public class GameScreen extends ScreenAdapter {
 					String key = iterator.next();
 					Object value = properties.get(key);
 					Component component = ComponentFactory.getComponent(key, value);
-					if (Objects.nonNull(component))
+					if (component != null)
 						entityManager.addComponent(entityUUID, component);
 				}
 			}
