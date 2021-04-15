@@ -21,7 +21,11 @@ public class Gdx2D extends Game {
 	}
 
 	public void setGameScreen() {
-		setScreen(gameScreen);
+		if (gameScreen != null) {
+			setScreen(gameScreen);
+		} else {
+			setNewGameScreen();
+		}
 	}
 
 	@Override
