@@ -14,13 +14,13 @@ public class RenderingSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
-		String graphicsUUID = entityManager.graphicsUUID;
+		String coreUUID = entityManager.coreUUID;
 		CameraComponent cameraComponent =
-				entityManager.getComponent(graphicsUUID, CameraComponent.class);
+				entityManager.getComponent(coreUUID, CameraComponent.class);
 		BatchComponent batchComponent =
-				entityManager.getComponent(graphicsUUID, BatchComponent.class);
+				entityManager.getComponent(coreUUID, BatchComponent.class);
 		MapRendererComponent mapRendererComponent =
-				entityManager.getComponent(graphicsUUID, MapRendererComponent.class);
+				entityManager.getComponent(coreUUID, MapRendererComponent.class);
 
 		OrthographicCamera camera = cameraComponent.camera;
 		OrthogonalTiledMapRenderer mapRenderer = mapRendererComponent.mapRenderer;

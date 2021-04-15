@@ -50,12 +50,12 @@ public class GameScreen extends ScreenAdapter {
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
 
 		//GENERATE GRAPHICS ENTITY
-		String graphicsUUID = entityManager.graphicsUUID;
-		entityManager.addComponent(graphicsUUID, new TypeComponent(EntityType.GRAPHICS));
-		entityManager.addComponent(graphicsUUID, new CameraComponent(tiledMap));
-		entityManager.addComponent(graphicsUUID, new BatchComponent());
-		entityManager.addComponent(graphicsUUID, new MapRendererComponent(tiledMap));
-		entityManager.addComponent(graphicsUUID, new ShapeRendererComponent());
+		String coreUUID = entityManager.coreUUID;
+		entityManager.addComponent(coreUUID, new TypeComponent(EntityType.GRAPHICS));
+		entityManager.addComponent(coreUUID, new CameraComponent(tiledMap));
+		entityManager.addComponent(coreUUID, new BatchComponent());
+		entityManager.addComponent(coreUUID, new MapRendererComponent(tiledMap));
+		entityManager.addComponent(coreUUID, new ShapeRendererComponent());
 
 		//GENERATE ENTITIES AND COMPONENTS FROM TILED MAP (will handle exceptions in the future)
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
@@ -95,13 +95,13 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void dispose() {
-		String graphicsUUID = entityManager.graphicsUUID;
+		String coreUUID = entityManager.coreUUID;
 		BatchComponent batchComponent =
-				entityManager.getComponent(graphicsUUID, BatchComponent.class);
+				entityManager.getComponent(coreUUID, BatchComponent.class);
 		MapRendererComponent mapRendererComponent =
-				entityManager.getComponent(graphicsUUID, MapRendererComponent.class);
+				entityManager.getComponent(coreUUID, MapRendererComponent.class);
 		ShapeRendererComponent shapeRendererComponent =
-				entityManager.getComponent(graphicsUUID, ShapeRendererComponent.class);
+				entityManager.getComponent(coreUUID, ShapeRendererComponent.class);
 
 		batchComponent.dispose();
 		mapRendererComponent.dispose();

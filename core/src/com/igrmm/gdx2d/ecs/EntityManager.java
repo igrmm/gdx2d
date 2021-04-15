@@ -8,17 +8,17 @@ public class EntityManager {
 	public final Set<String> entities;
 	public final Map<Class<?>, Map<String, ? extends Component>> components;
 
-	//Unitary Entities
+	//Unique Entities
 	public final String playerUUID;
-	public final String graphicsUUID;
+	public final String coreUUID;
 
 	public EntityManager() {
 		entities = new HashSet<>();
 		components = new HashMap<>();
 
-		//Unitary Entities
+		//Unique Entities
 		playerUUID = createEntity();
-		graphicsUUID = createEntity();
+		coreUUID = createEntity();
 	}
 
 	public String createEntity() {

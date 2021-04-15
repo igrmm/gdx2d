@@ -15,9 +15,9 @@ public class CameraControlSubSystem implements SubSystem {
 		float playerCenterX = playerBBoxComponent.x + playerBBoxComponent.width / 2.0f;
 		float playerCenterY = playerBBoxComponent.y + playerBBoxComponent.height / 2.0f;
 
-		String graphicsUUID = entityManager.graphicsUUID;
+		String coreUUID = entityManager.coreUUID;
 		CameraComponent cameraComponent =
-				entityManager.getComponent(graphicsUUID, CameraComponent.class);
+				entityManager.getComponent(coreUUID, CameraComponent.class);
 		OrthographicCamera camera = cameraComponent.camera;
 		float mapWidth = cameraComponent.mapWidth;
 		float mapHeight = cameraComponent.mapHeight;

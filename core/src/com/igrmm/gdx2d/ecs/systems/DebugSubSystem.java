@@ -10,9 +10,9 @@ import com.igrmm.gdx2d.ecs.components.ShapeRendererComponent;
 public class DebugSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
-		String graphicsUUID = entityManager.graphicsUUID;
+		String coreUUID = entityManager.coreUUID;
 		ShapeRendererComponent shapeRendererComponent =
-				entityManager.getComponent(graphicsUUID, ShapeRendererComponent.class);
+				entityManager.getComponent(coreUUID, ShapeRendererComponent.class);
 		ShapeRenderer shapeRenderer = shapeRendererComponent.shapeRenderer;
 
 		String playerUUID = entityManager.playerUUID;
