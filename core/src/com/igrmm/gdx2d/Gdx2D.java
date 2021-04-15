@@ -19,6 +19,7 @@ public class Gdx2D extends Game {
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		assets.dispose();
 		gameScreen.dispose();
 	}
