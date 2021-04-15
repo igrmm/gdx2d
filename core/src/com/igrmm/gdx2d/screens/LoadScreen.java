@@ -1,7 +1,6 @@
 package com.igrmm.gdx2d.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.igrmm.gdx2d.Gdx2D;
 
 import java.io.PrintWriter;
@@ -18,7 +17,7 @@ public class LoadScreen extends ScreenAdapter {
 	public void show() {
 		try {
 			game.assets.load();
-			game.setScreen(game.gameScreen);
+			game.setGameScreen();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			StringWriter error = new StringWriter();
