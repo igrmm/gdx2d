@@ -6,11 +6,18 @@ import com.igrmm.gdx2d.screens.LoadScreen;
 
 public class Gdx2D extends Game {
 	public final Assets assets = new Assets();
-	private final GameScreen gameScreen = new GameScreen(this);
+	private GameScreen gameScreen;
 
 	@Override
 	public void create() {
 		setScreen(new LoadScreen(this));
+	}
+
+	public void setNewGameScreen() {
+		if (gameScreen != null)
+			gameScreen.dispose();
+		gameScreen = new GameScreen(this);
+		setGameScreen();
 	}
 
 	public void setGameScreen() {
