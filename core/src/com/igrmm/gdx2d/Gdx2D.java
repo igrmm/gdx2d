@@ -14,8 +14,7 @@ public class Gdx2D extends Game {
 	}
 
 	public void setNewGameScreen() {
-		if (gameScreen != null)
-			gameScreen.dispose();
+		if (gameScreen != null) gameScreen.dispose();
 		gameScreen = new GameScreen(this);
 		setGameScreen();
 	}
