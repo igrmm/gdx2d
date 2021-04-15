@@ -51,7 +51,7 @@ public class GameScreen extends ScreenAdapter {
 
 		//GENERATE GRAPHICS ENTITY
 		String coreUUID = entityManager.coreUUID;
-		entityManager.addComponent(coreUUID, new TypeComponent(EntityType.GRAPHICS));
+		entityManager.addComponent(coreUUID, new TypeComponent(EntityType.CORE));
 		entityManager.addComponent(coreUUID, new CameraComponent(tiledMap));
 		entityManager.addComponent(coreUUID, new BatchComponent());
 		entityManager.addComponent(coreUUID, new MapRendererComponent(tiledMap));
