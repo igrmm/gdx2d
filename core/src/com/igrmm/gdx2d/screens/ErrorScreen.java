@@ -32,6 +32,11 @@ public class ErrorScreen extends ScreenAdapter {
 	}
 
 	@Override
+	public void hide() {
+		dispose();
+	}
+
+	@Override
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
