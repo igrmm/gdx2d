@@ -84,39 +84,39 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		String playerUUID = entityManager.playerUUID;
-		VelocityComponent velocityComponent =
+		VelocityComponent velocityC =
 				entityManager.getComponent(playerUUID, VelocityComponent.class);
-		JumpComponent jumpComponent =
+		JumpComponent jumpC =
 				entityManager.getComponent(playerUUID, JumpComponent.class);
-		PlayerAnimationComponent playerAnimationComponent =
+		PlayerAnimationComponent playerAnimationC =
 				entityManager.getComponent(playerUUID, PlayerAnimationComponent.class);
-		KeyFrameComponent keyFrameComponent =
+		KeyFrameComponent keyFrameC =
 				entityManager.getComponent(playerUUID, KeyFrameComponent.class);
 
-		Vector2 vel = velocityComponent.velocity;
-		Vector2 maxVel = velocityComponent.maxVelocity;
+		Vector2 velocity = velocityC.velocity;
+		Vector2 maxVelocity = velocityC.maxVelocity;
 
 
 		if (right) {
-			vel.x = maxVel.x;
-			playerAnimationComponent.setWalkRightAnimation();
+			velocity.x = maxVelocity.x;
+			playerAnimationC.setWalkRightAnimation();
 		}
 
 		if (left) {
-			vel.x = maxVel.x * -1.0f;
-			playerAnimationComponent.setWalkLeftAnimation();
+			velocity.x = maxVelocity.x * -1.0f;
+			playerAnimationC.setWalkLeftAnimation();
 		}
 
 		if (jump) {
-			if (jumpComponent.grounded && !jumpComponent.jumped) {
-				vel.y += jumpComponent.jumpVelocity;
-				jumpComponent.jumped = true;
+			if (jumpC.grounded && !jumpC.jumped) {
+				velocity.y += jumpC.jumpVelocity;
+				jumpC.jumped = true;
 			}
-		} else jumpComponent.jumped = false;
+		} else jumpC.jumped = false;
 
-		if (vel.x == 0 && vel.y == 0)
-			playerAnimationComponent.setIdleAnimation();
+		if (velocity.x == 0 && velocity.y == 0)
+			playerAnimationC.setIdleAnimation();
 
-		keyFrameComponent.setKeyFrame(playerAnimationComponent.getKeyFrame(delta));
+		keyFrameC.setKeyFrame(playerAnimationC.getKeyFrame(delta));
 	}
 }
