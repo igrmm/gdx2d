@@ -1,6 +1,7 @@
 package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
@@ -8,25 +9,42 @@ import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 
 import java.util.List;
+import java.util.Set;
 
 public class PhysicsSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
+		Set<String> entitiesPossessingBPhaseColC =
+				entityManager.getAllEntitiesPossessingComponent(BroadPhaseCollisionComponent.class);
 
-		BroadPhaseCollisionComponent broadPhaseCollisionComponent = entityManager.getComponent(entityManager.playerUUID, BroadPhaseCollisionComponent.class);
-		List<Collision> collisions = broadPhaseCollisionComponent.collisions;
+		for (String entityPossessingBPhaseColC : entitiesPossessingBPhaseColC) {
+			BroadPhaseCollisionComponent broadPhaseCollisionC =
+					entityManager.getComponent(entityPossessingBPhaseColC, BroadPhaseCollisionComponent.class);
 
-		for (Collision collision : collisions) {
-			collision.resolve();
+			List<Collision> collisions = broadPhaseCollisionC.collisions;
+
+			for (Collision collision : collisions) {
+				collision.resolve();
+			}
+			collisions.clear();
 		}
-		collisions.clear();
 
-		BoundingBoxComponent player = entityManager.getComponent(entityManager.playerUUID, BoundingBoxComponent.class);
-		VelocityComponent velocityComponent = entityManager.getComponent(entityManager.playerUUID, VelocityComponent.class);
-		Rectangle playerBBox = player.bBox;
-		playerBBox.x += velocityComponent.velocity.x;
-		playerBBox.y += velocityComponent.velocity.y;
-		velocityComponent.velocity.x = 0.0f;
+		Set<String> entitiesPossessingVelC =
+				entityManager.getAllEntitiesPossessingComponent(VelocityComponent.class);
+
+		for (String entityPossessingVelC : entitiesPossessingVelC) {
+			BoundingBoxComponent bBoxC =
+					entityManager.getComponent(entityPossessingVelC, BoundingBoxComponent.class);
+			VelocityComponent velocityC =
+					entityManager.getComponent(entityPossessingVelC, VelocityComponent.class);
+
+			Rectangle bBox = bBoxC.bBox;
+			Vector2 velocity = velocityC.velocity;
+
+			bBox.x += velocity.x;
+			bBox.y += velocity.y;
+			velocity.x = 0.0f;
+		}
 	}
 }
