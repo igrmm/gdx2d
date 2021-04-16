@@ -11,19 +11,20 @@ public class CameraControlSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		String playerUUID = entityManager.playerUUID;
-		BoundingBoxComponent playerBBoxComponent =
+		BoundingBoxComponent playerBBoxC =
 				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
-		Rectangle playerBBox = playerBBoxComponent.bBox;
+		Rectangle playerBBox = playerBBoxC.bBox;
 
 		float playerCenterX = playerBBox.x + playerBBox.width / 2.0f;
 		float playerCenterY = playerBBox.y + playerBBox.height / 2.0f;
 
 		String coreUUID = entityManager.coreUUID;
-		CameraComponent cameraComponent =
+		CameraComponent cameraC =
 				entityManager.getComponent(coreUUID, CameraComponent.class);
-		OrthographicCamera camera = cameraComponent.camera;
-		float mapWidth = cameraComponent.mapWidth;
-		float mapHeight = cameraComponent.mapHeight;
+		OrthographicCamera camera = cameraC.camera;
+
+		float mapWidth = cameraC.mapWidth;
+		float mapHeight = cameraC.mapHeight;
 
 		/* Make camera follow player */
 		float alpha = 0.3f;
