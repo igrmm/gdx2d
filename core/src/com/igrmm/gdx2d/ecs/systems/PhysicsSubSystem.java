@@ -15,6 +15,8 @@ public class PhysicsSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
+
+		/* Resolve collisions */
 		Set<String> entitiesPossessingBPhaseColC =
 				entityManager.getAllEntitiesPossessingComponent(BroadPhaseCollisionComponent.class);
 
@@ -30,6 +32,7 @@ public class PhysicsSubSystem implements SubSystem {
 			collisions.clear();
 		}
 
+		/* Make mobile entities move after resolving collisions */
 		Set<String> entitiesPossessingVelC =
 				entityManager.getAllEntitiesPossessingComponent(VelocityComponent.class);
 
