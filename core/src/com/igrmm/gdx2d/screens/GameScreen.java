@@ -28,15 +28,15 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		String coreUUID = entityManager.coreUUID;
-		BatchComponent batchComponent =
+		BatchComponent batchC =
 				entityManager.getComponent(coreUUID, BatchComponent.class);
-		MapRendererComponent mapRendererComponent =
+		MapRendererComponent mapRendererC =
 				entityManager.getComponent(coreUUID, MapRendererComponent.class);
-		ShapeRendererComponent shapeRendererComponent =
+		ShapeRendererComponent shapeRendererC =
 				entityManager.getComponent(coreUUID, ShapeRendererComponent.class);
 
-		batchComponent.dispose();
-		mapRendererComponent.dispose();
-		shapeRendererComponent.dispose();
+		batchC.batch.dispose();
+		mapRendererC.mapRenderer.dispose();
+		shapeRendererC.shapeRenderer.dispose();
 	}
 }
