@@ -2,6 +2,7 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.CameraComponent;
@@ -12,8 +13,10 @@ public class CameraControlSubSystem implements SubSystem {
 		String playerUUID = entityManager.playerUUID;
 		BoundingBoxComponent playerBBoxComponent =
 				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
-		float playerCenterX = playerBBoxComponent.x + playerBBoxComponent.width / 2.0f;
-		float playerCenterY = playerBBoxComponent.y + playerBBoxComponent.height / 2.0f;
+		Rectangle playerBBox = playerBBoxComponent.bBox;
+
+		float playerCenterX = playerBBox.x + playerBBox.width / 2.0f;
+		float playerCenterY = playerBBox.y + playerBBox.height / 2.0f;
 
 		String coreUUID = entityManager.coreUUID;
 		CameraComponent cameraComponent =

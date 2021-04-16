@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs.systems;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
@@ -29,8 +30,11 @@ public class BlockSubSystem implements SubSystem {
 					BroadPhaseCollisionComponent broadPhaseCollisionComponent =
 							entityManager.getComponent(mobile, BroadPhaseCollisionComponent.class);
 
+					Rectangle dynamicBBox = dynamicBBoxComponent.bBox;
+					Rectangle staticBBox = staticBBoxComponent.bBox;
+
 					Collision collision =
-							new Collision(dynamicBBoxComponent, staticBBoxComponent, velocityComponent.velocity) {
+							new Collision(dynamicBBox, staticBBox, velocityComponent.velocity) {
 								@Override
 								public boolean resolve() {
 									if (super.resolve()) {

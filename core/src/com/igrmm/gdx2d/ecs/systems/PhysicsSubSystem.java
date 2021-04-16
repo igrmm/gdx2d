@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs.systems;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
@@ -23,8 +24,9 @@ public class PhysicsSubSystem implements SubSystem {
 
 		BoundingBoxComponent player = entityManager.getComponent(entityManager.playerUUID, BoundingBoxComponent.class);
 		VelocityComponent velocityComponent = entityManager.getComponent(entityManager.playerUUID, VelocityComponent.class);
-		player.x += velocityComponent.velocity.x;
-		player.y += velocityComponent.velocity.y;
+		Rectangle playerBBox = player.bBox;
+		playerBBox.x += velocityComponent.velocity.x;
+		playerBBox.y += velocityComponent.velocity.y;
 		velocityComponent.velocity.x = 0.0f;
 	}
 }

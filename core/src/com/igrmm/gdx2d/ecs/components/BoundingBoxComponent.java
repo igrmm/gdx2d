@@ -2,15 +2,14 @@ package com.igrmm.gdx2d.ecs.components;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public class BoundingBoxComponent extends Rectangle implements Component {
+public class BoundingBoxComponent implements Component {
+	public final Rectangle bBox;
+
 	public BoundingBoxComponent(float x, float y, float width, float height) {
-		super(x, y, width, height);
+		bBox = new Rectangle(x, y, width, height);
 	}
 
-	public BoundingBoxComponent(Rectangle rect) {
-		super(rect);
-	}
-
-	public BoundingBoxComponent() {
+	public BoundingBoxComponent(Rectangle bBox) {
+		this.bBox = bBox;
 	}
 }

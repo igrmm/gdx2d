@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
@@ -41,10 +42,13 @@ public class RenderingSubSystem implements SubSystem {
 					entityManager.getComponent(hasKeyFrameComponent, KeyFrameComponent.class);
 			BoundingBoxComponent boundingBoxComponent =
 					entityManager.getComponent(hasKeyFrameComponent, BoundingBoxComponent.class);
+
+			Rectangle bBox = boundingBoxComponent.bBox;
+
 			batch.draw(
 					keyFrameComponent.getKeyFrame(),
-					keyFrameComponent.getX(boundingBoxComponent.x),
-					keyFrameComponent.getY(boundingBoxComponent.y)
+					keyFrameComponent.getX(bBox.x),
+					keyFrameComponent.getY(bBox.y)
 			);
 		}
 		batch.end();
