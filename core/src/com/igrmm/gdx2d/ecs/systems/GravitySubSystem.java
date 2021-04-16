@@ -10,15 +10,17 @@ import java.util.Set;
 public class GravitySubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
-		Set<String> entities = entityManager.getAllEntitiesPossessingComponent(GravityComponent.class);
-		for (String entity : entities) {
-			AccelerationComponent accelerationComponent =
-					entityManager.getComponent(entity, AccelerationComponent.class);
-			VelocityComponent velocityComponent =
-					entityManager.getComponent(entity, VelocityComponent.class);
+		Set<String> entitiesPossessingGravityC =
+				entityManager.getAllEntitiesPossessingComponent(GravityComponent.class);
 
-			accelerationComponent.acceleration.y = GravityComponent.GRAVITY;
-			velocityComponent.velocity.y += accelerationComponent.acceleration.y;
+		for (String entityPossessingGravityC : entitiesPossessingGravityC) {
+			AccelerationComponent accelerationC =
+					entityManager.getComponent(entityPossessingGravityC, AccelerationComponent.class);
+			VelocityComponent velocityC =
+					entityManager.getComponent(entityPossessingGravityC, VelocityComponent.class);
+
+			accelerationC.acceleration.y = GravityComponent.GRAVITY;
+			velocityC.velocity.y += accelerationC.acceleration.y;
 		}
 	}
 }
