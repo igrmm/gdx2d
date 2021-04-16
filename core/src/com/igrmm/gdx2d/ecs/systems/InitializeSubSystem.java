@@ -39,8 +39,8 @@ public class InitializeSubSystem implements SubSystem {
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
 			for (MapObject mapObject : mapLayer.getObjects()) {
 				String entityUUID = entityManager.createEntity();
-				Rectangle rect = ((RectangleMapObject) mapObject).getRectangle();
-				entityManager.addComponent(entityUUID, new BoundingBoxComponent(rect));
+				Rectangle bBox = ((RectangleMapObject) mapObject).getRectangle();
+				entityManager.addComponent(entityUUID, new BoundingBoxComponent(bBox));
 				MapProperties properties = mapObject.getProperties();
 				Iterator<String> iterator = properties.getKeys();
 				while (iterator.hasNext()) {
