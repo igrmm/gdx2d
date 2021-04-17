@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
 import com.igrmm.gdx2d.ecs.EntityManager;
@@ -14,25 +15,27 @@ import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.Component;
 import com.igrmm.gdx2d.ecs.entities.Core;
 import com.igrmm.gdx2d.ecs.entities.Player;
-import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class InitializeSubSystem implements SubSystem {
 	private final Gdx2D game;
 	private final LinkedHashSet<SubSystem> subSystems;
+	private final List<Disposable> disposables;
 
-	public InitializeSubSystem(Gdx2D game, LinkedHashSet<SubSystem> subSystems) {
+	public InitializeSubSystem(Gdx2D game, LinkedHashSet<SubSystem> subSystems, List<Disposable> disposables) {
 		this.game = game;
 		this.subSystems = subSystems;
+		this.disposables = disposables;
 	}
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
-		TiledMap tiledMap = game.assets.getTiledMap(MapAsset.START);
+		TiledMap tiledMap = game.assets.getTiledMap(game.mapAsset);
 
-		Core.spawn(game, entityManager, tiledMap);
+		Core.spawn(game, entityManager, disposables, tiledMap);
 		Player.spawn(game.assets, entityManager);
 
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
