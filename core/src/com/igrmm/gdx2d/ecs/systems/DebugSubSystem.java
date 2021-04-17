@@ -18,19 +18,21 @@ public class DebugSubSystem implements SubSystem {
 		CameraComponent cameraC =
 				entityManager.getComponent(coreUUID, CameraComponent.class);
 
-		ShapeRenderer shapeRenderer = shapeRendererC.shapeRenderer;
-		OrthographicCamera camera = cameraC.camera;
+		if (!shapeRendererC.dispose) {
+			ShapeRenderer shapeRenderer = shapeRendererC.shapeRenderer;
+			OrthographicCamera camera = cameraC.camera;
 
-		String playerUUID = entityManager.playerUUID;
-		BoundingBoxComponent playerBBoxC =
-				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
+			String playerUUID = entityManager.playerUUID;
+			BoundingBoxComponent playerBBoxC =
+					entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
 
-		Rectangle playerBBox = playerBBoxC.bBox;
+			Rectangle playerBBox = playerBBoxC.bBox;
 
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-		shapeRenderer.rect(playerBBox.x, playerBBox.y, playerBBox.width, playerBBox.height);
-		shapeRenderer.end();
+			shapeRenderer.setProjectionMatrix(camera.combined);
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+			shapeRenderer.rect(playerBBox.x, playerBBox.y, playerBBox.width, playerBBox.height);
+			shapeRenderer.end();
+		}
 	}
 }

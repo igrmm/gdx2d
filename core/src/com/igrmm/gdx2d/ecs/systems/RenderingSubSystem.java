@@ -22,35 +22,37 @@ public class RenderingSubSystem implements SubSystem {
 		MapRendererComponent mapRendererC =
 				entityManager.getComponent(coreUUID, MapRendererComponent.class);
 
-		OrthographicCamera camera = cameraC.camera;
-		OrthogonalTiledMapRenderer mapRenderer = mapRendererC.mapRenderer;
-		SpriteBatch batch = batchC.batch;
+		if (!batchC.dispose) {
+			OrthographicCamera camera = cameraC.camera;
+			OrthogonalTiledMapRenderer mapRenderer = mapRendererC.mapRenderer;
+			SpriteBatch batch = batchC.batch;
 
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		mapRenderer.setView(camera);
-		mapRenderer.render();
-		batch.setProjectionMatrix(camera.combined);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			camera.update();
+			mapRenderer.setView(camera);
+			mapRenderer.render();
+			batch.setProjectionMatrix(camera.combined);
 
-		/* Render all sprites */
-		batch.begin();
-		Set<String> entitiesPossessingKeyFrameC =
-				entityManager.getAllEntitiesPossessingComponent(KeyFrameComponent.class);
+			/* Render all sprites */
+			batch.begin();
+			Set<String> entitiesPossessingKeyFrameC =
+					entityManager.getAllEntitiesPossessingComponent(KeyFrameComponent.class);
 
-		for (String entityPossessingKeyFrameC : entitiesPossessingKeyFrameC) {
-			KeyFrameComponent keyFrameC =
-					entityManager.getComponent(entityPossessingKeyFrameC, KeyFrameComponent.class);
-			BoundingBoxComponent bBoxC =
-					entityManager.getComponent(entityPossessingKeyFrameC, BoundingBoxComponent.class);
+			for (String entityPossessingKeyFrameC : entitiesPossessingKeyFrameC) {
+				KeyFrameComponent keyFrameC =
+						entityManager.getComponent(entityPossessingKeyFrameC, KeyFrameComponent.class);
+				BoundingBoxComponent bBoxC =
+						entityManager.getComponent(entityPossessingKeyFrameC, BoundingBoxComponent.class);
 
-			Rectangle bBox = bBoxC.bBox;
+				Rectangle bBox = bBoxC.bBox;
 
-			batch.draw(
-					keyFrameC.getKeyFrame(),
-					keyFrameC.getX(bBox.x),
-					keyFrameC.getY(bBox.y)
-			);
+				batch.draw(
+						keyFrameC.getKeyFrame(),
+						keyFrameC.getX(bBox.x),
+						keyFrameC.getY(bBox.y)
+				);
+			}
+			batch.end();
 		}
-		batch.end();
 	}
 }
