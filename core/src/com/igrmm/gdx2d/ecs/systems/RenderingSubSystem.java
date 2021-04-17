@@ -12,20 +12,19 @@ import com.igrmm.gdx2d.ecs.components.*;
 import java.util.Set;
 
 public class RenderingSubSystem implements SubSystem {
-
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		String coreUUID = entityManager.coreUUID;
-		CameraComponent cameraComponent =
+		CameraComponent cameraC =
 				entityManager.getComponent(coreUUID, CameraComponent.class);
-		BatchComponent batchComponent =
+		BatchComponent batchC =
 				entityManager.getComponent(coreUUID, BatchComponent.class);
-		MapRendererComponent mapRendererComponent =
+		MapRendererComponent mapRendererC =
 				entityManager.getComponent(coreUUID, MapRendererComponent.class);
 
-		OrthographicCamera camera = cameraComponent.camera;
-		OrthogonalTiledMapRenderer mapRenderer = mapRendererComponent.mapRenderer;
-		SpriteBatch batch = batchComponent.batch;
+		OrthographicCamera camera = cameraC.camera;
+		OrthogonalTiledMapRenderer mapRenderer = mapRendererC.mapRenderer;
+		SpriteBatch batch = batchC.batch;
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
@@ -35,20 +34,21 @@ public class RenderingSubSystem implements SubSystem {
 
 		/* Render all sprites */
 		batch.begin();
-		Set<String> haveKeyFrameComponents =
+		Set<String> entitiesPossessingKeyFrameC =
 				entityManager.getAllEntitiesPossessingComponent(KeyFrameComponent.class);
-		for (String hasKeyFrameComponent : haveKeyFrameComponents) {
-			KeyFrameComponent keyFrameComponent =
-					entityManager.getComponent(hasKeyFrameComponent, KeyFrameComponent.class);
-			BoundingBoxComponent boundingBoxComponent =
-					entityManager.getComponent(hasKeyFrameComponent, BoundingBoxComponent.class);
 
-			Rectangle bBox = boundingBoxComponent.bBox;
+		for (String entityPossessingKeyFrameC : entitiesPossessingKeyFrameC) {
+			KeyFrameComponent keyFrameC =
+					entityManager.getComponent(entityPossessingKeyFrameC, KeyFrameComponent.class);
+			BoundingBoxComponent bBoxC =
+					entityManager.getComponent(entityPossessingKeyFrameC, BoundingBoxComponent.class);
+
+			Rectangle bBox = bBoxC.bBox;
 
 			batch.draw(
-					keyFrameComponent.getKeyFrame(),
-					keyFrameComponent.getX(bBox.x),
-					keyFrameComponent.getY(bBox.y)
+					keyFrameC.getKeyFrame(),
+					keyFrameC.getX(bBox.x),
+					keyFrameC.getY(bBox.y)
 			);
 		}
 		batch.end();
