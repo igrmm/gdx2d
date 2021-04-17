@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="560">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="563">
  <editorsettings>
   <export format="tmx"/>
  </editorsettings>
@@ -10,6 +10,14 @@
   </data>
  </layer>
  <group id="3" name="objects">
+  <objectgroup id="5" name="portals">
+   <object id="562" name="PORTAL" type="PORTAL" x="512" y="3072" width="32" height="32">
+    <properties>
+     <property name="mapAsset" value="DESERT"/>
+     <property name="waypoint" value="START"/>
+    </properties>
+   </object>
+  </objectgroup>
   <objectgroup id="2" name="blocks">
    <object id="550" name="BLOCK" type="BLOCK" x="0" y="2880" width="64" height="320"/>
    <object id="551" name="BLOCK" type="BLOCK" x="544" y="2880" width="64" height="320"/>
@@ -23,6 +31,9 @@
   </objectgroup>
   <objectgroup id="4" name="waypoints">
    <object id="559" name="WAYPOINT" type="WAYPOINT" x="288" y="3104">
+    <properties>
+     <property name="waypoint" value="START"/>
+    </properties>
     <point/>
    </object>
   </objectgroup>

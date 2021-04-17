@@ -2,7 +2,7 @@
 <objecttypes>
  <objecttype name="BLOCK" color="#a0a0a4"/>
  <objecttype name="PORTAL" color="#ff00ff">
-  <property name="map" type="string" default="null"/>
+  <property name="mapAsset" type="string" default="null"/>
   <property name="waypoint" type="string" default="null"/>
  </objecttype>
  <objecttype name="WAYPOINT" color="#00ff00">
