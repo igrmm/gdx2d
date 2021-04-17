@@ -4,5 +4,6 @@ public enum EntityType {
 	PLAYER,
 	CORE,
 	WAYPOINT,
-	BLOCK
+	BLOCK,
+	PORTAL
 }
