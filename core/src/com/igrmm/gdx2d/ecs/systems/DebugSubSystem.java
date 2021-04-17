@@ -1,20 +1,25 @@
 package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
+import com.igrmm.gdx2d.ecs.components.CameraComponent;
 import com.igrmm.gdx2d.ecs.components.ShapeRendererComponent;
-
 
 public class DebugSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		String coreUUID = entityManager.coreUUID;
-		ShapeRendererComponent shapeRendererComponent =
+		ShapeRendererComponent shapeRendererC =
 				entityManager.getComponent(coreUUID, ShapeRendererComponent.class);
-		ShapeRenderer shapeRenderer = shapeRendererComponent.shapeRenderer;
+		CameraComponent cameraC =
+				entityManager.getComponent(coreUUID, CameraComponent.class);
+
+		ShapeRenderer shapeRenderer = shapeRendererC.shapeRenderer;
+		OrthographicCamera camera = cameraC.camera;
 
 		String playerUUID = entityManager.playerUUID;
 		BoundingBoxComponent playerBBoxC =
@@ -22,8 +27,9 @@ public class DebugSubSystem implements SubSystem {
 
 		Rectangle playerBBox = playerBBoxC.bBox;
 
+		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.rect(playerBBox.x, playerBBox.y, playerBBox.width, playerBBox.height);
 		shapeRenderer.end();
 	}
