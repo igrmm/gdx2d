@@ -1,7 +1,8 @@
 package com.igrmm.gdx2d.enums;
 
 public enum MapAsset {
-	START("tiled/maps/start.tmx");
+	START("tiled/maps/start.tmx"),
+	DESERT("tiled/maps/desert.tmx");
 
 	private final String path;
 
