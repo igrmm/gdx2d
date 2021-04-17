@@ -1,8 +1,7 @@
 package com.igrmm.gdx2d.ecs;
 
 import com.igrmm.gdx2d.ecs.components.*;
-import com.igrmm.gdx2d.enums.EntityType;
-import com.igrmm.gdx2d.enums.MapAsset;
+import com.igrmm.gdx2d.enums.*;
 
 public class ComponentFactory {
 	public static Component getComponent(String key, Object value) {
@@ -18,6 +17,13 @@ public class ComponentFactory {
 				for (MapAsset mapAsset : MapAsset.values()) {
 					if (mapAsset.name().equals((value)))
 						return new MapComponent(mapAsset);
+				}
+				throw new NullPointerException("Unexpected [" + key + "]: " + value);
+
+			case "waypoint":
+				for (Waypoint waypoint : Waypoint.values()) {
+					if (waypoint.name().equals(value))
+						return new WaypointComponent(waypoint);
 				}
 				throw new NullPointerException("Unexpected [" + key + "]: " + value);
 
