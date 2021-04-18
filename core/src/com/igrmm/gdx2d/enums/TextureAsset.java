@@ -1,7 +1,8 @@
 package com.igrmm.gdx2d.enums;
 
 public enum TextureAsset {
-	PLAYER("images/player.png");
+	PLAYER("images/player.png"),
+	PORTAL("images/portal.png");
 
 	private final String path;
 
