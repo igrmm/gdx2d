@@ -1,10 +1,11 @@
 package com.igrmm.gdx2d.ecs;
 
+import com.igrmm.gdx2d.Assets;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.enums.*;
 
 public class ComponentFactory {
-	public static Component getComponent(String key, Object value) {
+	public static Component getComponent(String key, Object value, Assets assets) {
 		switch (key) {
 			case "type":
 				for (EntityType type : EntityType.values()) {
@@ -19,6 +20,13 @@ public class ComponentFactory {
 						return new MapComponent(mapAsset);
 				}
 				throw new NullPointerException("Unexpected [" + key + "]: " + value);
+
+			case "animation":
+				AnimationAsset animationAsset = AnimationAsset.valueOf(value.toString());
+				return new AnimationComponent(assets.getAnimationData(animationAsset));
+
+			case "spriteOffset":
+				return new SpriteOffsetComponent(Float.parseFloat(value.toString()));
 
 			case "waypoint":
 				for (Waypoint waypoint : Waypoint.values()) {

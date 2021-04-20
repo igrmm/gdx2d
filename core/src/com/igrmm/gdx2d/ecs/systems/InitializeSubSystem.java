@@ -11,8 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
 import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
-import com.igrmm.gdx2d.ecs.components.Component;
+import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.ecs.entities.Core;
 import com.igrmm.gdx2d.ecs.entities.Player;
 
@@ -49,7 +48,7 @@ public class InitializeSubSystem implements SubSystem {
 				while (iterator.hasNext()) {
 					String key = iterator.next();
 					Object value = properties.get(key);
-					Component component = ComponentFactory.getComponent(key, value);
+					Component component = ComponentFactory.getComponent(key, value, game.assets);
 					if (component != null)
 						entityManager.addComponent(entityUUID, component);
 				}
