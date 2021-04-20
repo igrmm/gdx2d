@@ -5,10 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.EntityManager;
-import com.igrmm.gdx2d.ecs.components.JumpComponent;
-import com.igrmm.gdx2d.ecs.components.KeyFrameComponent;
-import com.igrmm.gdx2d.ecs.components.PlayerAnimationComponent;
-import com.igrmm.gdx2d.ecs.components.VelocityComponent;
+import com.igrmm.gdx2d.ecs.components.*;
 
 public class InputSubSystem implements InputProcessor, SubSystem {
 	private boolean right = false;
@@ -88,10 +85,8 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 				entityManager.getComponent(playerUUID, VelocityComponent.class);
 		JumpComponent playerJumpC =
 				entityManager.getComponent(playerUUID, JumpComponent.class);
-		PlayerAnimationComponent playerAnimationC =
-				entityManager.getComponent(playerUUID, PlayerAnimationComponent.class);
-		KeyFrameComponent playerKeyFrameC =
-				entityManager.getComponent(playerUUID, KeyFrameComponent.class);
+		AnimationComponent playerAnimationC =
+				entityManager.getComponent(playerUUID, AnimationComponent.class);
 
 		Vector2 playerVelocity = playerVelocityC.velocity;
 		Vector2 playerMaxVelocity = playerVelocityC.maxVelocity;
@@ -99,12 +94,12 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 		if (right) {
 			playerVelocity.x = playerMaxVelocity.x;
-			playerAnimationC.setWalkRightAnimation();
+			playerAnimationC.setAnimation("walk_right");
 		}
 
 		if (left) {
 			playerVelocity.x = playerMaxVelocity.x * -1.0f;
-			playerAnimationC.setWalkLeftAnimation();
+			playerAnimationC.setAnimation("walk_left");
 		}
 
 		if (jump) {
@@ -115,8 +110,6 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 		} else playerJumpC.jumped = false;
 
 		if (playerVelocity.x == 0 && playerVelocity.y == 0)
-			playerAnimationC.setIdleAnimation();
-
-		playerKeyFrameC.setKeyFrame(playerAnimationC.getKeyFrame(delta));
+			playerAnimationC.setAnimation("idle");
 	}
 }
