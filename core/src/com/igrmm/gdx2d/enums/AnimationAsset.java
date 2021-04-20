@@ -1,8 +1,8 @@
 package com.igrmm.gdx2d.enums;
 
 public enum AnimationAsset {
-	PLAYER("images/player.json"),
-	PORTAL("images/portal.json");
+	PLAYER("animations/player.json"),
+	PORTAL("animations/portal.json");
 
 	private final String path;
 
