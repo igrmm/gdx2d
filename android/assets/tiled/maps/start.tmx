@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="563">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="564">
  <editorsettings>
-  <export format="tmx"/>
+  <export target="start.tmx" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <layer id="1" name="0" width="100" height="100">
@@ -11,9 +11,11 @@
  </layer>
  <group id="3" name="objects">
   <objectgroup id="5" name="portals">
-   <object id="562" name="PORTAL" type="PORTAL" x="512" y="3072" width="32" height="32">
+   <object id="563" name="PORTAL" type="PORTAL" x="512" y="3072" width="32" height="32">
     <properties>
+     <property name="animation" value="PORTAL"/>
      <property name="mapAsset" value="DESERT"/>
+     <property name="spriteOffset" type="float" value="0"/>
      <property name="waypoint" value="START"/>
     </properties>
    </object>
