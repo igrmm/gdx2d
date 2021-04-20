@@ -31,7 +31,7 @@
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 150
    },
-   "Idle": {
+   "idle": {
     "frame": { "x": 0, "y": 128, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,
@@ -43,13 +43,14 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.25-dev",
+  "image": "player.png",
   "format": "RGBA8888",
   "size": { "w": 128, "h": 192 },
   "scale": "1",
   "frameTags": [
    { "name": "walk_right", "from": 0, "to": 1, "direction": "forward" },
    { "name": "walk_left", "from": 2, "to": 3, "direction": "forward" },
-   { "name": "Idle", "from": 4, "to": 4, "direction": "forward" }
+   { "name": "idle", "from": 4, "to": 4, "direction": "forward" }
   ]
  }
 }
