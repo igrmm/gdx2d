@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
@@ -35,22 +34,21 @@ public class RenderingSubSystem implements SubSystem {
 
 			/* Render all sprites */
 			batch.begin();
-			Set<String> entitiesPossessingKeyFrameC =
-					entityManager.getAllEntitiesPossessingComponent(KeyFrameComponent.class);
+			Set<String> entitiesPossessingAnimationC =
+					entityManager.getAllEntitiesPossessingComponent(AnimationComponent.class);
 
-			for (String entityPossessingKeyFrameC : entitiesPossessingKeyFrameC) {
-				KeyFrameComponent keyFrameC =
-						entityManager.getComponent(entityPossessingKeyFrameC, KeyFrameComponent.class);
+			for (String entityPossessingAnimationC : entitiesPossessingAnimationC) {
 				BoundingBoxComponent bBoxC =
-						entityManager.getComponent(entityPossessingKeyFrameC, BoundingBoxComponent.class);
+						entityManager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
+				SpriteOffsetComponent spriteOffsetC =
+						entityManager.getComponent(entityPossessingAnimationC, SpriteOffsetComponent.class);
+				AnimationComponent animationC =
+						entityManager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
 
-				Rectangle bBox = bBoxC.bBox;
+				float x = bBoxC.bBox.x - spriteOffsetC.spriteOffset;
+				float y = bBoxC.bBox.y - spriteOffsetC.spriteOffset;
 
-				batch.draw(
-						keyFrameC.getKeyFrame(),
-						keyFrameC.getX(bBox.x),
-						keyFrameC.getY(bBox.y)
-				);
+				batch.draw(animationC.getKeyFrame(delta), x, y);
 			}
 			batch.end();
 		}
