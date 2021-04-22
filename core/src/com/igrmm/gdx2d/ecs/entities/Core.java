@@ -25,5 +25,8 @@ public class Core {
 		ShapeRendererComponent shapeRendererC = new ShapeRendererComponent();
 		disposables.add(shapeRendererC);
 		entityManager.addComponent(coreUUID, shapeRendererC);
+		FontComponent fontC = new FontComponent();
+		entityManager.addComponent(coreUUID, fontC);
+		disposables.add(fontC);
 	}
 }
