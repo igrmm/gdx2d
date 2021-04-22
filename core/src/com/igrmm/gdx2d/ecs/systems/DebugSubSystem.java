@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs.systems;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,6 +13,7 @@ import com.igrmm.gdx2d.ecs.components.ShapeRendererComponent;
 public class DebugSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
+		Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + "");
 		String coreUUID = entityManager.coreUUID;
 		ShapeRendererComponent shapeRendererC =
 				entityManager.getComponent(coreUUID, ShapeRendererComponent.class);
