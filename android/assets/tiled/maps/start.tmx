@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="564">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="566">
  <editorsettings>
   <export target="start.tmx" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <layer id="1" name="0" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1zsKwCAURcEQ8tv/iqOIYJOEgMUtZuA1KhaeymUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFJsZfaAO2jOMlfAHTR6ZNEjix5Z9MiiR5b+lsfLma89PeYZe/QZPa2Pe3rM09+y/unWn1P/gHrMdQPjUgGK
+   eJzt1zEKg0AUBNAlaOL9T6wWgk0StJkR3oPfuOLI/GrHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaTNvM6Z8oku7js80SzG+T7iOd3ybdRzq/TbqPdH6bdB/p/DbpPtL5bdJ9HPnvH+/cPXuipn0cc/bt+b+zp2rZx34Pel2c/d503smdbzTNPPL7WAHsjgID
   </data>
  </layer>
  <group id="3" name="objects">
   <objectgroup id="5" name="portals">
-   <object id="563" name="PORTAL" type="PORTAL" x="512" y="3072" width="32" height="32">
+   <object id="563" name="PORTAL" type="PORTAL" x="2144" y="3136" width="32" height="32">
     <properties>
      <property name="animation" value="PORTAL"/>
      <property name="mapAsset" value="DESERT"/>
@@ -22,7 +22,7 @@
   </objectgroup>
   <objectgroup id="2" name="blocks">
    <object id="550" name="BLOCK" type="BLOCK" x="0" y="2880" width="64" height="320"/>
-   <object id="551" name="BLOCK" type="BLOCK" x="544" y="2880" width="64" height="320"/>
+   <object id="551" name="BLOCK" type="BLOCK" x="2176" y="2880" width="64" height="320"/>
    <object id="552" name="BLOCK" type="BLOCK" x="64" y="3168" width="480" height="32"/>
    <object id="553" name="BLOCK" type="BLOCK" x="64" y="3104" width="32" height="64"/>
    <object id="554" name="BLOCK" type="BLOCK" x="96" y="3136" width="64" height="32"/>
@@ -30,6 +30,8 @@
    <object id="556" name="BLOCK" type="BLOCK" x="288" y="3104" width="32" height="32"/>
    <object id="557" name="BLOCK" type="BLOCK" x="480" y="3136" width="32" height="32"/>
    <object id="558" name="BLOCK" type="BLOCK" x="512" y="3104" width="32" height="64"/>
+   <object id="564" name="BLOCK" type="BLOCK" x="544" y="3168" width="1632" height="32"/>
+   <object id="565" name="BLOCK" type="BLOCK" x="544" y="3136" width="32" height="32"/>
   </objectgroup>
   <objectgroup id="4" name="waypoints">
    <object id="559" name="WAYPOINT" type="WAYPOINT" x="288" y="3104">
