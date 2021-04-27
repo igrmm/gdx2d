@@ -5,5 +5,6 @@ public enum EntityType {
 	CORE,
 	WAYPOINT,
 	BLOCK,
-	PORTAL
+	PORTAL,
+	BULLET
 }
