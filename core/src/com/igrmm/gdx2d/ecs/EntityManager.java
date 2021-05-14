@@ -42,6 +42,14 @@ public class EntityManager {
 		}
 	}
 
+	public <T extends Component> boolean containsComponent(String entity, Class<T> componentType) {
+		Map<String, ? extends Component> componentsOfType = components.get(componentType);
+
+		if (componentsOfType == null) return false;
+
+		return componentType.cast(componentsOfType.get(entity)) != null;
+	}
+
 	public <T extends Component> T getComponent(String entity, Class<T> componentType) {
 		Map<String, ? extends Component> componentsOfType = components.get(componentType);
 
