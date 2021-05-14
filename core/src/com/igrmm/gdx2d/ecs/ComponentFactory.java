@@ -26,7 +26,7 @@ public class ComponentFactory {
 				return new AnimationComponent(assets.getAnimationData(animationAsset));
 
 			case "spriteOffset":
-				return new SpriteOffsetComponent(Float.parseFloat(value.toString()));
+				return new AnimationOffsetComponent(Float.parseFloat(value.toString()));
 
 			case "waypoint":
 				for (Waypoint waypoint : Waypoint.values()) {
