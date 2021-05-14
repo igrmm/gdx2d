@@ -4,7 +4,6 @@
  <objecttype name="PORTAL" color="#ff00ff">
   <property name="animation" type="string" default="PORTAL"/>
   <property name="mapAsset" type="string" default="null"/>
-  <property name="spriteOffset" type="float" default="0"/>
   <property name="waypoint" type="string" default="null"/>
  </objecttype>
  <objecttype name="WAYPOINT" color="#00ff00">
