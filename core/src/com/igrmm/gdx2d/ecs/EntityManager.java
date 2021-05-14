@@ -11,6 +11,10 @@ public class EntityManager {
 	//Unique Entities
 	public final String playerUUID;
 	public final String coreUUID;
+	public final String virtualLeftButtonUUID;
+	public final String virtualRightButtonUUID;
+	public final String virtualAButtonUUID;
+	public final String virtualBButtonUUID;
 
 	public EntityManager() {
 		entities = new HashSet<>();
@@ -19,6 +23,10 @@ public class EntityManager {
 		//Unique Entities
 		playerUUID = createEntity();
 		coreUUID = createEntity();
+		virtualLeftButtonUUID = createEntity();
+		virtualRightButtonUUID = createEntity();
+		virtualAButtonUUID = createEntity();
+		virtualBButtonUUID = createEntity();
 	}
 
 	public String createEntity() {
