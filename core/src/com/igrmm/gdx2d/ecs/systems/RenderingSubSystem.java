@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
@@ -38,17 +39,49 @@ public class RenderingSubSystem implements SubSystem {
 					entityManager.getAllEntitiesPossessingComponent(AnimationComponent.class);
 
 			for (String entityPossessingAnimationC : entitiesPossessingAnimationC) {
+				float scale = 1.0f;
+				if (entityManager.containsComponent(entityPossessingAnimationC, AnimationScaleComponent.class)) {
+					AnimationScaleComponent animationScaleC =
+							entityManager.getComponent(entityPossessingAnimationC, AnimationScaleComponent.class);
+					scale = animationScaleC.scale;
+				}
+
+				float offset = 0.0f;
+				if (entityManager.containsComponent(entityPossessingAnimationC, AnimationOffsetComponent.class)) {
+					AnimationOffsetComponent animationOffsetC =
+							entityManager.getComponent(entityPossessingAnimationC, AnimationOffsetComponent.class);
+					offset = animationOffsetC.spriteOffset;
+				}
+
+				float rotation = 0.0f;
+				if (entityManager.containsComponent(entityPossessingAnimationC, AnimationRotationComponent.class)) {
+					AnimationRotationComponent animationRotationC =
+							entityManager.getComponent(entityPossessingAnimationC, AnimationRotationComponent.class);
+					rotation = animationRotationC.rotation;
+				}
+
 				BoundingBoxComponent bBoxC =
 						entityManager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
-				SpriteOffsetComponent spriteOffsetC =
-						entityManager.getComponent(entityPossessingAnimationC, SpriteOffsetComponent.class);
 				AnimationComponent animationC =
 						entityManager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
 
-				float x = bBoxC.bBox.x - spriteOffsetC.spriteOffset;
-				float y = bBoxC.bBox.y - spriteOffsetC.spriteOffset;
+				float x = bBoxC.bBox.x - offset * scale;
+				float y = bBoxC.bBox.y - offset * scale;
 
-				batch.draw(animationC.getKeyFrame(delta), x, y);
+				TextureRegion tex = animationC.getKeyFrame(delta);
+
+				batch.draw(
+						tex,
+						x,
+						y,
+						0,
+						0,
+						tex.getRegionWidth(),
+						tex.getRegionHeight(),
+						scale,
+						scale,
+						rotation
+				);
 			}
 			batch.end();
 		}
