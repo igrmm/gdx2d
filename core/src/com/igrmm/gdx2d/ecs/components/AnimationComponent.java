@@ -12,6 +12,11 @@ public class AnimationComponent implements Component {
 	private String animation = "idle";
 	private float stateTime = 0.0f;
 
+	public AnimationComponent(AnimationData animationData, String animation) {
+		this(animationData);
+		this.animation = animation;
+	}
+
 	public AnimationComponent(AnimationData animationData) {
 		animations = new HashMap<>();
 
