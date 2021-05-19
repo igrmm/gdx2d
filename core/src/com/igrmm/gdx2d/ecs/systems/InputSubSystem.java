@@ -3,49 +3,79 @@ package com.igrmm.gdx2d.ecs.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
+
 public class InputSubSystem implements InputProcessor, SubSystem {
-	private boolean right = false;
-	private boolean left = false;
-	private boolean jump = false;
+	private static class TouchInfo {
+		public float touchX = 0;
+		public float touchY = 0;
+		public boolean touched = false;
+	}
+
+	private static final int MAX_TOUCHES = 2;
+	private final TouchInfo[] touches = new TouchInfo[MAX_TOUCHES];
+
+	private boolean rightKey = false;
+	private boolean leftKey = false;
+	private boolean aKey = false;
+	private boolean bKey = false;
+
+	private boolean rightTouch = false;
+	private boolean leftTouch = false;
+	private boolean aTouch = false;
+	private boolean bTouch = false;
+
+	private final Rectangle rightRectangle = new Rectangle();
+	private final Rectangle leftRectangle = new Rectangle();
+	private final Rectangle aRectangle = new Rectangle();
+	private final Rectangle bRectangle = new Rectangle();
 
 	public InputSubSystem() {
 		Gdx.input.setInputProcessor(this);
+		for (int i = 0; i < MAX_TOUCHES; i++)
+			touches[i] = new TouchInfo();
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
 			case Input.Keys.D:
-				right = true;
+				rightKey = true;
 				break;
 			case Input.Keys.A:
-				left = true;
+				leftKey = true;
 				break;
-			case Input.Keys.SPACE:
-				jump = true;
+			case Input.Keys.K:
+				aKey = true;
+				break;
+			case Input.Keys.L:
+				bKey = true;
 				break;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		switch (keycode) {
 			case Input.Keys.D:
-				right = false;
+				rightKey = false;
 				break;
 			case Input.Keys.A:
-				left = false;
+				leftKey = false;
 				break;
-			case Input.Keys.SPACE:
-				jump = false;
+			case Input.Keys.K:
+				aKey = false;
+				break;
+			case Input.Keys.L:
+				bKey = false;
 				break;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -55,17 +85,32 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
+		if (pointer < MAX_TOUCHES) {
+			touches[pointer].touchX = screenX;
+			touches[pointer].touchY = screenY;
+			touches[pointer].touched = true;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
+		if (pointer < MAX_TOUCHES) {
+			touches[pointer].touchX = screenX;
+			touches[pointer].touchY = screenY;
+			touches[pointer].touched = false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
+		if (pointer < MAX_TOUCHES) {
+			touches[pointer].touchX = screenX;
+			touches[pointer].touchY = screenY;
+			touches[pointer].touched = true;
+		}
+		return true;
 	}
 
 	@Override
@@ -80,6 +125,8 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
+		handleTouches(entityManager);
+
 		String playerUUID = entityManager.playerUUID;
 		VelocityComponent playerVelocityC =
 				entityManager.getComponent(playerUUID, VelocityComponent.class);
@@ -91,18 +138,17 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 		Vector2 playerVelocity = playerVelocityC.velocity;
 		Vector2 playerMaxVelocity = playerVelocityC.maxVelocity;
 
-
-		if (right) {
+		if (rightKey || rightTouch) {
 			playerVelocity.x = playerMaxVelocity.x;
 			playerAnimationC.setAnimation("walk_right");
 		}
 
-		if (left) {
+		if (leftKey || leftTouch) {
 			playerVelocity.x = playerMaxVelocity.x * -1.0f;
 			playerAnimationC.setAnimation("walk_left");
 		}
 
-		if (jump) {
+		if (bKey || bTouch) {
 			if (playerJumpC.grounded && !playerJumpC.jumped) {
 				playerVelocity.y += playerJumpC.jumpVelocity;
 				playerJumpC.jumped = true;
@@ -111,5 +157,91 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 		if (playerVelocity.x == 0 && playerVelocity.y == 0)
 			playerAnimationC.setAnimation("idle");
+	}
+
+	private void handleTouches(EntityManager entityManager) {
+
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+
+		/* LEFT BUTTON */
+		leftTouch = false;
+		UIAnimationComponent vLeftBtnUIAnimationC =
+				entityManager.getComponent(entityManager.virtualLeftButtonUUID, UIAnimationComponent.class);
+		vLeftBtnUIAnimationC.setAnimation("up");
+		BoundingBoxComponent vLeftBtnBBoxC =
+				entityManager.getComponent(entityManager.virtualLeftButtonUUID, BoundingBoxComponent.class);
+		leftRectangle.set(
+				screenWidth / 2.0f - vLeftBtnBBoxC.bBox.x,
+				screenHeight / 2.0f - vLeftBtnBBoxC.bBox.y,
+				vLeftBtnBBoxC.bBox.width,
+				vLeftBtnBBoxC.bBox.height
+		);
+
+		/* RIGHT BUTTON */
+		rightTouch = false;
+		UIAnimationComponent vRightBtnUIAnimationC =
+				entityManager.getComponent(entityManager.virtualRightButtonUUID, UIAnimationComponent.class);
+		vRightBtnUIAnimationC.setAnimation("up");
+		BoundingBoxComponent vRightBtnBBoxC =
+				entityManager.getComponent(entityManager.virtualRightButtonUUID, BoundingBoxComponent.class);
+		rightRectangle.set(
+				screenWidth / 2.0f - vRightBtnBBoxC.bBox.x,
+				screenHeight / 2.0f - vRightBtnBBoxC.bBox.y,
+				vRightBtnBBoxC.bBox.width,
+				vRightBtnBBoxC.bBox.height
+		);
+
+		/* A BUTTON */
+		aTouch = false;
+		UIAnimationComponent vABtnUIAnimationC =
+				entityManager.getComponent(entityManager.virtualAButtonUUID, UIAnimationComponent.class);
+		vABtnUIAnimationC.setAnimation("up");
+		BoundingBoxComponent vABtnBBoxC =
+				entityManager.getComponent(entityManager.virtualAButtonUUID, BoundingBoxComponent.class);
+		aRectangle.set(
+				screenWidth / 2.0f - vABtnBBoxC.bBox.x,
+				screenHeight / 2.0f - vABtnBBoxC.bBox.y,
+				vABtnBBoxC.bBox.width,
+				vABtnBBoxC.bBox.height
+		);
+
+		/* B BUTTON */
+		bTouch = false;
+		UIAnimationComponent vBBtnUIAnimationC =
+				entityManager.getComponent(entityManager.virtualBButtonUUID, UIAnimationComponent.class);
+		vBBtnUIAnimationC.setAnimation("up");
+		BoundingBoxComponent vBBtnBBoxC =
+				entityManager.getComponent(entityManager.virtualBButtonUUID, BoundingBoxComponent.class);
+		bRectangle.set(
+				screenWidth / 2.0f - vBBtnBBoxC.bBox.x,
+				screenHeight / 2.0f - vBBtnBBoxC.bBox.y,
+				vBBtnBBoxC.bBox.width,
+				vBBtnBBoxC.bBox.height
+		);
+
+		for (int i = 0; i < MAX_TOUCHES; i++) {
+			if (touches[i].touched) {
+				if (leftRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
+					vLeftBtnUIAnimationC.setAnimation("down");
+					leftTouch = true;
+				}
+
+				if (rightRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
+					vRightBtnUIAnimationC.setAnimation("down");
+					rightTouch = true;
+				}
+
+				if (aRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
+					vABtnUIAnimationC.setAnimation("down");
+					aTouch = true;
+				}
+
+				if (bRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
+					vBBtnUIAnimationC.setAnimation("down");
+					bTouch = true;
+				}
+			}
+		}
 	}
 }
