@@ -41,7 +41,7 @@ public class InitializeSubSystem implements SubSystem {
 
 		Core.spawn(game, entityManager, disposables, tiledMap);
 		Player.spawn(game.assets, entityManager);
-		spawnVirtualButtons(entityManager, delta);
+		spawnVirtualButtons(entityManager);
 
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
@@ -72,81 +72,83 @@ public class InitializeSubSystem implements SubSystem {
 		subSystems.add(new DebugSubSystem());
 	}
 
-	private void spawnVirtualButtons(EntityManager entityManager, float delta) {
-		float PADDING = 5.0f;
+	private void spawnVirtualButtons(EntityManager entityManager) {
 		float SCALE = 3.0f;
-		String initialState = "up";
+		String initialAnimation = "up";
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+		float PADDING = 5.0f * screenWidth / 100.0f;
 
-		//LEFT BUTTON
-		String virtualLeftButtonUUID = entityManager.virtualLeftButtonUUID;
-		entityManager.addComponent(virtualLeftButtonUUID, new TypeComponent(EntityType.VIRTUAL_LEFT_BUTTON));
-		entityManager.addComponent(virtualLeftButtonUUID, new AnimationScaleComponent(SCALE));
-		AnimationData leftButtonAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_LEFT_BUTTON);
-		AnimationComponent leftButtonAnimationC = new AnimationComponent(leftButtonAnimationData);
-		leftButtonAnimationC.setAnimation(initialState);
-		entityManager.addComponent(virtualLeftButtonUUID, leftButtonAnimationC);
-		TextureRegion leftButtonTex = leftButtonAnimationC.getKeyFrame(delta);
+		/* LEFT BUTTON */
+		String vLeftBtnUUID = entityManager.virtualLeftButtonUUID;
+		entityManager.addComponent(vLeftBtnUUID, new TypeComponent(EntityType.VIRTUAL_LEFT_BUTTON));
+		entityManager.addComponent(vLeftBtnUUID, new AnimationScaleComponent(SCALE));
+		AnimationData vLeftBtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_LEFT_BUTTON);
+		UIAnimationComponent vLeftBtnUIAnimationC = new UIAnimationComponent(vLeftBtnAnimationData, initialAnimation);
+		entityManager.addComponent(vLeftBtnUUID, vLeftBtnUIAnimationC);
+		TextureRegion vLeftBtnTex = vLeftBtnUIAnimationC.getKeyFrame(0.0f);
 
-		BoundingBoxComponent leftButtonBBoxC = new BoundingBoxComponent(
-				Gdx.graphics.getWidth() * PADDING / 100.0f,
-				Gdx.graphics.getHeight() * PADDING / 100.0f,
-				leftButtonTex.getRegionWidth() * SCALE,
-				leftButtonTex.getRegionHeight() * SCALE
+		//relative to camera position
+		BoundingBoxComponent vLeftBtnBBoxC = new BoundingBoxComponent(
+				screenWidth / 2.0f - PADDING,
+				screenHeight / 2.0f - PADDING,
+				vLeftBtnTex.getRegionWidth() * SCALE,
+				vLeftBtnTex.getRegionHeight() * SCALE
 		);
-		entityManager.addComponent(virtualLeftButtonUUID, leftButtonBBoxC);
+		entityManager.addComponent(vLeftBtnUUID, vLeftBtnBBoxC);
 
-		//RIGHT BUTTON
-		String virtualRightButtonUUID = entityManager.virtualRightButtonUUID;
-		entityManager.addComponent(virtualRightButtonUUID, new TypeComponent(EntityType.VIRTUAL_RIGHT_BUTTON));
-		entityManager.addComponent(virtualRightButtonUUID, new AnimationScaleComponent(SCALE));
-		AnimationData rightButtonAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_RIGHT_BUTTON);
-		AnimationComponent rightButtonAnimationC = new AnimationComponent(rightButtonAnimationData);
-		rightButtonAnimationC.setAnimation(initialState);
-		entityManager.addComponent(virtualRightButtonUUID, rightButtonAnimationC);
-		TextureRegion rightButtonTex = rightButtonAnimationC.getKeyFrame(delta);
+		/* RIGHT BUTTON */
+		String vRightBtnUUID = entityManager.virtualRightButtonUUID;
+		entityManager.addComponent(vRightBtnUUID, new TypeComponent(EntityType.VIRTUAL_RIGHT_BUTTON));
+		entityManager.addComponent(vRightBtnUUID, new AnimationScaleComponent(SCALE));
+		AnimationData vRightBtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_RIGHT_BUTTON);
+		UIAnimationComponent vRightBtnUIAnimationC = new UIAnimationComponent(vRightBtnAnimationData, initialAnimation);
+		entityManager.addComponent(vRightBtnUUID, vRightBtnUIAnimationC);
+		TextureRegion vRightBtnTex = vRightBtnUIAnimationC.getKeyFrame(0.0f);
 
-		BoundingBoxComponent rightButtonBBoxC = new BoundingBoxComponent(
-				leftButtonBBoxC.bBox.x + leftButtonBBoxC.bBox.width + Gdx.graphics.getWidth() * PADDING / 100.0f,
-				Gdx.graphics.getHeight() * PADDING / 100.0f,
-				rightButtonTex.getRegionWidth() * SCALE,
-				rightButtonTex.getRegionHeight() * SCALE
+		//relative to camera position
+		BoundingBoxComponent vRightBtnBBoxC = new BoundingBoxComponent(
+				vLeftBtnBBoxC.bBox.x - vLeftBtnBBoxC.bBox.width - PADDING,
+				screenHeight / 2.0f - PADDING,
+				vRightBtnTex.getRegionWidth() * SCALE,
+				vRightBtnTex.getRegionHeight() * SCALE
 		);
-		entityManager.addComponent(virtualRightButtonUUID, rightButtonBBoxC);
+		entityManager.addComponent(vRightBtnUUID, vRightBtnBBoxC);
 
-		//B BUTTON
-		String virtualBButtonUUID = entityManager.virtualBButtonUUID;
-		entityManager.addComponent(virtualBButtonUUID, new TypeComponent(EntityType.VIRTUAL_B_BUTTON));
-		entityManager.addComponent(virtualBButtonUUID, new AnimationScaleComponent(SCALE));
-		AnimationData bButtonAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_B_BUTTON);
-		AnimationComponent bButtonAnimationC = new AnimationComponent(bButtonAnimationData);
-		bButtonAnimationC.setAnimation(initialState);
-		entityManager.addComponent(virtualBButtonUUID, bButtonAnimationC);
-		TextureRegion bButtonTex = bButtonAnimationC.getKeyFrame(delta);
+		/* B BUTTON */
+		String vBBtnUUID = entityManager.virtualBButtonUUID;
+		entityManager.addComponent(vBBtnUUID, new TypeComponent(EntityType.VIRTUAL_B_BUTTON));
+		entityManager.addComponent(vBBtnUUID, new AnimationScaleComponent(SCALE));
+		AnimationData vBBtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_B_BUTTON);
+		UIAnimationComponent vBBtnUIAnimationC = new UIAnimationComponent(vBBtnAnimationData, initialAnimation);
+		entityManager.addComponent(vBBtnUUID, vBBtnUIAnimationC);
+		TextureRegion vBBtnTex = vBBtnUIAnimationC.getKeyFrame(0.0f);
 
-		BoundingBoxComponent bButtonBBoxC = new BoundingBoxComponent(
-				Gdx.graphics.getWidth() - Gdx.graphics.getWidth() * PADDING / 100.0f - bButtonTex.getRegionWidth() * SCALE,
-				Gdx.graphics.getHeight() * PADDING / 100.0f,
-				bButtonTex.getRegionWidth() * SCALE,
-				bButtonTex.getRegionHeight() * SCALE
+		//relative to camera position
+		BoundingBoxComponent vBBtnBBoxC = new BoundingBoxComponent(
+				vBBtnTex.getRegionWidth() * SCALE + PADDING - screenWidth / 2.0f,
+				screenHeight / 2.0f - PADDING,
+				vBBtnTex.getRegionWidth() * SCALE,
+				vBBtnTex.getRegionHeight() * SCALE
 		);
-		entityManager.addComponent(virtualBButtonUUID, bButtonBBoxC);
+		entityManager.addComponent(vBBtnUUID, vBBtnBBoxC);
 
-		//A BUTTON
-		String virtualAButtonUUID = entityManager.virtualAButtonUUID;
-		entityManager.addComponent(virtualAButtonUUID, new TypeComponent(EntityType.VIRTUAL_A_BUTTON));
-		entityManager.addComponent(virtualAButtonUUID, new AnimationScaleComponent(SCALE));
-		AnimationData aButtonAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_A_BUTTON);
-		AnimationComponent aButtonAnimationC = new AnimationComponent(aButtonAnimationData);
-		aButtonAnimationC.setAnimation(initialState);
-		entityManager.addComponent(virtualAButtonUUID, aButtonAnimationC);
-		TextureRegion aButtonTex = aButtonAnimationC.getKeyFrame(delta);
+		/* A BUTTON */
+		String vABtnUUID = entityManager.virtualAButtonUUID;
+		entityManager.addComponent(vABtnUUID, new TypeComponent(EntityType.VIRTUAL_A_BUTTON));
+		entityManager.addComponent(vABtnUUID, new AnimationScaleComponent(SCALE));
+		AnimationData vABtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_A_BUTTON);
+		UIAnimationComponent vABtnUIAnimationC = new UIAnimationComponent(vABtnAnimationData, initialAnimation);
+		entityManager.addComponent(vABtnUUID, vABtnUIAnimationC);
+		TextureRegion vABtnTex = vABtnUIAnimationC.getKeyFrame(0.0f);
 
-		BoundingBoxComponent aButtonBBoxC = new BoundingBoxComponent(
-				bButtonBBoxC.bBox.x - Gdx.graphics.getWidth() * PADDING / 100.0f - aButtonTex.getRegionWidth() * SCALE,
-				Gdx.graphics.getHeight() * PADDING / 100.0f,
-				aButtonTex.getRegionWidth() * SCALE,
-				aButtonTex.getRegionHeight() * SCALE
+		//relative to camera position
+		BoundingBoxComponent vABtnBBoxC = new BoundingBoxComponent(
+				vBBtnBBoxC.bBox.x + PADDING + vABtnTex.getRegionWidth() * SCALE,
+				screenHeight / 2.0f - PADDING,
+				vABtnTex.getRegionWidth() * SCALE,
+				vABtnTex.getRegionHeight() * SCALE
 		);
-		entityManager.addComponent(virtualAButtonUUID, aButtonBBoxC);
+		entityManager.addComponent(vABtnUUID, vABtnBBoxC);
 	}
 }
