@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
@@ -33,57 +34,96 @@ public class RenderingSubSystem implements SubSystem {
 			mapRenderer.render();
 			batch.setProjectionMatrix(camera.combined);
 
-			/* Render all sprites */
 			batch.begin();
-			Set<String> entitiesPossessingAnimationC =
-					entityManager.getAllEntitiesPossessingComponent(AnimationComponent.class);
-
-			for (String entityPossessingAnimationC : entitiesPossessingAnimationC) {
-				float scale = 1.0f;
-				if (entityManager.containsComponent(entityPossessingAnimationC, AnimationScaleComponent.class)) {
-					AnimationScaleComponent animationScaleC =
-							entityManager.getComponent(entityPossessingAnimationC, AnimationScaleComponent.class);
-					scale = animationScaleC.scale;
-				}
-
-				float offset = 0.0f;
-				if (entityManager.containsComponent(entityPossessingAnimationC, AnimationOffsetComponent.class)) {
-					AnimationOffsetComponent animationOffsetC =
-							entityManager.getComponent(entityPossessingAnimationC, AnimationOffsetComponent.class);
-					offset = animationOffsetC.spriteOffset;
-				}
-
-				float rotation = 0.0f;
-				if (entityManager.containsComponent(entityPossessingAnimationC, AnimationRotationComponent.class)) {
-					AnimationRotationComponent animationRotationC =
-							entityManager.getComponent(entityPossessingAnimationC, AnimationRotationComponent.class);
-					rotation = animationRotationC.rotation;
-				}
-
-				BoundingBoxComponent bBoxC =
-						entityManager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
-				AnimationComponent animationC =
-						entityManager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
-
-				float x = bBoxC.bBox.x - offset * scale;
-				float y = bBoxC.bBox.y - offset * scale;
-
-				TextureRegion tex = animationC.getKeyFrame(delta);
-
-				batch.draw(
-						tex,
-						x,
-						y,
-						0,
-						0,
-						tex.getRegionWidth(),
-						tex.getRegionHeight(),
-						scale,
-						scale,
-						rotation
-				);
-			}
+			renderSprites(delta, entityManager, batch);
+			renderUI(delta, entityManager, batch, camera.position);
 			batch.end();
+		}
+	}
+
+	private void renderSprites(float delta, EntityManager entityManager, SpriteBatch batch) {
+		Set<String> entitiesPossessingAnimationC =
+				entityManager.getAllEntitiesPossessingComponent(AnimationComponent.class);
+
+		for (String entityPossessingAnimationC : entitiesPossessingAnimationC) {
+			float scale = 1.0f;
+			if (entityManager.containsComponent(entityPossessingAnimationC, AnimationScaleComponent.class)) {
+				AnimationScaleComponent animationScaleC =
+						entityManager.getComponent(entityPossessingAnimationC, AnimationScaleComponent.class);
+				scale = animationScaleC.scale;
+			}
+
+			float offset = 0.0f;
+			if (entityManager.containsComponent(entityPossessingAnimationC, AnimationOffsetComponent.class)) {
+				AnimationOffsetComponent animationOffsetC =
+						entityManager.getComponent(entityPossessingAnimationC, AnimationOffsetComponent.class);
+				offset = animationOffsetC.spriteOffset;
+			}
+
+			float rotation = 0.0f;
+			if (entityManager.containsComponent(entityPossessingAnimationC, AnimationRotationComponent.class)) {
+				AnimationRotationComponent animationRotationC =
+						entityManager.getComponent(entityPossessingAnimationC, AnimationRotationComponent.class);
+				rotation = animationRotationC.rotation;
+			}
+
+			BoundingBoxComponent bBoxC =
+					entityManager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
+			AnimationComponent animationC =
+					entityManager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
+
+			float x = bBoxC.bBox.x - offset * scale;
+			float y = bBoxC.bBox.y - offset * scale;
+
+			TextureRegion tex = animationC.getKeyFrame(delta);
+
+			batch.draw(
+					tex,
+					x,
+					y,
+					0,
+					0,
+					tex.getRegionWidth(),
+					tex.getRegionHeight(),
+					scale,
+					scale,
+					rotation
+			);
+		}
+	}
+
+	private void renderUI(float delta, EntityManager entityManager, SpriteBatch batch, Vector3 cameraPosition) {
+		Set<String> entitiesPossessingUIAnimationC =
+				entityManager.getAllEntitiesPossessingComponent(UIAnimationComponent.class);
+
+		for (String entityPossessingUIAnimationC : entitiesPossessingUIAnimationC) {
+
+			AnimationScaleComponent animationScaleC =
+					entityManager.getComponent(entityPossessingUIAnimationC, AnimationScaleComponent.class);
+			float scale = animationScaleC.scale;
+
+			BoundingBoxComponent bBoxC =
+					entityManager.getComponent(entityPossessingUIAnimationC, BoundingBoxComponent.class);
+			UIAnimationComponent uIAnimationC =
+					entityManager.getComponent(entityPossessingUIAnimationC, UIAnimationComponent.class);
+
+			float x = cameraPosition.x - bBoxC.bBox.x;
+			float y = cameraPosition.y - bBoxC.bBox.y;
+
+			TextureRegion tex = uIAnimationC.getKeyFrame(delta);
+
+			batch.draw(
+					tex,
+					x,
+					y,
+					0.0f,
+					0.0f,
+					tex.getRegionWidth(),
+					tex.getRegionHeight(),
+					scale,
+					scale,
+					0.0f
+			);
 		}
 	}
 }
