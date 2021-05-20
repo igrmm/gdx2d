@@ -34,6 +34,8 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 	private final Rectangle aRectangle = new Rectangle();
 	private final Rectangle bRectangle = new Rectangle();
 
+	private int amountScrolled = 0;
+
 	public InputSubSystem() {
 		Gdx.input.setInputProcessor(this);
 		for (int i = 0; i < MAX_TOUCHES; i++)
@@ -90,7 +92,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 			touches[pointer].touchY = screenY;
 			touches[pointer].touched = true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 			touches[pointer].touchY = screenY;
 			touches[pointer].touched = false;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -110,7 +112,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 			touches[pointer].touchY = screenY;
 			touches[pointer].touched = true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -120,11 +122,18 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 	@Override
 	public boolean scrolled(int amount) {
+		amountScrolled = amount;
 		return false;
 	}
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
+		CameraComponent cameraC =
+				entityManager.getComponent(entityManager.coreUUID, CameraComponent.class);
+		if (amountScrolled != 0)
+			cameraC.camera.zoom += (0.1f * amountScrolled);
+		amountScrolled = 0;
+
 		handleTouches(entityManager);
 
 		String playerUUID = entityManager.playerUUID;
