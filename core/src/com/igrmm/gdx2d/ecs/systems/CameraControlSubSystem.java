@@ -32,8 +32,8 @@ public class CameraControlSubSystem implements SubSystem {
 		camera.position.y += alpha * (playerCenterY - camera.position.y);
 
 		/* Limit camera position inside tiled map bounds */
-		float minCameraPositionX = camera.viewportWidth / 2.0f;
-		float minCameraPositionY = camera.viewportHeight / 2.0f;
+		float minCameraPositionX = camera.viewportWidth / 2.0f * camera.zoom;
+		float minCameraPositionY = camera.viewportHeight / 2.0f * camera.zoom;
 		float maxCameraPositionX = mapWidth - minCameraPositionX;
 		float maxCameraPositionY = mapHeight - minCameraPositionY;
 
