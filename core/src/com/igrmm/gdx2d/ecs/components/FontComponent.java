@@ -5,10 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class FontComponent implements Component, Disposable {
 	public final BitmapFont font = new BitmapFont();
-
-	public FontComponent() {
-		font.getData().setScale(3.0f);
-	}
+	public String text = "";
 
 	@Override
 	public void dispose() {
