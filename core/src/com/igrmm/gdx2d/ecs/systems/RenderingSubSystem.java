@@ -36,7 +36,7 @@ public class RenderingSubSystem implements SubSystem {
 
 			batch.begin();
 			renderSprites(delta, entityManager, batch);
-			renderUI(delta, entityManager, batch, camera.position);
+			renderUI(delta, entityManager, batch, camera);
 			batch.end();
 		}
 	}
@@ -92,7 +92,10 @@ public class RenderingSubSystem implements SubSystem {
 		}
 	}
 
-	private void renderUI(float delta, EntityManager entityManager, SpriteBatch batch, Vector3 cameraPosition) {
+	private void renderUI(float delta, EntityManager entityManager, SpriteBatch batch, OrthographicCamera camera) {
+		Vector3 camPosition = camera.position;
+		float camZoom = camera.zoom;
+
 		Set<String> entitiesPossessingUIAnimationC =
 				entityManager.getAllEntitiesPossessingComponent(UIAnimationComponent.class);
 
@@ -107,8 +110,8 @@ public class RenderingSubSystem implements SubSystem {
 			UIAnimationComponent uIAnimationC =
 					entityManager.getComponent(entityPossessingUIAnimationC, UIAnimationComponent.class);
 
-			float x = cameraPosition.x - bBoxC.bBox.x;
-			float y = cameraPosition.y - bBoxC.bBox.y;
+			float x = camPosition.x - bBoxC.bBox.x * camZoom;
+			float y = camPosition.y - bBoxC.bBox.y * camZoom;
 
 			TextureRegion tex = uIAnimationC.getKeyFrame(delta);
 
@@ -118,8 +121,8 @@ public class RenderingSubSystem implements SubSystem {
 					y,
 					0.0f,
 					0.0f,
-					tex.getRegionWidth(),
-					tex.getRegionHeight(),
+					tex.getRegionWidth() * camZoom,
+					tex.getRegionHeight() * camZoom,
 					scale,
 					scale,
 					0.0f
