@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="576">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="576">
  <editorsettings>
   <export target="desert.tmx" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <layer id="1" name="0" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2DEKgDAQAMFU/v/JfkASIyiLzECaBFLcdjcGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwF8cHh/venpcee/Ro0aNFjxY9WvRo0aNFjxY9WvRo0aNlZ15P9lF67Lma8exu9bb6hzn73ZYTg8kCFw==
+   eJzt2DEKgDAQAMFU/v/JfkASIygrzECaBFLcdjcGAAAAAAAAAAAAAAAAAAAA9B0fHO57e1567NGjRY8WPVr0aNGjRY8WPVr0aNGjRY+WnXk92UfpsedqxrO71dvqH+bsdwEAAAAAAAAAAAAAAAAAAAAA+KMT6WgCFw==
   </data>
  </layer>
  <group id="3" name="objects">
   <objectgroup id="5" name="portals">
-   <object id="575" name="PORTAL" type="PORTAL" x="682" y="3059" width="32" height="32">
+   <object id="575" name="PORTAL" type="PORTAL" x="1962" y="1619" width="32" height="32">
     <properties>
      <property name="animation" value="PORTAL"/>
      <property name="mapAsset" value="START"/>
@@ -20,19 +20,19 @@
    </object>
   </objectgroup>
   <objectgroup id="2" name="blocks">
-   <object id="560" name="BLOCK" type="BLOCK" x="0" y="2720" width="800" height="32"/>
-   <object id="561" name="BLOCK" type="BLOCK" x="0" y="3168" width="800" height="32"/>
-   <object id="562" name="BLOCK" type="BLOCK" x="0" y="2752" width="32" height="416"/>
-   <object id="563" name="BLOCK" type="BLOCK" x="768" y="2752" width="32" height="416"/>
-   <object id="564" name="BLOCK" type="BLOCK" x="32" y="3136" width="32" height="32"/>
-   <object id="565" name="BLOCK" type="BLOCK" x="160" y="3136" width="64" height="32"/>
-   <object id="566" name="BLOCK" type="BLOCK" x="352" y="3104" width="64" height="32"/>
-   <object id="567" name="BLOCK" type="BLOCK" x="544" y="3136" width="96" height="32"/>
-   <object id="568" name="BLOCK" type="BLOCK" x="320" y="3136" width="128" height="32"/>
-   <object id="571" name="BLOCK" type="BLOCK" x="736" y="3136" width="32" height="32"/>
+   <object id="560" name="BLOCK" type="BLOCK" x="1280" y="1280" width="800" height="32"/>
+   <object id="561" name="BLOCK" type="BLOCK" x="1280" y="1728" width="800" height="32"/>
+   <object id="562" name="BLOCK" type="BLOCK" x="1280" y="1312" width="32" height="416"/>
+   <object id="563" name="BLOCK" type="BLOCK" x="2048" y="1312" width="32" height="416"/>
+   <object id="564" name="BLOCK" type="BLOCK" x="1312" y="1696" width="32" height="32"/>
+   <object id="565" name="BLOCK" type="BLOCK" x="1440" y="1696" width="64" height="32"/>
+   <object id="566" name="BLOCK" type="BLOCK" x="1632" y="1664" width="64" height="32"/>
+   <object id="567" name="BLOCK" type="BLOCK" x="1824" y="1696" width="96" height="32"/>
+   <object id="568" name="BLOCK" type="BLOCK" x="1600" y="1696" width="128" height="32"/>
+   <object id="571" name="BLOCK" type="BLOCK" x="2016" y="1696" width="32" height="32"/>
   </objectgroup>
   <objectgroup id="4" name="waypoints">
-   <object id="570" name="WAYPOINT" type="WAYPOINT" x="352" y="3104">
+   <object id="570" name="WAYPOINT" type="WAYPOINT" x="1632" y="1664">
     <properties>
      <property name="waypoint" value="START"/>
     </properties>
