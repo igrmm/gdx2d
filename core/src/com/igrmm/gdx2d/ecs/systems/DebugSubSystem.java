@@ -23,14 +23,23 @@ public class DebugSubSystem implements SubSystem {
 				entityManager.getComponent(coreUUID, FontComponent.class);
 
 		if (!batchC.dispose) {
+			fontC.font.getData().setScale(2.0f * cameraC.camera.zoom);
+
+			//debug info
+			fontC.text = fontC.text.concat("FPS: " + Gdx.graphics.getFramesPerSecond() + "\n");
+			fontC.text = fontC.text.concat("DPI: " + Gdx.graphics.getDensity() + "\n");
+			fontC.text = fontC.text.concat("RES: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + "\n");
+			fontC.text = fontC.text.concat("CAMZOOM: " + cameraC.camera.zoom + "\n");
+
 			batchC.batch.begin();
 			fontC.font.draw(
 					batchC.batch,
-					"FPS: " + Gdx.graphics.getFramesPerSecond(),
-					cameraC.camera.position.x - Gdx.graphics.getWidth() / 2.0f,
-					cameraC.camera.position.y + Gdx.graphics.getHeight() / 2.0f
+					fontC.text,
+					cameraC.camera.position.x - cameraC.camera.viewportWidth / 2.0f * cameraC.camera.zoom,
+					cameraC.camera.position.y + cameraC.camera.viewportHeight / 2.0f * cameraC.camera.zoom
 			);
 			batchC.batch.end();
+			fontC.text = "";
 		}
 
 		if (!shapeRendererC.dispose) {
