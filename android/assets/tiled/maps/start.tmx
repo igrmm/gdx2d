@@ -15,7 +15,7 @@
     <properties>
      <property name="animation" value="PORTAL"/>
      <property name="mapAsset" value="DESERT"/>
-     <property name="waypoint" value="START"/>
+     <property name="waypoint" value="DESERT_START"/>
     </properties>
    </object>
   </objectgroup>
@@ -35,7 +35,7 @@
   <objectgroup id="4" name="waypoints">
    <object id="559" name="WAYPOINT" type="WAYPOINT" x="1504" y="1600">
     <properties>
-     <property name="waypoint" value="START"/>
+     <property name="waypoint" value="START_START"/>
     </properties>
     <point/>
    </object>

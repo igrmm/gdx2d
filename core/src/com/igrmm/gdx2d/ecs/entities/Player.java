@@ -32,7 +32,7 @@ public class Player {
 		for (String entityPossessingWaypointC : entitiesPossessingWaypointC) {
 			WaypointComponent waypointC =
 					entityManager.getComponent(entityPossessingWaypointC, WaypointComponent.class);
-			if (waypointC.waypoint == Waypoint.START) {
+			if (waypointC.waypoint == Waypoint.START_START) {
 				BoundingBoxComponent waypointBBoxC =
 						entityManager.getComponent(entityPossessingWaypointC, BoundingBoxComponent.class);
 				playerBBoxC.bBox.setPosition(waypointBBoxC.bBox.x, waypointBBoxC.bBox.y);
