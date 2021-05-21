@@ -38,11 +38,6 @@ public class InitializeSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		TiledMap tiledMap = game.assets.getTiledMap(game.mapAsset);
-
-		Core.spawn(game, entityManager, disposables, tiledMap);
-		Player.spawn(game.assets, entityManager);
-		spawnVirtualButtons(entityManager);
-
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
 			for (MapObject mapObject : mapLayer.getObjects()) {
@@ -61,6 +56,10 @@ public class InitializeSubSystem implements SubSystem {
 			}
 		}
 
+		Core.spawn(game, entityManager, disposables, tiledMap);
+		Player.spawn(game.assets, entityManager);
+		spawnVirtualButtons(entityManager);
+
 		subSystems.clear();
 		subSystems.add(new InputSubSystem());
 		subSystems.add(new PortalSubSystem());
@@ -73,11 +72,11 @@ public class InitializeSubSystem implements SubSystem {
 	}
 
 	private void spawnVirtualButtons(EntityManager entityManager) {
-		float SCALE = 3.0f;
+		float SCALE = 5.0f * Gdx.graphics.getDensity();
 		String initialAnimation = "up";
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
-		float PADDING = 5.0f * screenWidth / 100.0f;
+		float PADDING = 3.0f * screenWidth / 100.0f;
 
 		/* LEFT BUTTON */
 		String vLeftBtnUUID = entityManager.virtualLeftButtonUUID;
