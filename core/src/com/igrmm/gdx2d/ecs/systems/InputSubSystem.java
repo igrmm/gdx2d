@@ -14,6 +14,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 		public float touchX = 0;
 		public float touchY = 0;
 		public boolean touched = false;
+		public boolean dragged = false;
 	}
 
 	private static final int MAX_TOUCHES = 2;
@@ -28,11 +29,15 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 	private boolean leftTouch = false;
 	private boolean aTouch = false;
 	private boolean bTouch = false;
+	private boolean zoomInTouch = false;
+	private boolean zoomOutTouch = false;
 
 	private final Rectangle rightRectangle = new Rectangle();
 	private final Rectangle leftRectangle = new Rectangle();
 	private final Rectangle aRectangle = new Rectangle();
 	private final Rectangle bRectangle = new Rectangle();
+	private final Rectangle zoomInRectangle = new Rectangle();
+	private final Rectangle zoomOutRectangle = new Rectangle();
 
 	private int amountScrolled = 0;
 
@@ -101,6 +106,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 			touches[pointer].touchX = screenX;
 			touches[pointer].touchY = screenY;
 			touches[pointer].touched = false;
+			touches[pointer].dragged = false;
 		}
 		return false;
 	}
@@ -110,7 +116,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 		if (pointer < MAX_TOUCHES) {
 			touches[pointer].touchX = screenX;
 			touches[pointer].touchY = screenY;
-			touches[pointer].touched = true;
+			touches[pointer].dragged = true;
 		}
 		return false;
 	}
@@ -128,13 +134,23 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
+		handleTouches(entityManager);
+
 		CameraComponent cameraC =
 				entityManager.getComponent(entityManager.coreUUID, CameraComponent.class);
 		if (amountScrolled != 0)
 			cameraC.camera.zoom += (0.1f * amountScrolled);
 		amountScrolled = 0;
 
-		handleTouches(entityManager);
+		if (zoomInTouch) {
+			cameraC.camera.zoom -= 0.05f;
+			zoomInTouch = false;
+		}
+
+		if (zoomOutTouch) {
+			cameraC.camera.zoom += 0.05f;
+			zoomOutTouch = false;
+		}
 
 		String playerUUID = entityManager.playerUUID;
 		VelocityComponent playerVelocityC =
@@ -229,6 +245,22 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 				vBBtnBBoxC.bBox.height
 		);
 
+		/* ZOOM IN BUTTON */
+		zoomInRectangle.set(
+				screenWidth - 200.0f,
+				screenHeight - 200.0f,
+				200.0f,
+				200.0f
+		);
+
+		/* ZOOM OUT BUTTON */
+		zoomOutRectangle.set(
+				0.0f,
+				screenHeight - 200.0f,
+				200.0f,
+				200.0f
+		);
+
 		for (int i = 0; i < MAX_TOUCHES; i++) {
 			if (touches[i].touched) {
 				if (leftRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
@@ -249,6 +281,18 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 				if (bRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vBBtnUIAnimationC.setAnimation("down");
 					bTouch = true;
+				}
+
+				if (!touches[i].dragged) {
+					if (zoomInRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
+						zoomInTouch = true;
+						touches[i].touched = false;
+					}
+
+					if (zoomOutRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
+						zoomOutTouch = true;
+						touches[i].touched = false;
+					}
 				}
 			}
 		}
