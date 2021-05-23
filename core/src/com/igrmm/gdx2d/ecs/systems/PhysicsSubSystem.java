@@ -6,6 +6,7 @@ import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
+import com.igrmm.gdx2d.ecs.components.DampComponent;
 import com.igrmm.gdx2d.ecs.components.VelocityComponent;
 
 import java.util.List;
@@ -47,7 +48,21 @@ public class PhysicsSubSystem implements SubSystem {
 
 			bBox.x += velocity.x;
 			bBox.y += velocity.y;
-			velocity.x = 0.0f;
+		}
+
+		/* Damp movement */
+		Set<String> entitiesPossessingDampC =
+				entityManager.getAllEntitiesPossessingComponent(DampComponent.class);
+		for (String entityPossessingDampC : entitiesPossessingDampC) {
+			DampComponent dampC =
+					entityManager.getComponent(entityPossessingDampC, DampComponent.class);
+			VelocityComponent velocityC =
+					entityManager.getComponent(entityPossessingDampC, VelocityComponent.class);
+
+			if (Math.abs(velocityC.velocity.x) >= 1.0f)
+				velocityC.velocity.x *= DampComponent.DAMP;
+			else
+				velocityC.velocity.x = 0.0f;
 		}
 	}
 }
