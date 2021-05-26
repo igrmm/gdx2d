@@ -2,12 +2,12 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
+
+import java.util.Set;
 
 public class DebugSubSystem implements SubSystem {
 	private final AverageVelocity averageVelocity = new AverageVelocity();
@@ -53,20 +53,23 @@ public class DebugSubSystem implements SubSystem {
 		}
 
 		if (!shapeRendererC.dispose) {
-//			ShapeRenderer shapeRenderer = shapeRendererC.shapeRenderer;
-//			OrthographicCamera camera = cameraC.camera;
-//
-//			String playerUUID = entityManager.playerUUID;
-//			BoundingBoxComponent playerBBoxC =
-//					entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
-//
-//			Rectangle playerBBox = playerBBoxC.bBox;
-//
-//			shapeRenderer.setProjectionMatrix(camera.combined);
-//			shapeRenderer.setColor(Color.RED);
-//			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//			shapeRenderer.rect(playerBBox.x, playerBBox.y, playerBBox.width, playerBBox.height);
-//			shapeRenderer.end();
+			shapeRendererC.shapeRenderer.setProjectionMatrix(cameraC.camera.combined);
+			shapeRendererC.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+			renderBoundingBoxes(entityManager, shapeRendererC.shapeRenderer);
+			shapeRendererC.shapeRenderer.end();
+		}
+	}
+
+	private void renderBoundingBoxes(EntityManager entityManager, ShapeRenderer shapeRenderer) {
+		Set<String> entitiesPossessingBBoxC =
+				entityManager.getAllEntitiesPossessingComponent(BoundingBoxComponent.class);
+
+		for (String entityPossessingBBoxC : entitiesPossessingBBoxC) {
+			BoundingBoxComponent bBoxC =
+					entityManager.getComponent(entityPossessingBBoxC, BoundingBoxComponent.class);
+
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.rect(bBoxC.bBox.x, bBoxC.bBox.y, bBoxC.bBox.width, bBoxC.bBox.height);
 		}
 	}
 
