@@ -40,7 +40,7 @@ public class DebugSubSystem implements SubSystem {
 			fontC.text = fontC.text.concat("RES: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + "\n");
 			fontC.text = fontC.text.concat("CAMZOOM: " + cameraC.camera.zoom + "\n");
 			fontC.text = fontC.text.concat("AVERAGE VELOCITY: " + averageVelocity.get() + "\n");
-			fontC.text = fontC.text.concat("Tile Size: " + pixel2Cm(cameraC.camera.zoom) * 32 + "\n");
+			fontC.text = fontC.text.concat("Tile Size: " + pixelSizeCm(cameraC.camera.zoom) * 32 + "\n");
 
 			batchC.batch.begin();
 			fontC.font.draw(
@@ -74,7 +74,7 @@ public class DebugSubSystem implements SubSystem {
 		}
 	}
 
-	private float pixel2Cm(float cameraZoom) {
+	private float pixelSizeCm(float cameraZoom) {
 		float DENSITY_MEDIUM = 160.0f;
 		float DPI = Gdx.graphics.getDensity() * DENSITY_MEDIUM;
 		float INCH_TO_CM = 2.54f;
