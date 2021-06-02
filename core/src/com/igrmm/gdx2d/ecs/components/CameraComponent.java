@@ -22,14 +22,11 @@ public class CameraComponent implements Component {
 
 		camera.setToOrtho(false);
 
-		/* DPI STUFF - target on mobile: 1 tile (32px) ~ 36mm */
+		/* DPI STUFF - target on mobile: 1 tile (32px) ~ 40mm */
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			float TILE_SIZE_PX = tileWidth;
-			float TILE_SIZE_CM = 0.36f;
-			float DENSITY_MEDIUM = 160.0f;
-			float DPI = Gdx.graphics.getDensity() * DENSITY_MEDIUM;
-			float INCH_TO_CM = 2.54f;
-			float PIXEL_P_CM = DPI / INCH_TO_CM;
+			float TILE_SIZE_CM = 0.4f;
+			float PIXEL_P_CM = (Gdx.graphics.getPpcX() + Gdx.graphics.getPpcY()) / 2.0f;
 			camera.zoom = 1.0f / (TILE_SIZE_CM / (TILE_SIZE_PX / PIXEL_P_CM));
 		}
 	}
