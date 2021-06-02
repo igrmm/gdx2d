@@ -36,11 +36,9 @@ public class DebugSubSystem implements SubSystem {
 
 			//debug info
 			fontC.text = fontC.text.concat("FPS: " + Gdx.graphics.getFramesPerSecond() + "\n");
-			fontC.text = fontC.text.concat("DPI: " + Gdx.graphics.getDensity() + "\n");
 			fontC.text = fontC.text.concat("RES: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + "\n");
 			fontC.text = fontC.text.concat("CAMZOOM: " + cameraC.camera.zoom + "\n");
 			fontC.text = fontC.text.concat("AVERAGE VELOCITY: " + averageVelocity.get() + "\n");
-			fontC.text = fontC.text.concat("Tile Size: " + pixelSizeCm(cameraC.camera.zoom) * 32 + "\n");
 
 			batchC.batch.begin();
 			fontC.font.draw(
@@ -74,11 +72,12 @@ public class DebugSubSystem implements SubSystem {
 		}
 	}
 
-	private float pixelSizeCm(float cameraZoom) {
-		float DENSITY_MEDIUM = 160.0f;
-		float DPI = Gdx.graphics.getDensity() * DENSITY_MEDIUM;
-		float INCH_TO_CM = 2.54f;
-		return INCH_TO_CM / (DPI * cameraZoom);
+	private float getPixelSizeCm(float cameraZoom) {
+		return getPixelSizeCm() / cameraZoom;
+	}
+
+	private float getPixelSizeCm() {
+		return 2.0f / ((Gdx.graphics.getPpcY() + Gdx.graphics.getPpcX()));
 	}
 
 	private static final class AverageVelocity {
