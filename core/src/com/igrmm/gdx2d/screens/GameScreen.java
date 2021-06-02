@@ -4,6 +4,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.components.CameraComponent;
 import com.igrmm.gdx2d.ecs.systems.*;
 import com.igrmm.gdx2d.ecs.systems.SubSystem;
 
@@ -24,6 +25,15 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		for (SubSystem subSystem : subSystems) subSystem.update(entityManager, delta);
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		if (entityManager.containsComponent(entityManager.coreUUID, CameraComponent.class)) {
+			CameraComponent cameraC =
+					entityManager.getComponent(entityManager.coreUUID, CameraComponent.class);
+			cameraC.resize(width, height);
+		}
 	}
 
 	@Override

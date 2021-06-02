@@ -30,4 +30,8 @@ public class CameraComponent implements Component {
 			camera.zoom = 1.0f / (TILE_SIZE_CM / (TILE_SIZE_PX / PIXEL_P_CM));
 		}
 	}
+
+	public void resize(int width, int height) {
+		camera.setToOrtho(false);
+	}
 }
