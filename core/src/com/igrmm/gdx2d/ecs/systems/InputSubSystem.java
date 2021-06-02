@@ -163,12 +163,12 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 		Vector2 playerVelocity = playerVelocityC.velocity;
 		Vector2 playerMaxVelocity = playerVelocityC.maxVelocity;
 
-		if (rightKey || rightTouch) {
+		if ((rightKey || rightTouch) && (!leftKey && !leftTouch)) {
 			playerVelocity.x = playerMaxVelocity.x;
 			playerAnimationC.setAnimation("walk_right");
 		}
 
-		if (leftKey || leftTouch) {
+		if ((leftKey || leftTouch) && (!rightKey && !rightTouch)) {
 			playerVelocity.x = playerMaxVelocity.x * -1.0f;
 			playerAnimationC.setAnimation("walk_left");
 		}
