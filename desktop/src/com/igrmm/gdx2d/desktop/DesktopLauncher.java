@@ -7,6 +7,8 @@ import com.igrmm.gdx2d.Gdx2D;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.vSyncEnabled = false;
+		config.foregroundFPS = 60;
 		new LwjglApplication(new Gdx2D(), config);
 	}
 }
