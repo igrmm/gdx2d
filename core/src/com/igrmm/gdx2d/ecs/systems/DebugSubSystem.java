@@ -54,7 +54,7 @@ public class DebugSubSystem implements SubSystem {
 		if (!shapeRendererC.dispose) {
 			shapeRendererC.shapeRenderer.setProjectionMatrix(cameraC.camera.combined);
 			shapeRendererC.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-			renderBoundingBoxes(entityManager, shapeRendererC.shapeRenderer);
+//			renderBoundingBoxes(entityManager, shapeRendererC.shapeRenderer);
 			shapeRendererC.shapeRenderer.end();
 		}
 	}
