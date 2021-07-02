@@ -46,7 +46,6 @@ public class InitializeSubSystem implements SubSystem {
 		Saves saves = game.saves;
 		MapAsset mapAsset = saves.getMapComponent().mapAsset;
 		TiledMap tiledMap = assets.getTiledMap(mapAsset);
-		System.out.println(mapAsset);
 
 		// Get entities and components from tiled map
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
