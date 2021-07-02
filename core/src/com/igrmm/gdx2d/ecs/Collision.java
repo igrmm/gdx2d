@@ -6,16 +6,16 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Collision {
 	private final Vector2 normal;
 	private final float time;
-	private final Vector2 velocity;
+	private final Vector2 speed;
 
-	public Collision(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 velocity) {
+	public Collision(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 speed) {
 		normal = new Vector2();
-		time = getTime(dynamicRectangle, staticRectangle, velocity);
-		this.velocity = velocity;
+		time = getTime(dynamicRectangle, staticRectangle, speed);
+		this.speed = speed;
 	}
 
-	private float getTime(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 velocity) {
-		if (velocity.x == 0.0f && velocity.y == 0.0f)
+	private float getTime(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 speed) {
+		if (speed.x == 0.0f && speed.y == 0.0f)
 			return 1.0f;
 
 		/*
@@ -28,8 +28,8 @@ public abstract class Collision {
 		float rayOriginY = dynamicRectangle.y + dynamicRectangle.height / 2.0f;
 
 		//ray direction is the velocity of dynamic rect
-		float rayDirectionX = velocity.x;
-		float rayDirectionY = velocity.y;
+		float rayDirectionX = speed.x;
+		float rayDirectionY = speed.y;
 
 		//expanded rect is the target rect (static) plus the size of dynamic rect
 		float expandedRectangleWidth = staticRectangle.width + dynamicRectangle.width;
@@ -111,8 +111,8 @@ public abstract class Collision {
 
 	public boolean resolve() {
 		if (hasOccurred()) {
-			velocity.x += Math.abs(velocity.x) * normal.x * (1.0f - time);
-			velocity.y += Math.abs(velocity.y) * normal.y * (1.0f - time);
+			speed.x += Math.abs(speed.x) * normal.x * (1.0f - time);
+			speed.y += Math.abs(speed.y) * normal.y * (1.0f - time);
 			return true;
 		} else {
 			return false;
