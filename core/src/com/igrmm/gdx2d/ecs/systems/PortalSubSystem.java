@@ -1,6 +1,7 @@
 package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.igrmm.gdx2d.Saves;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.enums.EntityType;
@@ -14,8 +15,6 @@ public class PortalSubSystem implements SubSystem {
 				entityManager.getAllEntitiesPossessingComponent(BoundingBoxComponent.class);
 		BoundingBoxComponent playerBBoxC =
 				entityManager.getComponent(entityManager.playerUUID, BoundingBoxComponent.class);
-		GameComponent gameC =
-				entityManager.getComponent(entityManager.coreUUID, GameComponent.class);
 
 		for (String entityPossessingBBoxC : entitiesPossessingBBoxC) {
 			TypeComponent typeC =
@@ -30,10 +29,16 @@ public class PortalSubSystem implements SubSystem {
 				Rectangle playerBBox = playerBBoxC.bBox;
 
 				if (portalBBox.overlaps(playerBBox)) {
-					MapComponent destinationMapComponent =
+					GameComponent gameC =
+							entityManager.getComponent(entityManager.coreUUID, GameComponent.class);
+					Saves saves = gameC.game.saves;
+					MapComponent destinationMapC =
 							entityManager.getComponent(entityPossessingBBoxC, MapComponent.class);
+					WaypointComponent destinationWaypointC =
+							entityManager.getComponent(entityPossessingBBoxC, WaypointComponent.class);
 
-					gameC.game.mapAsset = destinationMapComponent.mapAsset;
+					saves.setMapComponent(destinationMapC);
+					saves.setWaypointComponent(destinationWaypointC);
 					gameC.game.setNewGameScreen();
 				}
 			}

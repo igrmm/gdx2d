@@ -1,6 +1,8 @@
 package com.igrmm.gdx2d.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.utils.SerializationException;
 import com.igrmm.gdx2d.Gdx2D;
 
 import java.io.PrintWriter;
@@ -15,6 +17,12 @@ public class LoadScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
+		try {
+			game.saves.load();
+		} catch (SerializationException ex) {
+			Gdx.app.error("Serialization Exception", "Save file is corrupt");
+		}
+
 		try {
 			game.assets.load();
 			game.setNewGameScreen();

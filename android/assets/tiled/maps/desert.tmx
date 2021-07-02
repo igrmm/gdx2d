@@ -13,6 +13,7 @@
   <objectgroup id="5" name="portals">
    <object id="576" name="PORTAL" type="PORTAL" x="1856" y="1664" width="32" height="32">
     <properties>
+     <property name="animation" value="PORTAL"/>
      <property name="mapAsset" value="START"/>
      <property name="waypoint" value="START"/>
     </properties>

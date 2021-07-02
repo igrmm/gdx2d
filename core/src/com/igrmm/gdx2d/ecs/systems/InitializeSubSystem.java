@@ -10,7 +10,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
+import com.igrmm.gdx2d.Assets;
 import com.igrmm.gdx2d.Gdx2D;
+import com.igrmm.gdx2d.Saves;
 import com.igrmm.gdx2d.ecs.AnimationData;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
 import com.igrmm.gdx2d.ecs.EntityManager;
@@ -19,6 +21,7 @@ import com.igrmm.gdx2d.ecs.entities.Core;
 import com.igrmm.gdx2d.ecs.entities.Player;
 import com.igrmm.gdx2d.enums.AnimationAsset;
 import com.igrmm.gdx2d.enums.EntityType;
+import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -37,7 +40,15 @@ public class InitializeSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
-		TiledMap tiledMap = game.assets.getTiledMap(game.mapAsset);
+
+		// Retrieve tiled map using saves
+		Assets assets = game.assets;
+		Saves saves = game.saves;
+		MapAsset mapAsset = saves.getMapComponent().mapAsset;
+		TiledMap tiledMap = assets.getTiledMap(mapAsset);
+		System.out.println(mapAsset);
+
+		// Get entities and components from tiled map
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
 			for (MapObject mapObject : mapLayer.getObjects()) {
@@ -56,10 +67,12 @@ public class InitializeSubSystem implements SubSystem {
 			}
 		}
 
+		// Spawn important entities
 		Core.spawn(game, entityManager, disposables, tiledMap);
-		Player.spawn(game.assets, entityManager);
+		Player.spawn(game, entityManager);
 		spawnVirtualButtons(entityManager);
 
+		// Create subsystems
 		subSystems.clear();
 		subSystems.add(new InputSubSystem());
 		subSystems.add(new PortalSubSystem());
