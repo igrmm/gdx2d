@@ -21,13 +21,13 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 	private boolean rightKey = false;
 	private boolean leftKey = false;
-	private boolean aKey = false;
-	private boolean bKey = false;
+	private boolean actionKey = false;
+	private boolean jumpKey = false;
 
 	private boolean rightTouch = false;
 	private boolean leftTouch = false;
-	private boolean aTouch = false;
-	private boolean bTouch = false;
+	private boolean actionTouch = false;
+	private boolean jumpTouch = false;
 	private boolean zoomInTouch = false;
 	private boolean zoomOutTouch = false;
 
@@ -58,10 +58,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 				leftKey = true;
 				break;
 			case Input.Keys.K:
-				aKey = true;
+				actionKey = true;
 				break;
 			case Input.Keys.L:
-				bKey = true;
+				jumpKey = true;
 				break;
 		}
 		return true;
@@ -77,10 +77,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 				leftKey = false;
 				break;
 			case Input.Keys.K:
-				aKey = false;
+				actionKey = false;
 				break;
 			case Input.Keys.L:
-				bKey = false;
+				jumpKey = false;
 				break;
 		}
 		return true;
@@ -168,7 +168,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		if (!leftKey && !leftTouch && !rightKey && !rightTouch)
 			playerMovC.direction = 0.0f;
 
-		playerMovC.jumped = bKey || bTouch;
+		playerMovC.jumped = jumpKey || jumpTouch;
 
 		/* ANIMATIONS */
 		if (facing == MovementComponent.RIGHT_DIRECTION) {
@@ -220,7 +220,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		);
 
 		/* A BUTTON */
-		aTouch = false;
+		actionTouch = false;
 		UIAnimationComponent vABtnUIAnimationC =
 				entityManager.getComponent(entityManager.virtualAButtonUUID, UIAnimationComponent.class);
 		vABtnUIAnimationC.setAnimation("up");
@@ -234,7 +234,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		);
 
 		/* B BUTTON */
-		bTouch = false;
+		jumpTouch = false;
 		UIAnimationComponent vBBtnUIAnimationC =
 				entityManager.getComponent(entityManager.virtualBButtonUUID, UIAnimationComponent.class);
 		vBBtnUIAnimationC.setAnimation("up");
@@ -277,12 +277,12 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 				if (aRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vABtnUIAnimationC.setAnimation("down");
-					aTouch = true;
+					actionTouch = true;
 				}
 
 				if (bRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vBBtnUIAnimationC.setAnimation("down");
-					bTouch = true;
+					jumpTouch = true;
 				}
 
 				if (!touches[i].dragged) {
