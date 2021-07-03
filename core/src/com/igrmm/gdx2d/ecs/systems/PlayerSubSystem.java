@@ -41,9 +41,9 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 	private int amountScrolled = 0;
 
-	private int facing = MovementComponent.RIGHT_DIRECTION;
+	private int facingDirection = MovementComponent.RIGHT_DIRECTION;
 
-	private int movementInput = 0;
+	private int movementDirection = 0;
 
 	public PlayerSubSystem() {
 		Gdx.input.setInputProcessor(this);
@@ -56,11 +56,11 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		switch (keycode) {
 			case Input.Keys.D:
 				rightKeyDown = true;
-				movementInput = movementInput < 0 ? 0 : MovementComponent.RIGHT_DIRECTION;
+				movementDirection = movementDirection < 0 ? 0 : MovementComponent.RIGHT_DIRECTION;
 				break;
 			case Input.Keys.A:
 				leftKeyDown = true;
-				movementInput = movementInput > 0 ? 0 : MovementComponent.LEFT_DIRECTION;
+				movementDirection = movementDirection > 0 ? 0 : MovementComponent.LEFT_DIRECTION;
 				break;
 			case Input.Keys.K:
 				actionKeyDown = true;
@@ -77,11 +77,11 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		switch (keycode) {
 			case Input.Keys.D:
 				rightKeyDown = false;
-				movementInput = leftKeyDown ? MovementComponent.LEFT_DIRECTION : 0;
+				movementDirection = leftKeyDown ? MovementComponent.LEFT_DIRECTION : 0;
 				break;
 			case Input.Keys.A:
 				leftKeyDown = false;
-				movementInput = rightKeyDown ? MovementComponent.RIGHT_DIRECTION : 0;
+				movementDirection = rightKeyDown ? MovementComponent.RIGHT_DIRECTION : 0;
 				break;
 			case Input.Keys.K:
 				actionKeyDown = false;
@@ -162,27 +162,27 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		}
 
 		String playerUUID = entityManager.playerUUID;
-		MovementComponent playerMovC =
+		MovementComponent movementC =
 				entityManager.getComponent(playerUUID, MovementComponent.class);
 		AnimationComponent playerAnimationC =
 				entityManager.getComponent(playerUUID, AnimationComponent.class);
 
-		playerMovC.direction = movementInput;
+		movementC.direction = movementDirection;
 
-		playerMovC.jumped = jumpKeyDown || jumpTouch;
+		movementC.jumped = jumpKeyDown || jumpTouch;
 
-		if (movementInput != 0) facing = movementInput;
+		if (movementDirection != 0) facingDirection = movementDirection;
 
 		/* ANIMATIONS */
-		if (facing == MovementComponent.RIGHT_DIRECTION) {
-			if (playerMovC.speed.x != 0.0f)
+		if (facingDirection == MovementComponent.RIGHT_DIRECTION) {
+			if (movementC.speed.x != 0.0f)
 				playerAnimationC.setAnimation("walk_right");
 			else
 				playerAnimationC.setAnimation("idle_right");
 		}
 
-		if (facing == MovementComponent.LEFT_DIRECTION) {
-			if (playerMovC.speed.x != 0.0f)
+		if (facingDirection == MovementComponent.LEFT_DIRECTION) {
+			if (movementC.speed.x != 0.0f)
 				playerAnimationC.setAnimation("walk_left");
 			else
 				playerAnimationC.setAnimation("idle_left");
@@ -196,7 +196,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		/* LEFT BUTTON */
 		leftTouch = false;
-		movementInput = rightTouch ? MovementComponent.RIGHT_DIRECTION : 0;
+		movementDirection = rightTouch ? MovementComponent.RIGHT_DIRECTION : 0;
 		UIAnimationComponent vLeftBtnUIAnimationC =
 				entityManager.getComponent(entityManager.virtualLeftButtonUUID, UIAnimationComponent.class);
 		vLeftBtnUIAnimationC.setAnimation("up");
@@ -211,7 +211,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		/* RIGHT BUTTON */
 		rightTouch = false;
-		movementInput = leftTouch ? MovementComponent.LEFT_DIRECTION : 0;
+		movementDirection = leftTouch ? MovementComponent.LEFT_DIRECTION : 0;
 		UIAnimationComponent vRightBtnUIAnimationC =
 				entityManager.getComponent(entityManager.virtualRightButtonUUID, UIAnimationComponent.class);
 		vRightBtnUIAnimationC.setAnimation("up");
@@ -273,13 +273,13 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 				if (leftRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vLeftBtnUIAnimationC.setAnimation("down");
 					leftTouch = true;
-					movementInput = movementInput > 0 ? 0 : MovementComponent.LEFT_DIRECTION;
+					movementDirection = movementDirection > 0 ? 0 : MovementComponent.LEFT_DIRECTION;
 				}
 
 				if (rightRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vRightBtnUIAnimationC.setAnimation("down");
 					rightTouch = true;
-					movementInput = movementInput < 0 ? 0 : MovementComponent.RIGHT_DIRECTION;
+					movementDirection = movementDirection < 0 ? 0 : MovementComponent.RIGHT_DIRECTION;
 				}
 
 				if (aRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
