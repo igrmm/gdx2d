@@ -8,7 +8,7 @@ import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
 
-public class InputSubSystem implements InputProcessor, SubSystem {
+public class PlayerSubSystem implements InputProcessor, SubSystem {
 	private static class TouchInfo {
 		public float touchX = 0;
 		public float touchY = 0;
@@ -42,7 +42,7 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 
 	private float facing = MovementComponent.RIGHT_DIRECTION;
 
-	public InputSubSystem() {
+	public PlayerSubSystem() {
 		Gdx.input.setInputProcessor(this);
 		for (int i = 0; i < MAX_TOUCHES; i++)
 			touches[i] = new TouchInfo();
