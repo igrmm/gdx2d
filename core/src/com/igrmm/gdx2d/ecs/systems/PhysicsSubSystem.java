@@ -15,6 +15,17 @@ public class PhysicsSubSystem implements SubSystem {
 			MovementComponent movementC =
 					entityManager.getComponent(entityPossessingMovC, MovementComponent.class);
 
+			/* horizontal movement */
+			movementC.speed.x = movementC.direction * movementC.maxSpeed;
+
+			/* jumping */
+			if (movementC.jumped && movementC.grounded) {
+				movementC.speed.y += movementC.jumpForce;
+				movementC.jumped = false;
+				movementC.grounded = false;
+			}
+
+			/* Gravity */
 			movementC.speed.y += movementC.gravity;
 		}
 	}

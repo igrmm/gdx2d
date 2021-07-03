@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
@@ -40,6 +39,8 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 	private final Rectangle zoomOutRectangle = new Rectangle();
 
 	private int amountScrolled = 0;
+
+	private float facing = MovementComponent.RIGHT_DIRECTION;
 
 	public InputSubSystem() {
 		Gdx.input.setInputProcessor(this);
@@ -159,34 +160,30 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 				entityManager.getComponent(playerUUID, AnimationComponent.class);
 
 		if ((rightKey || rightTouch) && (!leftKey && !leftTouch))
-			playerMovC.direction = MovementComponent.RIGHT_DIRECTION;
-
+			playerMovC.direction = facing = MovementComponent.RIGHT_DIRECTION;
 
 		if ((leftKey || leftTouch) && (!rightKey && !rightTouch))
-			playerMovC.direction = MovementComponent.LEFT_DIRECTION;
+			playerMovC.direction = facing = MovementComponent.LEFT_DIRECTION;
 
-		if (!leftKey && !leftTouch && !rightKey && !rightTouch) {
+		if (!leftKey && !leftTouch && !rightKey && !rightTouch)
 			playerMovC.direction = 0.0f;
+
+		playerMovC.jumped = bKey || bTouch;
+
+		/* ANIMATIONS */
+		if (facing == MovementComponent.RIGHT_DIRECTION) {
+			if (playerMovC.speed.x != 0)
+				playerAnimationC.setAnimation("walk_right");
+			else
+				playerAnimationC.setAnimation("idle_right");
 		}
 
-		if (bKey || bTouch) {
-			if (playerMovC.grounded && !playerMovC.jumped) {
-				playerMovC.speed.y += playerMovC.jumpForce;
-				playerMovC.grounded = false;
-				playerMovC.jumped = true;
-			}
-		} else if (playerMovC.grounded) playerMovC.jumped = false;
-
-		playerMovC.speed.x = playerMovC.direction * playerMovC.maxSpeed;
-
-		if (playerMovC.speed.x > 0.0f)
-			playerAnimationC.setAnimation("walk_right");
-
-		if (playerMovC.speed.x < 0.0f)
-			playerAnimationC.setAnimation("walk_left");
-
-		if (playerMovC.speed.x == 0 && playerMovC.speed.y == 0)
-			playerAnimationC.setAnimation("idle");
+		if (facing == MovementComponent.LEFT_DIRECTION) {
+			if (playerMovC.speed.x != 0)
+				playerAnimationC.setAnimation("walk_left");
+			else
+				playerAnimationC.setAnimation("idle_left");
+		}
 	}
 
 	private void handleTouches(EntityManager entityManager) {
