@@ -5,7 +5,7 @@ import com.igrmm.gdx2d.ecs.components.MovementComponent;
 
 import java.util.Set;
 
-public class GravitySubSystem implements SubSystem {
+public class PhysicsSubSystem implements SubSystem {
 	@Override
 	public void update(EntityManager entityManager, float delta) {
 		Set<String> entitiesPossessingMovC =
