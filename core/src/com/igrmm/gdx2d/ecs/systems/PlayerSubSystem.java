@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs.systems;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -19,10 +20,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 	private static final int MAX_TOUCHES = 2;
 	private final TouchInfo[] touches = new TouchInfo[MAX_TOUCHES];
 
-	private boolean rightKey = false;
-	private boolean leftKey = false;
-	private boolean actionKey = false;
-	private boolean jumpKey = false;
+	private boolean rightKeyDown = false;
+	private boolean leftKeyDown = false;
+	private boolean actionKeyDown = false;
+	private boolean jumpKeyDown = false;
 
 	private boolean rightTouch = false;
 	private boolean leftTouch = false;
@@ -42,6 +43,8 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 	private int facing = MovementComponent.RIGHT_DIRECTION;
 
+	private int movementInput = 0;
+
 	public PlayerSubSystem() {
 		Gdx.input.setInputProcessor(this);
 		for (int i = 0; i < MAX_TOUCHES; i++)
@@ -52,16 +55,18 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
 			case Input.Keys.D:
-				rightKey = true;
+				rightKeyDown = true;
+				movementInput = movementInput < 0 ? 0 : MovementComponent.RIGHT_DIRECTION;
 				break;
 			case Input.Keys.A:
-				leftKey = true;
+				leftKeyDown = true;
+				movementInput = movementInput > 0 ? 0 : MovementComponent.LEFT_DIRECTION;
 				break;
 			case Input.Keys.K:
-				actionKey = true;
+				actionKeyDown = true;
 				break;
 			case Input.Keys.L:
-				jumpKey = true;
+				jumpKeyDown = true;
 				break;
 		}
 		return true;
@@ -71,16 +76,18 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 	public boolean keyUp(int keycode) {
 		switch (keycode) {
 			case Input.Keys.D:
-				rightKey = false;
+				rightKeyDown = false;
+				movementInput = leftKeyDown ? MovementComponent.LEFT_DIRECTION : 0;
 				break;
 			case Input.Keys.A:
-				leftKey = false;
+				leftKeyDown = false;
+				movementInput = rightKeyDown ? MovementComponent.RIGHT_DIRECTION : 0;
 				break;
 			case Input.Keys.K:
-				actionKey = false;
+				actionKeyDown = false;
 				break;
 			case Input.Keys.L:
-				jumpKey = false;
+				jumpKeyDown = false;
 				break;
 		}
 		return true;
@@ -135,7 +142,8 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
-		handleTouches(entityManager);
+		if (Gdx.app.getType() == Application.ApplicationType.Android)
+			handleTouches(entityManager);
 
 		CameraComponent cameraC =
 				entityManager.getComponent(entityManager.coreUUID, CameraComponent.class);
@@ -159,16 +167,11 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		AnimationComponent playerAnimationC =
 				entityManager.getComponent(playerUUID, AnimationComponent.class);
 
-		if ((rightKey || rightTouch) && (!leftKey && !leftTouch))
-			playerMovC.direction = facing = MovementComponent.RIGHT_DIRECTION;
+		playerMovC.direction = movementInput;
 
-		if ((leftKey || leftTouch) && (!rightKey && !rightTouch))
-			playerMovC.direction = facing = MovementComponent.LEFT_DIRECTION;
+		playerMovC.jumped = jumpKeyDown || jumpTouch;
 
-		if (!leftKey && !leftTouch && !rightKey && !rightTouch)
-			playerMovC.direction = 0;
-
-		playerMovC.jumped = jumpKey || jumpTouch;
+		if (movementInput != 0) facing = movementInput;
 
 		/* ANIMATIONS */
 		if (facing == MovementComponent.RIGHT_DIRECTION) {
@@ -193,6 +196,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		/* LEFT BUTTON */
 		leftTouch = false;
+		movementInput = rightTouch ? MovementComponent.RIGHT_DIRECTION : 0;
 		UIAnimationComponent vLeftBtnUIAnimationC =
 				entityManager.getComponent(entityManager.virtualLeftButtonUUID, UIAnimationComponent.class);
 		vLeftBtnUIAnimationC.setAnimation("up");
@@ -207,6 +211,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		/* RIGHT BUTTON */
 		rightTouch = false;
+		movementInput = leftTouch ? MovementComponent.LEFT_DIRECTION : 0;
 		UIAnimationComponent vRightBtnUIAnimationC =
 				entityManager.getComponent(entityManager.virtualRightButtonUUID, UIAnimationComponent.class);
 		vRightBtnUIAnimationC.setAnimation("up");
@@ -268,11 +273,13 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 				if (leftRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vLeftBtnUIAnimationC.setAnimation("down");
 					leftTouch = true;
+					movementInput = movementInput > 0 ? 0 : MovementComponent.LEFT_DIRECTION;
 				}
 
 				if (rightRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
 					vRightBtnUIAnimationC.setAnimation("down");
 					rightTouch = true;
+					movementInput = movementInput < 0 ? 0 : MovementComponent.RIGHT_DIRECTION;
 				}
 
 				if (aRectangle.contains(touches[i].touchX, (screenHeight - touches[i].touchY))) {
