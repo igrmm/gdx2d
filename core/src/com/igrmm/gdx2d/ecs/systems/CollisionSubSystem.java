@@ -11,7 +11,7 @@ import com.igrmm.gdx2d.ecs.components.MovementComponent;
 import java.util.List;
 import java.util.Set;
 
-public class PhysicsSubSystem implements SubSystem {
+public class CollisionSubSystem implements SubSystem {
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {

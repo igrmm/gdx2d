@@ -77,7 +77,7 @@ public class InitializeSubSystem implements SubSystem {
 		subSystems.add(new PortalSubSystem());
 		subSystems.add(new GravitySubSystem());
 		subSystems.add(new BlockSubSystem());
-		subSystems.add(new PhysicsSubSystem());
+		subSystems.add(new CollisionSubSystem());
 		subSystems.add(new CameraControlSubSystem());
 		subSystems.add(new RenderingSubSystem());
 		subSystems.add(new DebugSubSystem());
