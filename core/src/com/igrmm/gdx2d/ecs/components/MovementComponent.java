@@ -16,4 +16,5 @@ public class MovementComponent implements Component {
 	public Vector2 speed = new Vector2();
 	public boolean grounded = false;
 	public boolean jumped = false;
+	public boolean jumping = false;
 }

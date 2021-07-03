@@ -34,6 +34,7 @@ public class BlockSubSystem implements SubSystem {
 					BroadPhaseCollisionComponent broadPhaseCollisionC =
 							entityManager.getComponent(entityPossessingMovC, BroadPhaseCollisionComponent.class);
 
+					movementC.grounded = false;
 					Vector2 speed = movementC.speed;
 					Rectangle dynamicBBox = dynamicBBoxC.bBox;
 					Rectangle staticBBox = staticBBoxC.bBox;

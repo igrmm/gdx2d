@@ -19,11 +19,14 @@ public class PhysicsSubSystem implements SubSystem {
 			movementC.speed.x = movementC.direction * movementC.maxSpeed;
 
 			/* jumping */
-			if (movementC.jumped && movementC.grounded) {
-				movementC.speed.y += movementC.jumpForce;
-				movementC.jumped = false;
-				movementC.grounded = false;
-			}
+			if (movementC.jumped) {
+				if (movementC.grounded) {
+					if (!movementC.jumping) {
+						movementC.speed.y += movementC.jumpForce;
+						movementC.jumping = true;
+					}
+				} else movementC.jumping = true;
+			} else if (movementC.grounded) movementC.jumping = false;
 
 			/* Gravity */
 			movementC.speed.y += movementC.gravity;
