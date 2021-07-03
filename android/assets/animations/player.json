@@ -31,8 +31,16 @@
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 150
    },
-   "idle": {
+   "idle_right": {
     "frame": { "x": 0, "y": 128, "w": 64, "h": 64 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 150
+   },
+   "idle_left": {
+    "frame": { "x": 0, "y": 192, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
@@ -42,15 +50,16 @@
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.25-dev",
+  "version": "1.x-dev",
   "image": "player.png",
   "format": "RGBA8888",
-  "size": { "w": 128, "h": 192 },
+  "size": { "w": 128, "h": 256 },
   "scale": "1",
   "frameTags": [
    { "name": "walk_right", "from": 0, "to": 1, "direction": "forward" },
    { "name": "walk_left", "from": 2, "to": 3, "direction": "forward" },
-   { "name": "idle", "from": 4, "to": 4, "direction": "forward" }
+   { "name": "idle_right", "from": 4, "to": 4, "direction": "forward" },
+   { "name": "idle_left", "from": 5, "to": 5, "direction": "forward" }
   ]
  }
 }
