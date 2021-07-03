@@ -6,8 +6,7 @@ import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
-import com.igrmm.gdx2d.ecs.components.DampComponent;
-import com.igrmm.gdx2d.ecs.components.VelocityComponent;
+import com.igrmm.gdx2d.ecs.components.MovementComponent;
 
 import java.util.List;
 import java.util.Set;
@@ -34,35 +33,20 @@ public class PhysicsSubSystem implements SubSystem {
 		}
 
 		/* Make mobile entities move after resolving collisions */
-		Set<String> entitiesPossessingVelC =
-				entityManager.getAllEntitiesPossessingComponent(VelocityComponent.class);
+		Set<String> entitiesPossessingMovC =
+				entityManager.getAllEntitiesPossessingComponent(MovementComponent.class);
 
-		for (String entityPossessingVelC : entitiesPossessingVelC) {
+		for (String entityPossessingMovC : entitiesPossessingMovC) {
 			BoundingBoxComponent bBoxC =
-					entityManager.getComponent(entityPossessingVelC, BoundingBoxComponent.class);
-			VelocityComponent velocityC =
-					entityManager.getComponent(entityPossessingVelC, VelocityComponent.class);
+					entityManager.getComponent(entityPossessingMovC, BoundingBoxComponent.class);
+			MovementComponent movementC =
+					entityManager.getComponent(entityPossessingMovC, MovementComponent.class);
 
 			Rectangle bBox = bBoxC.bBox;
-			Vector2 velocity = velocityC.velocity;
+			Vector2 speed = movementC.speed;
 
-			bBox.x += velocity.x;
-			bBox.y += velocity.y;
-		}
-
-		/* Damp movement */
-		Set<String> entitiesPossessingDampC =
-				entityManager.getAllEntitiesPossessingComponent(DampComponent.class);
-		for (String entityPossessingDampC : entitiesPossessingDampC) {
-			DampComponent dampC =
-					entityManager.getComponent(entityPossessingDampC, DampComponent.class);
-			VelocityComponent velocityC =
-					entityManager.getComponent(entityPossessingDampC, VelocityComponent.class);
-
-			if (Math.abs(velocityC.velocity.x) >= 1.0f)
-				velocityC.velocity.x *= DampComponent.DAMP;
-			else
-				velocityC.velocity.x = 0.0f;
+			bBox.x += speed.x;
+			bBox.y += speed.y;
 		}
 	}
 }

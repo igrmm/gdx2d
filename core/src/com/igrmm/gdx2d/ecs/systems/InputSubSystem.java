@@ -153,34 +153,39 @@ public class InputSubSystem implements InputProcessor, SubSystem {
 		}
 
 		String playerUUID = entityManager.playerUUID;
-		VelocityComponent playerVelocityC =
-				entityManager.getComponent(playerUUID, VelocityComponent.class);
-		JumpComponent playerJumpC =
-				entityManager.getComponent(playerUUID, JumpComponent.class);
+		MovementComponent playerMovC =
+				entityManager.getComponent(playerUUID, MovementComponent.class);
 		AnimationComponent playerAnimationC =
 				entityManager.getComponent(playerUUID, AnimationComponent.class);
 
-		Vector2 playerVelocity = playerVelocityC.velocity;
-		Vector2 playerMaxVelocity = playerVelocityC.maxVelocity;
+		if ((rightKey || rightTouch) && (!leftKey && !leftTouch))
+			playerMovC.direction = MovementComponent.RIGHT_DIRECTION;
 
-		if ((rightKey || rightTouch) && (!leftKey && !leftTouch)) {
-			playerVelocity.x = playerMaxVelocity.x;
-			playerAnimationC.setAnimation("walk_right");
-		}
 
-		if ((leftKey || leftTouch) && (!rightKey && !rightTouch)) {
-			playerVelocity.x = playerMaxVelocity.x * -1.0f;
-			playerAnimationC.setAnimation("walk_left");
+		if ((leftKey || leftTouch) && (!rightKey && !rightTouch))
+			playerMovC.direction = MovementComponent.LEFT_DIRECTION;
+
+		if (!leftKey && !leftTouch && !rightKey && !rightTouch) {
+			playerMovC.direction = 0.0f;
 		}
 
 		if (bKey || bTouch) {
-			if (playerJumpC.grounded && !playerJumpC.jumped) {
-				playerVelocity.y += playerJumpC.jumpVelocity;
-				playerJumpC.jumped = true;
+			if (playerMovC.grounded && !playerMovC.jumped) {
+				playerMovC.speed.y += playerMovC.jumpForce;
+				playerMovC.grounded = false;
+				playerMovC.jumped = true;
 			}
-		} else playerJumpC.jumped = false;
+		} else if (playerMovC.grounded) playerMovC.jumped = false;
 
-		if (playerVelocity.x == 0 && playerVelocity.y == 0)
+		playerMovC.speed.x = playerMovC.direction * playerMovC.maxSpeed;
+
+		if (playerMovC.speed.x > 0.0f)
+			playerAnimationC.setAnimation("walk_right");
+
+		if (playerMovC.speed.x < 0.0f)
+			playerAnimationC.setAnimation("walk_left");
+
+		if (playerMovC.speed.x == 0 && playerMovC.speed.y == 0)
 			playerAnimationC.setAnimation("idle");
 	}
 

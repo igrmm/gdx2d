@@ -14,10 +14,8 @@ public class BlockSubSystem implements SubSystem {
 	public void update(EntityManager entityManager, float delta) {
 		Set<String> entitiesPossessingBBoxC =
 				entityManager.getAllEntitiesPossessingComponent(BoundingBoxComponent.class);
-		Set<String> entitiesPossessingVelC =
-				entityManager.getAllEntitiesPossessingComponent(VelocityComponent.class);
-		Set<String> entitiesPossessingJumpC =
-				entityManager.getAllEntitiesPossessingComponent(JumpComponent.class);
+		Set<String> entitiesPossessingMovC =
+				entityManager.getAllEntitiesPossessingComponent(MovementComponent.class);
 
 		for (String entityPossessingBBoxC : entitiesPossessingBBoxC) {
 			TypeComponent typeC =
@@ -28,29 +26,25 @@ public class BlockSubSystem implements SubSystem {
 				BoundingBoxComponent staticBBoxC =
 						entityManager.getComponent(entityPossessingBBoxC, BoundingBoxComponent.class);
 
-				for (String entityPossessingVelC : entitiesPossessingVelC) {
+				for (String entityPossessingMovC : entitiesPossessingMovC) {
+					MovementComponent movementC =
+							entityManager.getComponent(entityPossessingMovC, MovementComponent.class);
 					BoundingBoxComponent dynamicBBoxC =
-							entityManager.getComponent(entityPossessingVelC, BoundingBoxComponent.class);
-					VelocityComponent velocityC =
-							entityManager.getComponent(entityPossessingVelC, VelocityComponent.class);
+							entityManager.getComponent(entityPossessingMovC, BoundingBoxComponent.class);
 					BroadPhaseCollisionComponent broadPhaseCollisionC =
-							entityManager.getComponent(entityPossessingVelC, BroadPhaseCollisionComponent.class);
+							entityManager.getComponent(entityPossessingMovC, BroadPhaseCollisionComponent.class);
 
+					Vector2 speed = movementC.speed;
 					Rectangle dynamicBBox = dynamicBBoxC.bBox;
 					Rectangle staticBBox = staticBBoxC.bBox;
-					Vector2 velocity = velocityC.velocity;
 
 					Collision collision =
-							new Collision(dynamicBBox, staticBBox, velocity) {
+							new Collision(dynamicBBox, staticBBox, speed) {
 								@Override
 								public boolean resolve() {
 									if (super.resolve()) {
 										if (getNormalY() > 0) {
-											if (entitiesPossessingJumpC.contains(entityPossessingVelC)) {
-												JumpComponent jumpC =
-														entityManager.getComponent(entityPossessingVelC, JumpComponent.class);
-												jumpC.grounded = true;
-											}
+											movementC.grounded = true;
 										}
 										return true;
 									} else return false;

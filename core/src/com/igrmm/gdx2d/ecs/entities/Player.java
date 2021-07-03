@@ -23,13 +23,7 @@ public class Player {
 		entityManager.addComponent(playerUUID, new AnimationOffsetComponent(16.0f));
 		BoundingBoxComponent playerBBoxC = new BoundingBoxComponent(100.0f, 100.0f, 32.0f, 32.0f);
 		entityManager.addComponent(playerUUID, playerBBoxC);
-		VelocityComponent velocityComponent = new VelocityComponent();
-		velocityComponent.maxVelocity.set(4.0f, 4.0f);
-		entityManager.addComponent(playerUUID, new DampComponent());
-		entityManager.addComponent(playerUUID, velocityComponent);
-		entityManager.addComponent(playerUUID, new AccelerationComponent());
-		entityManager.addComponent(playerUUID, new GravityComponent());
-		entityManager.addComponent(playerUUID, new JumpComponent());
+		entityManager.addComponent(playerUUID, new MovementComponent());
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
 
 		// Make player start at saved waypoint
