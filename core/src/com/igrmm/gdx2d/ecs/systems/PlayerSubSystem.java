@@ -40,7 +40,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 	private int amountScrolled = 0;
 
-	private float facing = MovementComponent.RIGHT_DIRECTION;
+	private int facing = MovementComponent.RIGHT_DIRECTION;
 
 	public PlayerSubSystem() {
 		Gdx.input.setInputProcessor(this);
@@ -166,20 +166,20 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 			playerMovC.direction = facing = MovementComponent.LEFT_DIRECTION;
 
 		if (!leftKey && !leftTouch && !rightKey && !rightTouch)
-			playerMovC.direction = 0.0f;
+			playerMovC.direction = 0;
 
 		playerMovC.jumped = jumpKey || jumpTouch;
 
 		/* ANIMATIONS */
 		if (facing == MovementComponent.RIGHT_DIRECTION) {
-			if (playerMovC.speed.x != 0)
+			if (playerMovC.speed.x != 0.0f)
 				playerAnimationC.setAnimation("walk_right");
 			else
 				playerAnimationC.setAnimation("idle_right");
 		}
 
 		if (facing == MovementComponent.LEFT_DIRECTION) {
-			if (playerMovC.speed.x != 0)
+			if (playerMovC.speed.x != 0.0f)
 				playerAnimationC.setAnimation("walk_left");
 			else
 				playerAnimationC.setAnimation("idle_left");
