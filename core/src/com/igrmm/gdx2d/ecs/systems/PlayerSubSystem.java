@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
+import com.igrmm.gdx2d.ecs.entities.Bullet;
 
 
 public class PlayerSubSystem implements InputProcessor, SubSystem {
@@ -172,6 +173,8 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		movementC.jumped = jumpKeyDown || jumpTouch;
 
 		if (movementDirection != 0) facingDirection = movementDirection;
+
+		if (actionKeyDown || actionTouch) Bullet.spawn(facingDirection, entityManager);
 
 		/* ANIMATIONS */
 		if (facingDirection == MovementComponent.RIGHT_DIRECTION) {
