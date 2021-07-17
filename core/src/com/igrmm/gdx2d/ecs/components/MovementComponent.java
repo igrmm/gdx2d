@@ -6,9 +6,9 @@ public class MovementComponent implements Component {
 	public static final int RIGHT_DIRECTION = 1;
 	public static final int LEFT_DIRECTION = -1;
 
-	public float maxSpeed = 4.0f;
-	public float acceleration;
-	public float friction;
+	public float maxSpeed = 3.0f;
+	public float acceleration = 0.3f;
+	public float friction = 0.2f;
 	public float gravity = -0.5f;
 	public float jumpForce = 10.0f;
 

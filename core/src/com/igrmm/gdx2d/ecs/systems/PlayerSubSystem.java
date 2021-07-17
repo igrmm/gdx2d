@@ -178,14 +178,14 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		/* ANIMATIONS */
 		if (facingDirection == MovementComponent.RIGHT_DIRECTION) {
-			if (movementC.speed.x != 0.0f)
+			if (Math.abs(movementC.speed.x) > 0.9f * movementC.maxSpeed)
 				playerAnimationC.setAnimation("walk_right");
 			else
 				playerAnimationC.setAnimation("idle_right");
 		}
 
 		if (facingDirection == MovementComponent.LEFT_DIRECTION) {
-			if (movementC.speed.x != 0.0f)
+			if (Math.abs(movementC.speed.x) > 0.9f * movementC.maxSpeed)
 				playerAnimationC.setAnimation("walk_left");
 			else
 				playerAnimationC.setAnimation("idle_left");
