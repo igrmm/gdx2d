@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.igrmm.gdx2d.ecs.components.MapComponent;
+import com.igrmm.gdx2d.ecs.components.MovementComponent;
 import com.igrmm.gdx2d.ecs.components.WaypointComponent;
 
 public class Saves {
@@ -49,8 +50,13 @@ public class Saves {
 		return saveData.waypointComponent;
 	}
 
+	public MovementComponent getMovementComponent() {
+		return saveData.movementComponent;
+	}
+
 	private static class SaveData {
 		MapComponent mapComponent = new MapComponent();
 		WaypointComponent waypointComponent = new WaypointComponent();
+		final MovementComponent movementComponent = new MovementComponent();
 	}
 }
