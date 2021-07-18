@@ -16,16 +16,16 @@ public class PhysicsSubSystem implements SubSystem {
 					entityManager.getComponent(entityPossessingMovC, MovementComponent.class);
 
 			/* acceleration */
-			movementC.speed.x += movementC.direction * movementC.acceleration;
+			movementC.speed.x += movementC.directionInput * movementC.acceleration;
 
 			/* max speed */
-			if (movementC.direction != 0)
+			if (movementC.directionInput != 0)
 				movementC.speed.x = Math.abs(movementC.speed.x) < movementC.maxSpeed
 						? movementC.speed.x
-						: movementC.maxSpeed * movementC.direction;
+						: movementC.maxSpeed * movementC.directionInput;
 
 			/* friction */
-			if (movementC.direction == 0 && movementC.speed.x != 0) {
+			if (movementC.directionInput == 0 && movementC.speed.x != 0) {
 				if (movementC.speed.x < 0) {
 					movementC.speed.x += movementC.friction;
 					movementC.speed.x = movementC.speed.x < 0 ? movementC.speed.x : 0;
@@ -36,7 +36,7 @@ public class PhysicsSubSystem implements SubSystem {
 			}
 
 			/* jumping */
-			if (movementC.jumped) {
+			if (movementC.jumpInput) {
 				if (movementC.grounded) {
 					if (!movementC.jumping) {
 						movementC.speed.y += movementC.jumpForce;

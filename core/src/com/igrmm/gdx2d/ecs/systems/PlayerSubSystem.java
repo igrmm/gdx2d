@@ -168,9 +168,9 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		AnimationComponent playerAnimationC =
 				entityManager.getComponent(playerUUID, AnimationComponent.class);
 
-		movementC.direction = movementDirection;
+		movementC.directionInput = movementDirection;
 
-		movementC.jumped = jumpKeyDown || jumpTouch;
+		movementC.jumpInput = jumpKeyDown || jumpTouch;
 
 		if (movementDirection != 0) facingDirection = movementDirection;
 
