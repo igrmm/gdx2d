@@ -13,6 +13,8 @@ public class Saves {
 
 	private SaveData saveData = new SaveData();
 
+	private boolean isDataLoaded = false;
+
 	public void save() {
 		String txt = json.prettyPrint(saveData);
 		FileHandle file = Gdx.files.local(SAVE_PATH);
@@ -21,8 +23,14 @@ public class Saves {
 
 	public void load() {
 		FileHandle file = Gdx.files.local(SAVE_PATH);
-		if (file.exists())
+		if (file.exists()) {
 			saveData = new Json().fromJson(SaveData.class, file);
+			isDataLoaded = true;
+		}
+	}
+
+	public boolean isDataLoaded() {
+		return isDataLoaded;
 	}
 
 	public void setMapComponent(MapComponent mapComponent) {
