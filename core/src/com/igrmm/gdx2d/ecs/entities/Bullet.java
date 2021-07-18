@@ -37,7 +37,7 @@ public class Bullet {
 		MovementComponent movementC = new MovementComponent();
 		movementC.directionInput = playerFacingDirection;
 		movementC.maxSpeed = 20.0f;
-		movementC.gravity = 0.0f;
+		movementC.acceleration = movementC.maxSpeed;
 		entityManager.addComponent(bulletUUID, movementC);
 	}
 }
