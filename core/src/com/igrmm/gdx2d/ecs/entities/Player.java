@@ -19,8 +19,9 @@ public class Player {
 
 		// Default components
 		entityManager.addComponent(playerUUID, new TypeComponent(EntityType.PLAYER));
-		entityManager.addComponent(playerUUID, new AnimationComponent(assets.getAnimationData(AnimationAsset.PLAYER)));
-		entityManager.addComponent(playerUUID, new AnimationOffsetComponent(16.0f));
+		AnimationComponent animationC = new AnimationComponent(assets.getAnimationData(AnimationAsset.PLAYER));
+		entityManager.addComponent(playerUUID, animationC);
+		animationC.offset = 16.0f;
 		BoundingBoxComponent playerBBoxC = new BoundingBoxComponent(0.0f, 0.0f, 32.0f, 32.0f);
 		entityManager.addComponent(playerUUID, playerBBoxC);
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());

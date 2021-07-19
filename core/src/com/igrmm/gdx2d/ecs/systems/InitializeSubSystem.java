@@ -107,7 +107,7 @@ public class InitializeSubSystem implements SubSystem {
 		String vLeftBtnUUID = entityManager.virtualLeftButtonUUID;
 		entityManager.addComponent(vLeftBtnUUID, new TypeComponent(EntityType.VIRTUAL_LEFT_BUTTON));
 		entityManager.addComponent(vLeftBtnUUID, vLeftBtnUIAnimationC);
-		entityManager.addComponent(vLeftBtnUUID, new AnimationScaleComponent(SCALE));
+		vLeftBtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
 		BoundingBoxComponent vLeftBtnBBoxC = new BoundingBoxComponent(
@@ -129,7 +129,7 @@ public class InitializeSubSystem implements SubSystem {
 		String vRightBtnUUID = entityManager.virtualRightButtonUUID;
 		entityManager.addComponent(vRightBtnUUID, new TypeComponent(EntityType.VIRTUAL_RIGHT_BUTTON));
 		entityManager.addComponent(vRightBtnUUID, vRightBtnUIAnimationC);
-		entityManager.addComponent(vRightBtnUUID, new AnimationScaleComponent(SCALE));
+		vRightBtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
 		BoundingBoxComponent vRightBtnBBoxC = new BoundingBoxComponent(
@@ -151,7 +151,7 @@ public class InitializeSubSystem implements SubSystem {
 		String vBBtnUUID = entityManager.virtualBButtonUUID;
 		entityManager.addComponent(vBBtnUUID, new TypeComponent(EntityType.VIRTUAL_B_BUTTON));
 		entityManager.addComponent(vBBtnUUID, vBBtnUIAnimationC);
-		entityManager.addComponent(vBBtnUUID, new AnimationScaleComponent(SCALE));
+		vBBtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
 		BoundingBoxComponent vBBtnBBoxC = new BoundingBoxComponent(
@@ -172,8 +172,8 @@ public class InitializeSubSystem implements SubSystem {
 
 		String vABtnUUID = entityManager.virtualAButtonUUID;
 		entityManager.addComponent(vABtnUUID, new TypeComponent(EntityType.VIRTUAL_A_BUTTON));
-		entityManager.addComponent(vABtnUUID, new AnimationScaleComponent(SCALE));
 		entityManager.addComponent(vABtnUUID, vABtnUIAnimationC);
+		vABtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
 		BoundingBoxComponent vABtnBBoxC = new BoundingBoxComponent(

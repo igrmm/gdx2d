@@ -46,31 +46,14 @@ public class RenderingSubSystem implements SubSystem {
 				entityManager.getAllEntitiesPossessingComponent(AnimationComponent.class);
 
 		for (String entityPossessingAnimationC : entitiesPossessingAnimationC) {
-			float scale = 1.0f;
-			if (entityManager.containsComponent(entityPossessingAnimationC, AnimationScaleComponent.class)) {
-				AnimationScaleComponent animationScaleC =
-						entityManager.getComponent(entityPossessingAnimationC, AnimationScaleComponent.class);
-				scale = animationScaleC.scale;
-			}
-
-			float offset = 0.0f;
-			if (entityManager.containsComponent(entityPossessingAnimationC, AnimationOffsetComponent.class)) {
-				AnimationOffsetComponent animationOffsetC =
-						entityManager.getComponent(entityPossessingAnimationC, AnimationOffsetComponent.class);
-				offset = animationOffsetC.spriteOffset;
-			}
-
-			float rotation = 0.0f;
-			if (entityManager.containsComponent(entityPossessingAnimationC, AnimationRotationComponent.class)) {
-				AnimationRotationComponent animationRotationC =
-						entityManager.getComponent(entityPossessingAnimationC, AnimationRotationComponent.class);
-				rotation = animationRotationC.rotation;
-			}
-
 			BoundingBoxComponent bBoxC =
 					entityManager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
 			AnimationComponent animationC =
 					entityManager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
+
+			float scale = animationC.scale;
+			float offset = animationC.offset;
+			float rotation = animationC.rotation;
 
 			float x = bBoxC.bBox.x - offset * scale;
 			float y = bBoxC.bBox.y - offset * scale;
@@ -100,15 +83,12 @@ public class RenderingSubSystem implements SubSystem {
 				entityManager.getAllEntitiesPossessingComponent(UIAnimationComponent.class);
 
 		for (String entityPossessingUIAnimationC : entitiesPossessingUIAnimationC) {
-
-			AnimationScaleComponent animationScaleC =
-					entityManager.getComponent(entityPossessingUIAnimationC, AnimationScaleComponent.class);
-			float scale = animationScaleC.scale;
-
 			BoundingBoxComponent bBoxC =
 					entityManager.getComponent(entityPossessingUIAnimationC, BoundingBoxComponent.class);
 			UIAnimationComponent uIAnimationC =
 					entityManager.getComponent(entityPossessingUIAnimationC, UIAnimationComponent.class);
+
+			float scale = uIAnimationC.scale;
 
 			float x = camPosition.x - bBoxC.bBox.x * camZoom;
 			float y = camPosition.y - bBoxC.bBox.y * camZoom;

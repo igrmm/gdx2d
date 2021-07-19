@@ -12,6 +12,10 @@ public class AnimationComponent implements Component {
 	private String animation = "idle";
 	private float stateTime = 0.0f;
 
+	public float scale = 1.0f;
+	public float offset = 0.0f;
+	public float rotation = 0.0f;
+
 	public AnimationComponent(AnimationData animationData, String animation) {
 		this(animationData);
 		this.animation = animation;
