@@ -3,6 +3,7 @@ package com.igrmm.gdx2d.ecs.entities;
 import com.igrmm.gdx2d.Assets;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.Saves;
+import com.igrmm.gdx2d.ecs.AnimationData;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.enums.AnimationAsset;
@@ -13,22 +14,31 @@ import java.util.Set;
 
 public class Player {
 	public static void spawn(Gdx2D game, EntityManager entityManager) {
+		String playerUUID = entityManager.playerUUID;
 		Assets assets = game.assets;
 		Saves saves = game.saves;
-		String playerUUID = entityManager.playerUUID;
+		AnimationData animationData = assets.getAnimationData(AnimationAsset.PLAYER);
 
 		// Default components
 		entityManager.addComponent(playerUUID, new TypeComponent(EntityType.PLAYER));
-		AnimationComponent animationC = new AnimationComponent(assets.getAnimationData(AnimationAsset.PLAYER));
-		entityManager.addComponent(playerUUID, animationC);
-		animationC.offset = 16.0f;
-		BoundingBoxComponent playerBBoxC = new BoundingBoxComponent(0.0f, 0.0f, 32.0f, 32.0f);
-		entityManager.addComponent(playerUUID, playerBBoxC);
+		entityManager.addComponent(playerUUID, new AnimationComponent(animationData));
+		entityManager.addComponent(playerUUID, new BoundingBoxComponent());
 		entityManager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
 
 		// Serializable components
-		MovementComponent playerMovC = saves.getMovementComponent();
-		entityManager.addComponent(playerUUID, playerMovC);
+		entityManager.addComponent(playerUUID, saves.getMovementComponent());
+
+		// Tweak numbers
+		AnimationComponent playerAnimationC =
+				entityManager.getComponent(playerUUID, AnimationComponent.class);
+		BoundingBoxComponent playerBBoxC =
+				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
+		MovementComponent playerMovC =
+				entityManager.getComponent(playerUUID, MovementComponent.class);
+
+		playerAnimationC.offset = 16.0f;
+		playerBBoxC.bBox.width = 32.0f;
+		playerBBoxC.bBox.height = 32.0f;
 
 		if (!saves.isDataLoaded()) {
 
