@@ -7,10 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.EntityManager;
 import com.igrmm.gdx2d.ecs.components.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class DebugSubSystem implements SubSystem {
 	private final AverageVelocity averageVelocity = new AverageVelocity();
+	private final List<Vector2> playerPositions = new ArrayList<>();
 
 	@Override
 	public void update(EntityManager entityManager, float delta) {
@@ -24,13 +27,13 @@ public class DebugSubSystem implements SubSystem {
 				entityManager.getComponent(coreUUID, BatchComponent.class);
 		FontComponent fontC =
 				entityManager.getComponent(coreUUID, FontComponent.class);
+		String playerUUID = entityManager.playerUUID;
+		BoundingBoxComponent playerBBoxC =
+				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
 
 		if (!batchC.dispose) {
 			fontC.font.getData().setScale(2.0f * cameraC.camera.zoom);
 
-			String playerUUID = entityManager.playerUUID;
-			BoundingBoxComponent playerBBoxC =
-					entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
 
 			averageVelocity.update(playerBBoxC.bBox.x, playerBBoxC.bBox.y);
 
@@ -54,6 +57,7 @@ public class DebugSubSystem implements SubSystem {
 		if (!shapeRendererC.dispose) {
 			shapeRendererC.shapeRenderer.setProjectionMatrix(cameraC.camera.combined);
 			shapeRendererC.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//			renderPlayerPath(playerBBoxC.bBox.x, playerBBoxC.bBox.y, shapeRendererC.shapeRenderer);
 //			renderBoundingBoxes(entityManager, shapeRendererC.shapeRenderer);
 			shapeRendererC.shapeRenderer.end();
 		}
@@ -69,6 +73,17 @@ public class DebugSubSystem implements SubSystem {
 
 			shapeRenderer.setColor(Color.RED);
 			shapeRenderer.rect(bBoxC.bBox.x, bBoxC.bBox.y, bBoxC.bBox.width, bBoxC.bBox.height);
+		}
+	}
+
+	private void renderPlayerPath(float x, float y, ShapeRenderer shapeRenderer) {
+		playerPositions.add(new Vector2(x, y));
+		if (playerPositions.size() > 1) {
+			Vector2 lastPosition = new Vector2(playerPositions.get(0));
+			for (Vector2 position : playerPositions) {
+				shapeRenderer.line(lastPosition, position);
+				lastPosition.set(position);
+			}
 		}
 	}
 
