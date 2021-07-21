@@ -43,11 +43,12 @@ public class Player {
 		if (!saves.isDataLoaded()) {
 
 			// Adjust movement variables
-			playerMovC.maxSpeed = 3.0f;
+			playerMovC.maxSpeed = 4.0f;
 			playerMovC.acceleration = 0.3f;
-			playerMovC.friction = 0.2f;
+			playerMovC.friction = 0.3f;
 			playerMovC.gravity = -0.5f;
-			playerMovC.jumpForce = 10.0f;
+			playerMovC.jumpForce = 7.5f;
+			playerMovC.jumpTime = 0.2f;
 		}
 
 		// Make player start at saved waypoint

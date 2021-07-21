@@ -37,16 +37,22 @@ public class PhysicsSubSystem implements SubSystem {
 
 			/* jumping */
 			if (movementC.jumpInput) {
-				if (movementC.grounded) {
-					if (!movementC.jumping) {
-						movementC.speed.y += movementC.jumpForce;
-						movementC.jumping = true;
-					}
-				} else movementC.jumping = true;
+				if (movementC.grounded && !movementC.jumping) {
+					movementC.jumpTimer = movementC.jumpTime;
+				}
+				movementC.jumping = true;
 			} else if (movementC.grounded) movementC.jumping = false;
 
+			if (movementC.jumpTimer > 0.0f) {
+				movementC.speed.y = movementC.jumpForce;
+				movementC.jumpTimer -= delta;
+				if (!movementC.jumpInput) movementC.jumpTimer = 0.0f;
+			}
+
 			/* Gravity */
-			movementC.speed.y += movementC.gravity;
+			float gravity = movementC.gravity;
+			if (movementC.jumping && movementC.speed.y <= 0.0f) gravity *= 2.0f;
+			movementC.speed.y += gravity;
 		}
 	}
 }
