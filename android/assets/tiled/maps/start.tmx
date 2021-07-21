@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="576">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="577">
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <layer id="1" name="0" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1zkKgDAURdHgvP8Va0DExsKB5EfOgVdGgrdKSgAAAAAAAAAAAAAAAAAAAADAW8O2sfYlOMzbltqX4KBHLH/uMe1riR6x6BGLHrHoEUvpHiX/T8s98ruwu7n8jpwenj1/4835q/WpzR4AAAAAAAAAAAAAAAAAAAAAAABfWQFCYwFm
+   eJzt10kKgDAQBMDgEv3/i1VQEfEQF0giVdDHDMP0KSEAAAAAAAAAAAAAAAAAAAAAAG91c/rcS7Ab5oy5l2Cnj7L8uY+4pib6KMtf+ri6uz7y0UdZ9FGW891jqLuP5V/Y3Mzyj4wP3x5nbO9jQlLntqHOPgAAAAAAAAAAAAAAAAAAAAAAAL4yAeZiAaI=
   </data>
  </layer>
  <group id="3" name="objects">
   <objectgroup id="5" name="portals">
-   <object id="567" name="PORTAL" type="PORTAL" x="2112" y="1600" width="32" height="32">
+   <object id="567" name="PORTAL" type="PORTAL" x="2944" y="1600" width="32" height="32">
     <properties>
      <property name="animation" value="PORTAL"/>
      <property name="mapAsset" value="DESERT"/>
      <property name="waypoint" value="START"/>
     </properties>
    </object>
-   <object id="575" name="BLOCK" type="BLOCK" x="2112" y="1632" width="32" height="32"/>
+   <object id="575" name="BLOCK" type="BLOCK" x="2944" y="1632" width="32" height="32"/>
   </objectgroup>
   <objectgroup id="2" name="blocks">
    <object id="550" name="BLOCK" type="BLOCK" x="1216" y="1376" width="64" height="320"/>
    <object id="572" name="BLOCK" type="BLOCK" x="1280" y="1664" width="1696" height="32"/>
    <object id="573" name="BLOCK" type="BLOCK" x="2976" y="1472" width="64" height="224"/>
+   <object id="576" name="BLOCK" type="BLOCK" x="2816" y="1536" width="32" height="128"/>
   </objectgroup>
   <objectgroup id="4" name="waypoints">
    <object id="559" name="WAYPOINT" type="WAYPOINT" x="1504" y="1600">
