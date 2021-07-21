@@ -36,6 +36,7 @@ public class Player {
 		MovementComponent playerMovC =
 				entityManager.getComponent(playerUUID, MovementComponent.class);
 
+		playerAnimationC.setAnimation("idle_right");
 		playerAnimationC.offset = 16.0f;
 		playerBBoxC.bBox.width = 32.0f;
 		playerBBoxC.bBox.height = 32.0f;
