@@ -40,8 +40,6 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 	private final Rectangle zoomInRectangle = new Rectangle();
 	private final Rectangle zoomOutRectangle = new Rectangle();
 
-	private int amountScrolled = 0;
-
 	private int facingDirection = MovementComponent.RIGHT_DIRECTION;
 
 	private int movementDirection = 0;
@@ -136,8 +134,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 	}
 
 	@Override
-	public boolean scrolled(int amount) {
-		amountScrolled = amount;
+	public boolean scrolled(float amountX, float amountY) {
 		return false;
 	}
 
@@ -148,9 +145,6 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		CameraComponent cameraC =
 				entityManager.getComponent(entityManager.coreUUID, CameraComponent.class);
-		if (amountScrolled != 0)
-			cameraC.camera.zoom += (0.1f * amountScrolled);
-		amountScrolled = 0;
 
 		if (zoomInTouch) {
 			cameraC.camera.zoom -= 0.05f;
