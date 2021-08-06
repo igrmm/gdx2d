@@ -45,6 +45,7 @@ public class CollisionSubSystem implements SubSystem {
 			Rectangle bBox = bBoxC.bBox;
 			Vector2 speed = movementC.speed;
 
+			bBoxC.previousPosition.set(bBox.x, bBox.y);
 			bBox.x += speed.x;
 			bBox.y += speed.y;
 		}

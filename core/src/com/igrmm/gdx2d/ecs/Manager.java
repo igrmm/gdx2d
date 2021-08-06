@@ -13,6 +13,7 @@ public class Manager {
 
 	private static final float FIXED_TIMESTEP = 1.0f / 60.0f;
 	private float accumulator = 0.0f;
+	private float alpha = 0.0f;
 
 	//Unique Entities
 	public final String playerUUID;
@@ -103,6 +104,10 @@ public class Manager {
 		return componentsOfType.keySet();
 	}
 
+	public float getAlpha() {
+		return alpha;
+	}
+
 	public void addVariableTimestepSubSystem(SubSystem subSystem) {
 		variableTimestepSubSystems.add(subSystem);
 	}
@@ -129,5 +134,6 @@ public class Manager {
 				fixedTimestepSubSystem.update(this, FIXED_TIMESTEP);
 			accumulator -= FIXED_TIMESTEP;
 		}
+		alpha = accumulator / FIXED_TIMESTEP;
 	}
 }
