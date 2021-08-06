@@ -1,12 +1,18 @@
 package com.igrmm.gdx2d.ecs;
 
 import com.igrmm.gdx2d.ecs.components.Component;
+import com.igrmm.gdx2d.ecs.systems.SubSystem;
 
 import java.util.*;
 
-public class EntityManager {
+public class Manager {
 	public final Set<String> entities;
 	public final Map<Class<?>, Map<String, ? extends Component>> components;
+	public final Set<SubSystem> variableTimestepSubSystems;
+	public final Set<SubSystem> fixedTimestepSubSystems;
+
+	private static final float FIXED_TIMESTEP = 1.0f / 60.0f;
+	private float accumulator = 0.0f;
 
 	//Unique Entities
 	public final String playerUUID;
@@ -16,9 +22,11 @@ public class EntityManager {
 	public final String virtualAButtonUUID;
 	public final String virtualBButtonUUID;
 
-	public EntityManager() {
+	public Manager() {
 		entities = new HashSet<>();
 		components = new HashMap<>();
+		variableTimestepSubSystems = new LinkedHashSet<>();
+		fixedTimestepSubSystems = new LinkedHashSet<>();
 
 		//Unique Entities
 		playerUUID = createEntity();
@@ -93,5 +101,33 @@ public class EntityManager {
 			return new HashSet<>();
 
 		return componentsOfType.keySet();
+	}
+
+	public void addVariableTimestepSubSystem(SubSystem subSystem) {
+		variableTimestepSubSystems.add(subSystem);
+	}
+
+	public void addFixedTimestepSubSystem(SubSystem subSystem) {
+		fixedTimestepSubSystems.add(subSystem);
+	}
+
+	public void removeSubSystem(SubSystem subSystem) {
+		variableTimestepSubSystems.remove(subSystem);
+		fixedTimestepSubSystems.remove(subSystem);
+	}
+
+	public void update(float delta) {
+		// Variable timestep updates
+		for (SubSystem variableTimestepSubSystem : variableTimestepSubSystems)
+			variableTimestepSubSystem.update(this, delta);
+
+		// Fixed timestep updates
+		float frameTime = Math.min(delta, 0.25f);
+		accumulator += frameTime;
+		while (accumulator >= FIXED_TIMESTEP) {
+			for (SubSystem fixedTimestepSubSystem : fixedTimestepSubSystems)
+				fixedTimestepSubSystem.update(this, FIXED_TIMESTEP);
+			accumulator -= FIXED_TIMESTEP;
+		}
 	}
 }

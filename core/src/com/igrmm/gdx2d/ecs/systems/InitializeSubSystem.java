@@ -15,7 +15,7 @@ import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.Saves;
 import com.igrmm.gdx2d.ecs.AnimationData;
 import com.igrmm.gdx2d.ecs.ComponentFactory;
-import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.ecs.entities.Core;
 import com.igrmm.gdx2d.ecs.entities.Player;
@@ -24,22 +24,19 @@ import com.igrmm.gdx2d.enums.EntityType;
 import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class InitializeSubSystem implements SubSystem {
 	private final Gdx2D game;
-	private final LinkedHashSet<SubSystem> subSystems;
 	private final List<Disposable> disposables;
 
-	public InitializeSubSystem(Gdx2D game, LinkedHashSet<SubSystem> subSystems, List<Disposable> disposables) {
+	public InitializeSubSystem(Gdx2D game, List<Disposable> disposables) {
 		this.game = game;
-		this.subSystems = subSystems;
 		this.disposables = disposables;
 	}
 
 	@Override
-	public void update(EntityManager entityManager, float delta) {
+	public void update(Manager manager, float delta) {
 
 		// Retrieve tiled map using saves
 		Assets assets = game.assets;
@@ -51,9 +48,9 @@ public class InitializeSubSystem implements SubSystem {
 		MapGroupLayer objectsLayer = (MapGroupLayer) tiledMap.getLayers().get("objects");
 		for (MapLayer mapLayer : objectsLayer.getLayers()) {
 			for (MapObject mapObject : mapLayer.getObjects()) {
-				String entityUUID = entityManager.createEntity();
+				String entityUUID = manager.createEntity();
 				Rectangle bBox = ((RectangleMapObject) mapObject).getRectangle();
-				entityManager.addComponent(entityUUID, new BoundingBoxComponent(bBox));
+				manager.addComponent(entityUUID, new BoundingBoxComponent(bBox));
 				MapProperties properties = mapObject.getProperties();
 				Iterator<String> iterator = properties.getKeys();
 				while (iterator.hasNext()) {
@@ -61,29 +58,29 @@ public class InitializeSubSystem implements SubSystem {
 					Object value = properties.get(key);
 					Component component = ComponentFactory.getComponent(key, value, game.assets);
 					if (component != null)
-						entityManager.addComponent(entityUUID, component);
+						manager.addComponent(entityUUID, component);
 				}
 			}
 		}
 
 		// Spawn important entities
-		Core.spawn(game, entityManager, disposables, tiledMap);
-		Player.spawn(game, entityManager);
-		spawnVirtualButtons(entityManager);
+		Core.spawn(game, manager, disposables, tiledMap);
+		Player.spawn(game, manager);
+		spawnVirtualButtons(manager);
 
 		// Create subsystems
-		subSystems.clear();
-		subSystems.add(new PlayerSubSystem());
-		subSystems.add(new ProjectileSubSystem());
-		subSystems.add(new PortalSubSystem());
-		subSystems.add(new PhysicsSubSystem());
-		subSystems.add(new BlockSubSystem());
-		subSystems.add(new CollisionSubSystem());
-		subSystems.add(new RenderingSubSystem());
-		subSystems.add(new DebugSubSystem());
+		manager.removeSubSystem(this);
+		manager.addVariableTimestepSubSystem(new PlayerSubSystem());
+		manager.addVariableTimestepSubSystem(new RenderingSubSystem());
+		manager.addVariableTimestepSubSystem(new DebugSubSystem());
+		manager.addFixedTimestepSubSystem(new ProjectileSubSystem());
+		manager.addFixedTimestepSubSystem(new PortalSubSystem());
+		manager.addFixedTimestepSubSystem(new PhysicsSubSystem());
+		manager.addFixedTimestepSubSystem(new BlockSubSystem());
+		manager.addFixedTimestepSubSystem(new CollisionSubSystem());
 	}
 
-	private void spawnVirtualButtons(EntityManager entityManager) {
+	private void spawnVirtualButtons(Manager manager) {
 		//DPI STUFF
 		final float BUTTON_SIZE_CM = 1.5f;
 		final float BUTTON_SIZE_PX = 16.0f;
@@ -103,9 +100,9 @@ public class InitializeSubSystem implements SubSystem {
 			throw new IllegalStateException("Virtual button size is not regular.");
 		}
 
-		String vLeftBtnUUID = entityManager.virtualLeftButtonUUID;
-		entityManager.addComponent(vLeftBtnUUID, new TypeComponent(EntityType.VIRTUAL_LEFT_BUTTON));
-		entityManager.addComponent(vLeftBtnUUID, vLeftBtnUIAnimationC);
+		String vLeftBtnUUID = manager.virtualLeftButtonUUID;
+		manager.addComponent(vLeftBtnUUID, new TypeComponent(EntityType.VIRTUAL_LEFT_BUTTON));
+		manager.addComponent(vLeftBtnUUID, vLeftBtnUIAnimationC);
 		vLeftBtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
@@ -115,7 +112,7 @@ public class InitializeSubSystem implements SubSystem {
 				BUTTON_SIZE_PX * SCALE,
 				BUTTON_SIZE_PX * SCALE
 		);
-		entityManager.addComponent(vLeftBtnUUID, vLeftBtnBBoxC);
+		manager.addComponent(vLeftBtnUUID, vLeftBtnBBoxC);
 
 		/* RIGHT BUTTON */
 		AnimationData vRightBtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_RIGHT_BUTTON);
@@ -125,9 +122,9 @@ public class InitializeSubSystem implements SubSystem {
 			throw new IllegalStateException("Virtual button size is not regular.");
 		}
 
-		String vRightBtnUUID = entityManager.virtualRightButtonUUID;
-		entityManager.addComponent(vRightBtnUUID, new TypeComponent(EntityType.VIRTUAL_RIGHT_BUTTON));
-		entityManager.addComponent(vRightBtnUUID, vRightBtnUIAnimationC);
+		String vRightBtnUUID = manager.virtualRightButtonUUID;
+		manager.addComponent(vRightBtnUUID, new TypeComponent(EntityType.VIRTUAL_RIGHT_BUTTON));
+		manager.addComponent(vRightBtnUUID, vRightBtnUIAnimationC);
 		vRightBtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
@@ -137,7 +134,7 @@ public class InitializeSubSystem implements SubSystem {
 				BUTTON_SIZE_PX * SCALE,
 				BUTTON_SIZE_PX * SCALE
 		);
-		entityManager.addComponent(vRightBtnUUID, vRightBtnBBoxC);
+		manager.addComponent(vRightBtnUUID, vRightBtnBBoxC);
 
 		/* B BUTTON */
 		AnimationData vBBtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_B_BUTTON);
@@ -147,9 +144,9 @@ public class InitializeSubSystem implements SubSystem {
 			throw new IllegalStateException("Virtual button size is not regular.");
 		}
 
-		String vBBtnUUID = entityManager.virtualBButtonUUID;
-		entityManager.addComponent(vBBtnUUID, new TypeComponent(EntityType.VIRTUAL_B_BUTTON));
-		entityManager.addComponent(vBBtnUUID, vBBtnUIAnimationC);
+		String vBBtnUUID = manager.virtualBButtonUUID;
+		manager.addComponent(vBBtnUUID, new TypeComponent(EntityType.VIRTUAL_B_BUTTON));
+		manager.addComponent(vBBtnUUID, vBBtnUIAnimationC);
 		vBBtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
@@ -159,7 +156,7 @@ public class InitializeSubSystem implements SubSystem {
 				BUTTON_SIZE_PX * SCALE,
 				BUTTON_SIZE_PX * SCALE
 		);
-		entityManager.addComponent(vBBtnUUID, vBBtnBBoxC);
+		manager.addComponent(vBBtnUUID, vBBtnBBoxC);
 
 		/* A BUTTON */
 		AnimationData vABtnAnimationData = game.assets.getAnimationData(AnimationAsset.VIRTUAL_A_BUTTON);
@@ -169,9 +166,9 @@ public class InitializeSubSystem implements SubSystem {
 			throw new IllegalStateException("Virtual button size is not regular.");
 		}
 
-		String vABtnUUID = entityManager.virtualAButtonUUID;
-		entityManager.addComponent(vABtnUUID, new TypeComponent(EntityType.VIRTUAL_A_BUTTON));
-		entityManager.addComponent(vABtnUUID, vABtnUIAnimationC);
+		String vABtnUUID = manager.virtualAButtonUUID;
+		manager.addComponent(vABtnUUID, new TypeComponent(EntityType.VIRTUAL_A_BUTTON));
+		manager.addComponent(vABtnUUID, vABtnUIAnimationC);
 		vABtnUIAnimationC.scale = SCALE;
 
 		//relative to camera position
@@ -181,6 +178,6 @@ public class InitializeSubSystem implements SubSystem {
 				BUTTON_SIZE_PX * SCALE,
 				BUTTON_SIZE_PX * SCALE
 		);
-		entityManager.addComponent(vABtnUUID, vABtnBBoxC);
+		manager.addComponent(vABtnUUID, vABtnBBoxC);
 	}
 }

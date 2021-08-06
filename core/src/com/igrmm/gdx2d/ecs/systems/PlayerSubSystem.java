@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
-import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.*;
 import com.igrmm.gdx2d.ecs.entities.Bullet;
 
@@ -139,12 +139,12 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 	}
 
 	@Override
-	public void update(EntityManager entityManager, float delta) {
+	public void update(Manager manager, float delta) {
 		if (Gdx.app.getType() == Application.ApplicationType.Android)
-			handleTouches(entityManager);
+			handleTouches(manager);
 
 		CameraComponent cameraC =
-				entityManager.getComponent(entityManager.coreUUID, CameraComponent.class);
+				manager.getComponent(manager.coreUUID, CameraComponent.class);
 
 		if (zoomInTouch) {
 			cameraC.camera.zoom -= 0.05f;
@@ -156,11 +156,11 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 			zoomOutTouch = false;
 		}
 
-		String playerUUID = entityManager.playerUUID;
+		String playerUUID = manager.playerUUID;
 		MovementComponent movementC =
-				entityManager.getComponent(playerUUID, MovementComponent.class);
+				manager.getComponent(playerUUID, MovementComponent.class);
 		AnimationComponent playerAnimationC =
-				entityManager.getComponent(playerUUID, AnimationComponent.class);
+				manager.getComponent(playerUUID, AnimationComponent.class);
 
 		movementC.directionInput = movementDirection;
 
@@ -168,7 +168,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 
 		if (movementDirection != 0) facingDirection = movementDirection;
 
-		if (actionKeyDown || actionTouch) Bullet.spawn(facingDirection, entityManager);
+		if (actionKeyDown || actionTouch) Bullet.spawn(facingDirection, manager);
 
 		/* ANIMATIONS */
 		if (facingDirection == MovementComponent.RIGHT_DIRECTION) {
@@ -186,7 +186,7 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		}
 	}
 
-	private void handleTouches(EntityManager entityManager) {
+	private void handleTouches(Manager manager) {
 
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
@@ -195,10 +195,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		leftTouch = false;
 		movementDirection = rightTouch ? MovementComponent.RIGHT_DIRECTION : 0;
 		UIAnimationComponent vLeftBtnUIAnimationC =
-				entityManager.getComponent(entityManager.virtualLeftButtonUUID, UIAnimationComponent.class);
+				manager.getComponent(manager.virtualLeftButtonUUID, UIAnimationComponent.class);
 		vLeftBtnUIAnimationC.setAnimation("up");
 		BoundingBoxComponent vLeftBtnBBoxC =
-				entityManager.getComponent(entityManager.virtualLeftButtonUUID, BoundingBoxComponent.class);
+				manager.getComponent(manager.virtualLeftButtonUUID, BoundingBoxComponent.class);
 		leftRectangle.set(
 				screenWidth / 2.0f - vLeftBtnBBoxC.bBox.x,
 				screenHeight / 2.0f - vLeftBtnBBoxC.bBox.y,
@@ -210,10 +210,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		rightTouch = false;
 		movementDirection = leftTouch ? MovementComponent.LEFT_DIRECTION : 0;
 		UIAnimationComponent vRightBtnUIAnimationC =
-				entityManager.getComponent(entityManager.virtualRightButtonUUID, UIAnimationComponent.class);
+				manager.getComponent(manager.virtualRightButtonUUID, UIAnimationComponent.class);
 		vRightBtnUIAnimationC.setAnimation("up");
 		BoundingBoxComponent vRightBtnBBoxC =
-				entityManager.getComponent(entityManager.virtualRightButtonUUID, BoundingBoxComponent.class);
+				manager.getComponent(manager.virtualRightButtonUUID, BoundingBoxComponent.class);
 		rightRectangle.set(
 				screenWidth / 2.0f - vRightBtnBBoxC.bBox.x,
 				screenHeight / 2.0f - vRightBtnBBoxC.bBox.y,
@@ -224,10 +224,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		/* A BUTTON */
 		actionTouch = false;
 		UIAnimationComponent vABtnUIAnimationC =
-				entityManager.getComponent(entityManager.virtualAButtonUUID, UIAnimationComponent.class);
+				manager.getComponent(manager.virtualAButtonUUID, UIAnimationComponent.class);
 		vABtnUIAnimationC.setAnimation("up");
 		BoundingBoxComponent vABtnBBoxC =
-				entityManager.getComponent(entityManager.virtualAButtonUUID, BoundingBoxComponent.class);
+				manager.getComponent(manager.virtualAButtonUUID, BoundingBoxComponent.class);
 		aRectangle.set(
 				screenWidth / 2.0f - vABtnBBoxC.bBox.x,
 				screenHeight / 2.0f - vABtnBBoxC.bBox.y,
@@ -238,10 +238,10 @@ public class PlayerSubSystem implements InputProcessor, SubSystem {
 		/* B BUTTON */
 		jumpTouch = false;
 		UIAnimationComponent vBBtnUIAnimationC =
-				entityManager.getComponent(entityManager.virtualBButtonUUID, UIAnimationComponent.class);
+				manager.getComponent(manager.virtualBButtonUUID, UIAnimationComponent.class);
 		vBBtnUIAnimationC.setAnimation("up");
 		BoundingBoxComponent vBBtnBBoxC =
-				entityManager.getComponent(entityManager.virtualBButtonUUID, BoundingBoxComponent.class);
+				manager.getComponent(manager.virtualBButtonUUID, BoundingBoxComponent.class);
 		bRectangle.set(
 				screenWidth / 2.0f - vBBtnBBoxC.bBox.x,
 				screenHeight / 2.0f - vBBtnBBoxC.bBox.y,

@@ -9,21 +9,21 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.*;
 
 import java.util.Set;
 
 public class RenderingSubSystem implements SubSystem {
 	@Override
-	public void update(EntityManager entityManager, float delta) {
-		String coreUUID = entityManager.coreUUID;
+	public void update(Manager manager, float delta) {
+		String coreUUID = manager.coreUUID;
 		CameraComponent cameraC =
-				entityManager.getComponent(coreUUID, CameraComponent.class);
+				manager.getComponent(coreUUID, CameraComponent.class);
 		BatchComponent batchC =
-				entityManager.getComponent(coreUUID, BatchComponent.class);
+				manager.getComponent(coreUUID, BatchComponent.class);
 		MapRendererComponent mapRendererC =
-				entityManager.getComponent(coreUUID, MapRendererComponent.class);
+				manager.getComponent(coreUUID, MapRendererComponent.class);
 
 		if (!batchC.dispose) {
 			OrthographicCamera camera = cameraC.camera;
@@ -31,28 +31,28 @@ public class RenderingSubSystem implements SubSystem {
 			SpriteBatch batch = batchC.batch;
 
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			updateCameraPosition(entityManager, delta);
+			updateCameraPosition(manager, delta);
 			camera.update();
 			mapRenderer.setView(camera);
 			mapRenderer.render();
 			batch.setProjectionMatrix(camera.combined);
 
 			batch.begin();
-			renderSprites(delta, entityManager, batch);
-			renderUI(delta, entityManager, batch, camera);
+			renderSprites(delta, manager, batch);
+			renderUI(delta, manager, batch, camera);
 			batch.end();
 		}
 	}
 
-	private void renderSprites(float delta, EntityManager entityManager, SpriteBatch batch) {
+	private void renderSprites(float delta, Manager manager, SpriteBatch batch) {
 		Set<String> entitiesPossessingAnimationC =
-				entityManager.getAllEntitiesPossessingComponent(AnimationComponent.class);
+				manager.getAllEntitiesPossessingComponent(AnimationComponent.class);
 
 		for (String entityPossessingAnimationC : entitiesPossessingAnimationC) {
 			BoundingBoxComponent bBoxC =
-					entityManager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
+					manager.getComponent(entityPossessingAnimationC, BoundingBoxComponent.class);
 			AnimationComponent animationC =
-					entityManager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
+					manager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
 
 			float scale = animationC.scale;
 			float offset = animationC.offset;
@@ -78,18 +78,18 @@ public class RenderingSubSystem implements SubSystem {
 		}
 	}
 
-	private void renderUI(float delta, EntityManager entityManager, SpriteBatch batch, OrthographicCamera camera) {
+	private void renderUI(float delta, Manager manager, SpriteBatch batch, OrthographicCamera camera) {
 		Vector3 camPosition = camera.position;
 		float camZoom = camera.zoom;
 
 		Set<String> entitiesPossessingUIAnimationC =
-				entityManager.getAllEntitiesPossessingComponent(UIAnimationComponent.class);
+				manager.getAllEntitiesPossessingComponent(UIAnimationComponent.class);
 
 		for (String entityPossessingUIAnimationC : entitiesPossessingUIAnimationC) {
 			BoundingBoxComponent bBoxC =
-					entityManager.getComponent(entityPossessingUIAnimationC, BoundingBoxComponent.class);
+					manager.getComponent(entityPossessingUIAnimationC, BoundingBoxComponent.class);
 			UIAnimationComponent uIAnimationC =
-					entityManager.getComponent(entityPossessingUIAnimationC, UIAnimationComponent.class);
+					manager.getComponent(entityPossessingUIAnimationC, UIAnimationComponent.class);
 
 			float scale = uIAnimationC.scale;
 
@@ -113,18 +113,18 @@ public class RenderingSubSystem implements SubSystem {
 		}
 	}
 
-	private void updateCameraPosition(EntityManager entityManager, float delta) {
-		String playerUUID = entityManager.playerUUID;
+	private void updateCameraPosition(Manager manager, float delta) {
+		String playerUUID = manager.playerUUID;
 		BoundingBoxComponent playerBBoxC =
-				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
+				manager.getComponent(playerUUID, BoundingBoxComponent.class);
 		Rectangle playerBBox = playerBBoxC.bBox;
 
 		float playerCenterX = playerBBox.x + playerBBox.width / 2.0f;
 		float playerCenterY = playerBBox.y + playerBBox.height / 2.0f;
 
-		String coreUUID = entityManager.coreUUID;
+		String coreUUID = manager.coreUUID;
 		CameraComponent cameraC =
-				entityManager.getComponent(coreUUID, CameraComponent.class);
+				manager.getComponent(coreUUID, CameraComponent.class);
 		OrthographicCamera camera = cameraC.camera;
 
 		float mapWidth = cameraC.mapWidth;

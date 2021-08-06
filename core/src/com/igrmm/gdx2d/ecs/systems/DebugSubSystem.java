@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.igrmm.gdx2d.ecs.EntityManager;
+import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.*;
 
 import java.util.ArrayList;
@@ -16,20 +16,20 @@ public class DebugSubSystem implements SubSystem {
 	private final List<Vector2> playerPositions = new ArrayList<>();
 
 	@Override
-	public void update(EntityManager entityManager, float delta) {
+	public void update(Manager manager, float delta) {
 		Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + "");
-		String coreUUID = entityManager.coreUUID;
+		String coreUUID = manager.coreUUID;
 		ShapeRendererComponent shapeRendererC =
-				entityManager.getComponent(coreUUID, ShapeRendererComponent.class);
+				manager.getComponent(coreUUID, ShapeRendererComponent.class);
 		CameraComponent cameraC =
-				entityManager.getComponent(coreUUID, CameraComponent.class);
+				manager.getComponent(coreUUID, CameraComponent.class);
 		BatchComponent batchC =
-				entityManager.getComponent(coreUUID, BatchComponent.class);
+				manager.getComponent(coreUUID, BatchComponent.class);
 		FontComponent fontC =
-				entityManager.getComponent(coreUUID, FontComponent.class);
-		String playerUUID = entityManager.playerUUID;
+				manager.getComponent(coreUUID, FontComponent.class);
+		String playerUUID = manager.playerUUID;
 		BoundingBoxComponent playerBBoxC =
-				entityManager.getComponent(playerUUID, BoundingBoxComponent.class);
+				manager.getComponent(playerUUID, BoundingBoxComponent.class);
 
 		if (!batchC.dispose) {
 			fontC.font.getData().setScale(2.0f * cameraC.camera.zoom);
@@ -58,18 +58,18 @@ public class DebugSubSystem implements SubSystem {
 			shapeRendererC.shapeRenderer.setProjectionMatrix(cameraC.camera.combined);
 			shapeRendererC.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //			renderPlayerPath(playerBBoxC.bBox.x, playerBBoxC.bBox.y, shapeRendererC.shapeRenderer);
-//			renderBoundingBoxes(entityManager, shapeRendererC.shapeRenderer);
+//			renderBoundingBoxes(manager, shapeRendererC.shapeRenderer);
 			shapeRendererC.shapeRenderer.end();
 		}
 	}
 
-	private void renderBoundingBoxes(EntityManager entityManager, ShapeRenderer shapeRenderer) {
+	private void renderBoundingBoxes(Manager manager, ShapeRenderer shapeRenderer) {
 		Set<String> entitiesPossessingBBoxC =
-				entityManager.getAllEntitiesPossessingComponent(BoundingBoxComponent.class);
+				manager.getAllEntitiesPossessingComponent(BoundingBoxComponent.class);
 
 		for (String entityPossessingBBoxC : entitiesPossessingBBoxC) {
 			BoundingBoxComponent bBoxC =
-					entityManager.getComponent(entityPossessingBBoxC, BoundingBoxComponent.class);
+					manager.getComponent(entityPossessingBBoxC, BoundingBoxComponent.class);
 
 			shapeRenderer.setColor(Color.RED);
 			shapeRenderer.rect(bBoxC.bBox.x, bBoxC.bBox.y, bBoxC.bBox.width, bBoxC.bBox.height);
