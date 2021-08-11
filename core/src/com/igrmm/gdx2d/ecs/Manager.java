@@ -11,7 +11,7 @@ public class Manager {
 	public final Set<SubSystem> variableTimestepSubSystems;
 	public final Set<SubSystem> fixedTimestepSubSystems;
 
-	private static final float FIXED_TIMESTEP = 1.0f / 60.0f;
+	public static final float FIXED_TIMESTEP = 1.0f / 60.0f;
 	private float accumulator = 0.0f;
 	private float alpha = 0.0f;
 

@@ -16,21 +16,21 @@ public class PhysicsSubSystem implements SubSystem {
 					manager.getComponent(entityPossessingMovC, MovementComponent.class);
 
 			/* acceleration */
-			movementC.speed.x += movementC.directionInput * movementC.acceleration;
+			movementC.speed.x += movementC.directionInput * movementC.acceleration * delta * delta;
 
 			/* max speed */
 			if (movementC.directionInput != 0)
-				movementC.speed.x = Math.abs(movementC.speed.x) < movementC.maxSpeed
+				movementC.speed.x = Math.abs(movementC.speed.x) < movementC.maxSpeed * delta
 						? movementC.speed.x
-						: movementC.maxSpeed * movementC.directionInput;
+						: movementC.maxSpeed * delta * movementC.directionInput;
 
 			/* friction */
 			if (movementC.directionInput == 0 && movementC.speed.x != 0) {
 				if (movementC.speed.x < 0) {
-					movementC.speed.x += movementC.friction;
+					movementC.speed.x += movementC.friction * delta * delta;
 					movementC.speed.x = movementC.speed.x < 0 ? movementC.speed.x : 0;
 				} else if (movementC.speed.x > 0) {
-					movementC.speed.x -= movementC.friction;
+					movementC.speed.x -= movementC.friction * delta * delta;
 					movementC.speed.x = movementC.speed.x > 0 ? movementC.speed.x : 0;
 				}
 			}
@@ -44,7 +44,7 @@ public class PhysicsSubSystem implements SubSystem {
 			} else if (movementC.grounded) movementC.jumping = false;
 
 			if (movementC.jumpTimer > 0.0f) {
-				movementC.speed.y = movementC.jumpForce;
+				movementC.speed.y = movementC.jumpForce * delta;
 				movementC.jumpTimer -= delta;
 				if (!movementC.jumpInput) movementC.jumpTimer = 0.0f;
 			}
@@ -52,7 +52,7 @@ public class PhysicsSubSystem implements SubSystem {
 			/* Gravity */
 			float gravity = movementC.gravity;
 			if (movementC.jumping && movementC.speed.y <= 0.0f) gravity *= 2.0f;
-			movementC.speed.y += gravity;
+			movementC.speed.y += gravity * delta * delta;
 		}
 	}
 }

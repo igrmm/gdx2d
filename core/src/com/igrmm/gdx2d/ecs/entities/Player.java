@@ -44,11 +44,11 @@ public class Player {
 		if (!saves.isDataLoaded()) {
 
 			// Adjust movement variables
-			playerMovC.maxSpeed = 4.0f;
-			playerMovC.acceleration = 0.3f;
-			playerMovC.friction = 0.3f;
-			playerMovC.gravity = -0.5f;
-			playerMovC.jumpForce = 7.5f;
+			playerMovC.maxSpeed = 240.0f;
+			playerMovC.acceleration = 1080.0f;
+			playerMovC.friction = 1080.0f;
+			playerMovC.gravity = -1800.0f;
+			playerMovC.jumpForce = 450.0f;
 			playerMovC.jumpTime = 0.2f;
 		}
 

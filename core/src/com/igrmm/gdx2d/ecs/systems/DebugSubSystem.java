@@ -42,6 +42,9 @@ public class DebugSubSystem implements SubSystem {
 			fontC.text = fontC.text.concat("RES: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + "\n");
 			fontC.text = fontC.text.concat("CAMZOOM: " + cameraC.camera.zoom + "\n");
 			fontC.text = fontC.text.concat("AVERAGE VELOCITY: " + averageVelocity.get() + "\n");
+			fontC.text = fontC.text.concat("Time to Accel: " + timeToAccel(manager) + "\n");
+			fontC.text = fontC.text.concat("Time to Stop: " + timeToStop(manager) + "\n");
+			fontC.text = fontC.text.concat("Jump Height: " + jumpHeight(manager) + "\n");
 
 			batchC.batch.begin();
 			fontC.font.draw(
@@ -61,6 +64,66 @@ public class DebugSubSystem implements SubSystem {
 //			renderBoundingBoxes(manager, shapeRendererC.shapeRenderer);
 			shapeRendererC.shapeRenderer.end();
 		}
+	}
+
+	private float jumpHeight(Manager manager) {
+		MovementComponent movementC =
+				manager.getComponent(manager.playerUUID, MovementComponent.class);
+
+		float delta = Manager.FIXED_TIMESTEP;
+		float jumpHeight = 0.0f;
+		float jumpTimer = movementC.jumpTime;
+		float jumpForce = movementC.jumpForce;
+		float speedY = jumpForce;
+		float gravity = movementC.gravity;
+
+		while (speedY > 0.0f) {
+			if (jumpTimer > 0.0f) {
+				speedY = jumpForce * delta;
+				jumpTimer -= delta;
+			}
+
+			speedY += gravity * delta * delta;
+
+			if (speedY > 0.0f) jumpHeight += speedY;
+		}
+
+		return jumpHeight;
+	}
+
+	private float timeToAccel(Manager manager) {
+		MovementComponent movementC =
+				manager.getComponent(manager.playerUUID, MovementComponent.class);
+
+		float delta = Manager.FIXED_TIMESTEP;
+		float timeToAccel = 0.0f;
+		float maxSpeed = movementC.maxSpeed * delta;
+		float accel = movementC.acceleration;
+		float speed = 0.0f;
+
+		while (speed < maxSpeed) {
+			speed += accel * delta * delta;
+			timeToAccel += delta;
+		}
+
+		return timeToAccel;
+	}
+
+	private float timeToStop(Manager manager) {
+		MovementComponent movementC =
+				manager.getComponent(manager.playerUUID, MovementComponent.class);
+
+		float delta = Manager.FIXED_TIMESTEP;
+		float timeToStop = 0.0f;
+		float speed = movementC.maxSpeed * delta;
+		float friction = movementC.friction;
+
+		while (speed > 0.0f) {
+			speed -= friction * delta * delta;
+			timeToStop += delta;
+		}
+
+		return timeToStop;
 	}
 
 	private void renderBoundingBoxes(Manager manager, ShapeRenderer shapeRenderer) {
