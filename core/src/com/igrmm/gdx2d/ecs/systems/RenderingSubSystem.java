@@ -75,8 +75,10 @@ public class RenderingSubSystem implements SubSystem {
 			float offset = animationC.offset;
 			float rotation = animationC.rotation;
 
-			float x = Math.round(animationC.drawingPosition.x - offset * scale);
-			float y = Math.round(animationC.drawingPosition.y - offset * scale);
+//			float x = Math.round(animationC.drawingPosition.x - offset * scale);
+//			float y = Math.round(animationC.drawingPosition.y - offset * scale);
+			float x = animationC.drawingPosition.x - offset * scale;
+			float y = animationC.drawingPosition.y - offset * scale;
 
 			TextureRegion tex = animationC.getKeyFrame(delta);
 
@@ -151,8 +153,10 @@ public class RenderingSubSystem implements SubSystem {
 
 		/* Make camera follow player */
 		float alpha = 0.3f;
-		camera.position.x += Math.round(alpha * (playerCenterX - camera.position.x));
-		camera.position.y += Math.round(alpha * (playerCenterY - camera.position.y));
+//		camera.position.x += Math.round(alpha * (playerCenterX - camera.position.x));
+//		camera.position.y += Math.round(alpha * (playerCenterY - camera.position.y));
+		camera.position.x += alpha * (playerCenterX - camera.position.x);
+		camera.position.y += alpha * (playerCenterY - camera.position.y);
 
 		/* Limit camera position inside tiled map bounds */
 		float minCameraPositionX = camera.viewportWidth / 2.0f * camera.zoom;
