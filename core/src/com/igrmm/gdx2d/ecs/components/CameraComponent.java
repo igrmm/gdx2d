@@ -4,10 +4,12 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
 
 public class CameraComponent implements Component {
 	public final OrthographicCamera camera = new OrthographicCamera();
 	public final float mapWidth, mapHeight;
+	public final Vector2 position, previousPosition;
 
 	public CameraComponent(TiledMap tiledMap) {
 		float tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
@@ -19,6 +21,9 @@ public class CameraComponent implements Component {
 
 		mapWidth = mapWidthInTiles * tileWidth;
 		mapHeight = mapHeightInTiles * tileHeight;
+
+		position = new Vector2();
+		previousPosition = new Vector2();
 
 		camera.setToOrtho(false);
 
