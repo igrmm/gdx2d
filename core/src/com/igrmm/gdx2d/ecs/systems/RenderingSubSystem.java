@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.*;
@@ -34,8 +32,7 @@ public class RenderingSubSystem implements SubSystem {
 			interpolateDrawingPositions(manager);
 
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			updateCameraPosition(manager, delta);
-			camera.update();
+			updateCamera(manager, delta);
 			mapRenderer.setView(camera);
 			mapRenderer.render();
 			batch.setProjectionMatrix(camera.combined);
@@ -58,8 +55,8 @@ public class RenderingSubSystem implements SubSystem {
 					manager.getComponent(entityPossessingAnimationC, AnimationComponent.class);
 
 			float alpha = manager.getAlpha();
-			animationC.drawingPosition.x = Interpolation.smooth.apply(bBoxC.previousPosition.x, bBoxC.bBox.x, alpha);
-			animationC.drawingPosition.y = Interpolation.smooth.apply(bBoxC.previousPosition.y, bBoxC.bBox.y, alpha);
+			animationC.drawingPosition.x = bBoxC.bBox.x * alpha + bBoxC.previousPosition.x * (1.0f - alpha);
+			animationC.drawingPosition.y = bBoxC.bBox.y * alpha + bBoxC.previousPosition.y * (1.0f - alpha);
 		}
 	}
 
@@ -75,8 +72,6 @@ public class RenderingSubSystem implements SubSystem {
 			float offset = animationC.offset;
 			float rotation = animationC.rotation;
 
-//			float x = Math.round(animationC.drawingPosition.x - offset * scale);
-//			float y = Math.round(animationC.drawingPosition.y - offset * scale);
 			float x = animationC.drawingPosition.x - offset * scale;
 			float y = animationC.drawingPosition.y - offset * scale;
 
@@ -132,17 +127,7 @@ public class RenderingSubSystem implements SubSystem {
 		}
 	}
 
-	private void updateCameraPosition(Manager manager, float delta) {
-		String playerUUID = manager.playerUUID;
-		BoundingBoxComponent playerBBoxC =
-				manager.getComponent(playerUUID, BoundingBoxComponent.class);
-		AnimationComponent playerAnimationC =
-				manager.getComponent(playerUUID, AnimationComponent.class);
-		Rectangle playerBBox = playerBBoxC.bBox;
-
-		float playerCenterX = playerAnimationC.drawingPosition.x + playerBBox.width / 2.0f;
-		float playerCenterY = playerAnimationC.drawingPosition.y + playerBBox.height / 2.0f;
-
+	private void updateCamera(Manager manager, float delta) {
 		String coreUUID = manager.coreUUID;
 		CameraComponent cameraC =
 				manager.getComponent(coreUUID, CameraComponent.class);
@@ -151,12 +136,10 @@ public class RenderingSubSystem implements SubSystem {
 		float mapWidth = cameraC.mapWidth;
 		float mapHeight = cameraC.mapHeight;
 
-		/* Make camera follow player */
-		float alpha = 0.3f;
-//		camera.position.x += Math.round(alpha * (playerCenterX - camera.position.x));
-//		camera.position.y += Math.round(alpha * (playerCenterY - camera.position.y));
-		camera.position.x += alpha * (playerCenterX - camera.position.x);
-		camera.position.y += alpha * (playerCenterY - camera.position.y);
+		/* Interpolate Camera */
+		float alpha = manager.getAlpha();
+		camera.position.x = cameraC.position.x * alpha + cameraC.previousPosition.x * (1.0f - alpha);
+		camera.position.y = cameraC.position.y * alpha + cameraC.previousPosition.y * (1.0f - alpha);
 
 		/* Limit camera position inside tiled map bounds */
 		float minCameraPositionX = camera.viewportWidth / 2.0f * camera.zoom;
@@ -173,5 +156,7 @@ public class RenderingSubSystem implements SubSystem {
 			camera.position.y = MathUtils.clamp(camera.position.y, minCameraPositionY, maxCameraPositionY);
 		else
 			camera.position.y = minCameraPositionY;
+
+		camera.update();
 	}
 }
