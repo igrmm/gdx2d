@@ -2,6 +2,8 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.igrmm.gdx2d.ecs.Manager;
@@ -34,17 +36,19 @@ public class DebugSubSystem implements SubSystem {
 		if (!batchC.dispose) {
 			fontC.font.getData().setScale(2.0f * cameraC.camera.zoom);
 
-
 			averageVelocity.update(playerBBoxC.bBox.x, playerBBoxC.bBox.y);
 
-			//debug info
-			fontC.text = fontC.text.concat("FPS: " + Gdx.graphics.getFramesPerSecond() + "\n");
-			fontC.text = fontC.text.concat("RES: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + "\n");
-			fontC.text = fontC.text.concat("CAMZOOM: " + cameraC.camera.zoom + "\n");
-			fontC.text = fontC.text.concat("AVERAGE VELOCITY: " + averageVelocity.get() + "\n");
-			fontC.text = fontC.text.concat("Time to Accel: " + timeToAccel(manager) + "\n");
-			fontC.text = fontC.text.concat("Time to Stop: " + timeToStop(manager) + "\n");
-			fontC.text = fontC.text.concat("Jump Height: " + jumpHeight(manager) + "\n");
+			fontC.text = (
+					""
+							+ "FPS: " + Gdx.graphics.getFramesPerSecond() + "\n"
+							+ "RES: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + "\n"
+							+ "CAMZOOM: " + cameraC.camera.zoom + "\n"
+							+ "AVERAGE VELOCITY: " + averageVelocity.get() + "\n"
+							+ "Time to Accel: " + timeToAccel(manager, Manager.FIXED_TIMESTEP) + "\n"
+							+ "Time to Stop: " + timeToStop(manager, Manager.FIXED_TIMESTEP) + "\n"
+							+ "Jump Height: " + jumpHeight(manager, Manager.FIXED_TIMESTEP) + "\n"
+							+ "monitor: " + Gdx.graphics.getDisplayMode().toString() + "\n"
+			);
 
 			batchC.batch.begin();
 			fontC.font.draw(
@@ -54,7 +58,6 @@ public class DebugSubSystem implements SubSystem {
 					cameraC.camera.position.y + cameraC.camera.viewportHeight / 2.0f * cameraC.camera.zoom
 			);
 			batchC.batch.end();
-			fontC.text = "";
 		}
 
 		if (!shapeRendererC.dispose) {
@@ -66,16 +69,15 @@ public class DebugSubSystem implements SubSystem {
 		}
 	}
 
-	private float jumpHeight(Manager manager) {
+	private float jumpHeight(Manager manager, float delta) {
 		MovementComponent movementC =
 				manager.getComponent(manager.playerUUID, MovementComponent.class);
 
-		float delta = Manager.FIXED_TIMESTEP;
 		float jumpHeight = 0.0f;
 		float jumpTimer = movementC.jumpTime;
 		float jumpForce = movementC.jumpForce;
-		float speedY = jumpForce;
 		float gravity = movementC.gravity;
+		float speedY = jumpForce * delta;
 
 		while (speedY > 0.0f) {
 			if (jumpTimer > 0.0f) {
@@ -85,17 +87,17 @@ public class DebugSubSystem implements SubSystem {
 
 			speedY += gravity * delta * delta;
 
-			if (speedY > 0.0f) jumpHeight += speedY;
+			if (speedY > 0.0f)
+				jumpHeight += speedY;
 		}
 
 		return jumpHeight;
 	}
 
-	private float timeToAccel(Manager manager) {
+	private float timeToAccel(Manager manager, float delta) {
 		MovementComponent movementC =
 				manager.getComponent(manager.playerUUID, MovementComponent.class);
 
-		float delta = Manager.FIXED_TIMESTEP;
 		float timeToAccel = 0.0f;
 		float maxSpeed = movementC.maxSpeed * delta;
 		float accel = movementC.acceleration;
@@ -109,11 +111,10 @@ public class DebugSubSystem implements SubSystem {
 		return timeToAccel;
 	}
 
-	private float timeToStop(Manager manager) {
+	private float timeToStop(Manager manager, float delta) {
 		MovementComponent movementC =
 				manager.getComponent(manager.playerUUID, MovementComponent.class);
 
-		float delta = Manager.FIXED_TIMESTEP;
 		float timeToStop = 0.0f;
 		float speed = movementC.maxSpeed * delta;
 		float friction = movementC.friction;
