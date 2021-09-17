@@ -78,6 +78,7 @@ public class InitializeSubSystem implements SubSystem {
 		manager.addFixedTimestepSubSystem(new PhysicsSubSystem());
 		manager.addFixedTimestepSubSystem(new BlockSubSystem());
 		manager.addFixedTimestepSubSystem(new CollisionSubSystem());
+		manager.addFixedTimestepSubSystem(new CameraControlSubSystem());
 	}
 
 	private void spawnVirtualButtons(Manager manager) {
