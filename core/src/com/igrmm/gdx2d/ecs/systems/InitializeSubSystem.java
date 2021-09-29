@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.Assets;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.Saves;
@@ -19,15 +18,12 @@ import com.igrmm.gdx2d.ecs.entities.Player;
 import com.igrmm.gdx2d.enums.MapAsset;
 
 import java.util.Iterator;
-import java.util.List;
 
 public class InitializeSubSystem implements SubSystem {
 	private final Gdx2D game;
-	private final List<Disposable> disposables;
 
-	public InitializeSubSystem(Gdx2D game, List<Disposable> disposables) {
+	public InitializeSubSystem(Gdx2D game) {
 		this.game = game;
-		this.disposables = disposables;
 	}
 
 	@Override
@@ -59,7 +55,7 @@ public class InitializeSubSystem implements SubSystem {
 		}
 
 		// Spawn important entities
-		Core.spawn(game, manager, disposables, tiledMap);
+		Core.spawn(game, manager, tiledMap);
 		Player.spawn(game, manager);
 
 		// SubSystem dependencies

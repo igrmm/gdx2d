@@ -8,16 +8,12 @@ import com.igrmm.gdx2d.ecs.components.CameraComponent;
 import com.igrmm.gdx2d.ecs.components.StageComponent;
 import com.igrmm.gdx2d.ecs.systems.*;
 
-import java.util.*;
-
 public class GameScreen extends ScreenAdapter {
-	private final List<Disposable> disposables;
 	private final Manager manager;
 
 	public GameScreen(Gdx2D game) {
-		disposables = new ArrayList<>();
 		manager = new Manager();
-		manager.addVariableTimestepSubSystem(new InitializeSubSystem(game, disposables));
+		manager.addVariableTimestepSubSystem(new InitializeSubSystem(game));
 	}
 
 	@Override
@@ -41,6 +37,6 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void dispose() {
-		for (Disposable disposable : disposables) disposable.dispose();
+		for (Disposable disposable : manager.disposables) disposable.dispose();
 	}
 }

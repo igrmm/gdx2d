@@ -1,5 +1,6 @@
 package com.igrmm.gdx2d.ecs;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.ecs.components.Component;
 import com.igrmm.gdx2d.ecs.systems.SubSystem;
 
@@ -10,6 +11,8 @@ public class Manager {
 	public final Map<Class<?>, Map<String, ? extends Component>> components;
 	public final Set<SubSystem> variableTimestepSubSystems;
 	public final Set<SubSystem> fixedTimestepSubSystems;
+
+	public final List<Disposable> disposables;
 
 	public static final float FIXED_TIMESTEP = 1.0f / 240.0f;
 	private float accumulator = 0.0f;
@@ -28,6 +31,8 @@ public class Manager {
 		components = new HashMap<>();
 		variableTimestepSubSystems = new LinkedHashSet<>();
 		fixedTimestepSubSystems = new LinkedHashSet<>();
+
+		disposables = new ArrayList<>();
 
 		//Unique Entities
 		playerUUID = createEntity();
