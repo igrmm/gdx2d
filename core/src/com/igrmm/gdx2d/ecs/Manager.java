@@ -2,6 +2,7 @@ package com.igrmm.gdx2d.ecs;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.ecs.components.Component;
+import com.igrmm.gdx2d.ecs.components.Resizable;
 import com.igrmm.gdx2d.ecs.systems.SubSystem;
 
 import java.util.*;
@@ -13,6 +14,7 @@ public class Manager {
 	public final Set<SubSystem> fixedTimestepSubSystems;
 
 	public final List<Disposable> disposables;
+	public final List<Resizable> resizables;
 
 	public static final float FIXED_TIMESTEP = 1.0f / 240.0f;
 	private float accumulator = 0.0f;
@@ -33,6 +35,7 @@ public class Manager {
 		fixedTimestepSubSystems = new LinkedHashSet<>();
 
 		disposables = new ArrayList<>();
+		resizables = new ArrayList<>();
 
 		//Unique Entities
 		playerUUID = createEntity();

@@ -4,8 +4,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.Disposable;
 import com.igrmm.gdx2d.Gdx2D;
 import com.igrmm.gdx2d.ecs.Manager;
-import com.igrmm.gdx2d.ecs.components.CameraComponent;
-import com.igrmm.gdx2d.ecs.components.StageComponent;
+import com.igrmm.gdx2d.ecs.components.Resizable;
 import com.igrmm.gdx2d.ecs.systems.*;
 
 public class GameScreen extends ScreenAdapter {
@@ -23,16 +22,7 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		if (manager.containsComponent(manager.coreUUID, CameraComponent.class)) {
-			CameraComponent cameraC =
-					manager.getComponent(manager.coreUUID, CameraComponent.class);
-			cameraC.resize(width, height);
-		}
-		if (manager.containsComponent(manager.coreUUID, StageComponent.class)) {
-			StageComponent stageC =
-					manager.getComponent(manager.coreUUID, StageComponent.class);
-			stageC.stage.getViewport().update(width, height, true);
-		}
+		for (Resizable resizable : manager.resizables) resizable.resize(width, height);
 	}
 
 	@Override

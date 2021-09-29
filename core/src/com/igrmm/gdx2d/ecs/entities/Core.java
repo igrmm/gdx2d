@@ -12,7 +12,9 @@ public class Core {
 
 		manager.addComponent(coreUUID, new GameComponent(game));
 		manager.addComponent(coreUUID, new TypeComponent(EntityType.CORE));
-		manager.addComponent(coreUUID, new CameraComponent(tiledMap));
+		CameraComponent cameraC = new CameraComponent(tiledMap);
+		manager.addComponent(coreUUID, cameraC);
+		manager.resizables.add(cameraC);
 		BatchComponent batchC = new BatchComponent();
 		manager.disposables.add(batchC);
 		manager.addComponent(coreUUID, batchC);
@@ -28,5 +30,6 @@ public class Core {
 		StageComponent stageC = new StageComponent();
 		manager.addComponent(coreUUID, stageC);
 		manager.disposables.add(stageC);
+		manager.resizables.add(stageC);
 	}
 }

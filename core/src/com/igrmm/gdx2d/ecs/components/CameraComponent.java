@@ -38,6 +38,6 @@ public class CameraComponent implements Component, Resizable {
 
 	@Override
 	public void resize(int width, int height) {
-		camera.setToOrtho(false);
+		camera.setToOrtho(false, width, height);
 	}
 }
