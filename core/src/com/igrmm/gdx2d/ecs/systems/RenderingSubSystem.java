@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.*;
 
@@ -23,6 +22,8 @@ public class RenderingSubSystem implements SubSystem {
 				manager.getComponent(coreUUID, BatchComponent.class);
 		MapRendererComponent mapRendererC =
 				manager.getComponent(coreUUID, MapRendererComponent.class);
+		StageComponent stageC =
+				manager.getComponent(coreUUID, StageComponent.class);
 
 		if (!batchC.dispose) {
 			OrthographicCamera camera = cameraC.camera;
@@ -39,8 +40,9 @@ public class RenderingSubSystem implements SubSystem {
 
 			batch.begin();
 			renderSprites(delta, manager, batch);
-			renderUI(delta, manager, batch, camera);
 			batch.end();
+
+			stageC.stage.draw();
 		}
 	}
 
@@ -88,41 +90,6 @@ public class RenderingSubSystem implements SubSystem {
 					scale,
 					scale,
 					rotation
-			);
-		}
-	}
-
-	private void renderUI(float delta, Manager manager, SpriteBatch batch, OrthographicCamera camera) {
-		Vector3 camPosition = camera.position;
-		float camZoom = camera.zoom;
-
-		Set<String> entitiesPossessingUIAnimationC =
-				manager.getAllEntitiesPossessingComponent(UIAnimationComponent.class);
-
-		for (String entityPossessingUIAnimationC : entitiesPossessingUIAnimationC) {
-			BoundingBoxComponent bBoxC =
-					manager.getComponent(entityPossessingUIAnimationC, BoundingBoxComponent.class);
-			UIAnimationComponent uIAnimationC =
-					manager.getComponent(entityPossessingUIAnimationC, UIAnimationComponent.class);
-
-			float scale = uIAnimationC.scale;
-
-			float x = camPosition.x - bBoxC.bBox.x * camZoom;
-			float y = camPosition.y - bBoxC.bBox.y * camZoom;
-
-			TextureRegion tex = uIAnimationC.getKeyFrame(delta);
-
-			batch.draw(
-					tex,
-					x,
-					y,
-					0.0f,
-					0.0f,
-					tex.getRegionWidth() * camZoom,
-					tex.getRegionHeight() * camZoom,
-					scale,
-					scale,
-					0.0f
 			);
 		}
 	}
