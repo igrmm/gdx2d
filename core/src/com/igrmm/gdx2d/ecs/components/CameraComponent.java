@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 
-public class CameraComponent implements Component {
+public class CameraComponent implements Component, Resizable {
 	public final OrthographicCamera camera = new OrthographicCamera();
 	public final float mapWidth, mapHeight;
 	public final Vector2 position, previousPosition;
@@ -36,6 +36,7 @@ public class CameraComponent implements Component {
 		}
 	}
 
+	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false);
 	}
