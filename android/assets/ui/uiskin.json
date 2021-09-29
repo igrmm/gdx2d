@@ -1,0 +1,24 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	left-button: {
+		up: left-button-up
+		down: left-button-down
+		over: left-button-down
+	}
+	right-button: {
+		up: right-button-up
+		down: right-button-down
+		over: right-button-down
+	}
+	action-button: {
+		up: action-button-up
+		down: action-button-down
+		over: action-button-down
+	}
+	jump-button: {
+		up: jump-button-up
+		down: jump-button-down
+		over: jump-button-down
+	}
+}
+}
