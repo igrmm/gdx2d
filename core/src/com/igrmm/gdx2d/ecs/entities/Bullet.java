@@ -36,8 +36,8 @@ public class Bullet {
 		// Set up movement direction based on players facing direction
 		MovementComponent movementC = new MovementComponent();
 		movementC.directionInput = playerFacingDirection;
-		movementC.maxSpeed = 20.0f;
-		movementC.acceleration = movementC.maxSpeed;
+		movementC.maxSpeed = 1000.0f;
+		movementC.speed.x = movementC.maxSpeed * playerFacingDirection;
 		manager.addComponent(bulletUUID, movementC);
 	}
 }
