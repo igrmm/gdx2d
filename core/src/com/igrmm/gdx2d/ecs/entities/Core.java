@@ -28,5 +28,8 @@ public class Core {
 		FontComponent fontC = new FontComponent();
 		manager.addComponent(coreUUID, fontC);
 		disposables.add(fontC);
+		StageComponent stageC = new StageComponent();
+		manager.addComponent(coreUUID, stageC);
+		disposables.add(stageC);
 	}
 }
