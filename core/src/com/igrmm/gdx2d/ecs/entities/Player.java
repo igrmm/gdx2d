@@ -24,6 +24,7 @@ public class Player {
 		manager.addComponent(playerUUID, new AnimationComponent(animationData));
 		manager.addComponent(playerUUID, new BoundingBoxComponent());
 		manager.addComponent(playerUUID, new BroadPhaseCollisionComponent());
+		manager.addComponent(playerUUID, new InputComponent());
 
 		// Serializable components
 		manager.addComponent(playerUUID, saves.getMovementComponent());
