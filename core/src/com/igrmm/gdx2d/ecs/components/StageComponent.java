@@ -1,16 +1,18 @@
 package com.igrmm.gdx2d.ecs.components;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class StageComponent implements Component, Disposable, Resizable {
-	public final Stage stage = new Stage(new ScreenViewport());
+	public final Stage stage;
+	public final Skin skin;
 
-	//temp until setup asset manager
-	public final Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+	public StageComponent(Skin skin) {
+		stage = new Stage(new ScreenViewport());
+		this.skin = skin;
+	}
 
 	@Override
 	public void dispose() {
