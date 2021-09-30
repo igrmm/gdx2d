@@ -1,13 +1,11 @@
 package com.igrmm.gdx2d;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.igrmm.gdx2d.ecs.AnimationData;
 import com.igrmm.gdx2d.enums.AnimationAsset;
@@ -24,6 +22,7 @@ public class Assets {
 	public Assets() {
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		assetManager.setLoader(JsonValue.class, new JsonLoader(new InternalFileHandleResolver()));
 		animationData = new HashMap<>();
 	}
 
@@ -36,12 +35,16 @@ public class Assets {
 			assetManager.load(textureAsset.getPath(), Texture.class);
 		}
 
+		for (AnimationAsset animationAsset : AnimationAsset.values()) {
+			assetManager.load(animationAsset.getPath(), JsonValue.class);
+		}
+
 		assetManager.load("ui/uiskin.json", Skin.class);
 
 		assetManager.finishLoading();
 
 		for (AnimationAsset animationAsset : AnimationAsset.values()) {
-			JsonValue animationJson = new JsonReader().parse(Gdx.files.internal(animationAsset.getPath()));
+			JsonValue animationJson = assetManager.get(animationAsset.getPath());
 			String texturePath = "images/" + animationJson.get("meta").getString("image");
 			if (TextureAsset.contains(texturePath)) {
 				Texture animationTexture = assetManager.get(texturePath, Texture.class);
