@@ -1,10 +1,6 @@
 package com.igrmm.gdx2d.enums;
 
 public enum EntityType {
-	VIRTUAL_LEFT_BUTTON,
-	VIRTUAL_RIGHT_BUTTON,
-	VIRTUAL_A_BUTTON,
-	VIRTUAL_B_BUTTON,
 	PLAYER,
 	CORE,
 	WAYPOINT,
