@@ -2,6 +2,7 @@ package com.igrmm.gdx2d.ecs.systems;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pools;
 import com.igrmm.gdx2d.ecs.Collision;
 import com.igrmm.gdx2d.ecs.Manager;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
@@ -28,6 +29,7 @@ public class CollisionSubSystem implements SubSystem {
 
 			for (Collision collision : collisions) {
 				collision.resolve();
+				Pools.free(collision);
 			}
 			collisions.clear();
 		}

@@ -2,25 +2,57 @@ package com.igrmm.gdx2d.ecs;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
+import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
+import com.igrmm.gdx2d.ecs.components.MovementComponent;
 
-public abstract class Collision {
-	private final Vector2 normal;
-	private final float time;
-	private final Vector2 speed;
+public abstract class Collision implements Pool.Poolable {
+	private final Vector2 normal = new Vector2();
+	private float time = 0.0f; //used for sorting collisions
 
-	public Collision(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 speed) {
-		normal = new Vector2();
-		time = getTime(dynamicRectangle, staticRectangle, speed);
-		this.speed = speed;
+	private Rectangle dynamicRectangle;
+	private Rectangle staticRectangle;
+	private Vector2 speed;
+
+	public void init(String dynamicEntity, String staticEntity, Manager manager) {
+		BoundingBoxComponent dynamicBBoxC =
+				manager.getComponent(dynamicEntity, BoundingBoxComponent.class);
+		BoundingBoxComponent staticBBoxC =
+				manager.getComponent(staticEntity, BoundingBoxComponent.class);
+		MovementComponent movementC =
+				manager.getComponent(dynamicEntity, MovementComponent.class);
+
+		this.dynamicRectangle = dynamicBBoxC.bBox;
+		this.staticRectangle = staticBBoxC.bBox;
+		this.speed = movementC.speed;
+		time = computeTime();
 	}
 
-	private float getTime(Rectangle dynamicRectangle, Rectangle staticRectangle, Vector2 speed) {
+	@Override
+	public void reset() {
+		normal.set(0.0f, 0.0f);
+		time = 0.0f;
+
+		dynamicRectangle = null;
+		staticRectangle = null;
+		speed = null;
+	}
+
+	public float getNormalX() {
+		return normal.x;
+	}
+
+	public float getNormalY() {
+		return normal.y;
+	}
+
+	public final float computeTime() {
 		if (speed.x == 0.0f && speed.y == 0.0f)
 			return 1.0f;
 
 		/*
-			    Ray equation
-		        contact = rayOrigin + rayDirection * tMin
+		    Ray equation
+		    contact = rayOrigin + rayDirection * tMin
 		*/
 
 		// ray origin is the center of dynamic rectangle
@@ -97,20 +129,14 @@ public abstract class Collision {
 		return tMin;
 	}
 
-	public float getNormalX() {
-		return normal.x;
-	}
-
-	public float getNormalY() {
-		return normal.y;
-	}
-
-	public final boolean hasOccurred() {
+	public final boolean occurred() {
+		float time = computeTime();
 		return (time >= 0.0f && time < 1.0f);
 	}
 
 	public boolean resolve() {
-		if (hasOccurred()) {
+		float time = computeTime();
+		if (time >= 0.0f && time < 1.0f) {
 			speed.x += Math.abs(speed.x) * normal.x * (1.0f - time);
 			speed.y += Math.abs(speed.y) * normal.y * (1.0f - time);
 			return true;
