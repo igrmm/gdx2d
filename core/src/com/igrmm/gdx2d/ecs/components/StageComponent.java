@@ -17,7 +17,6 @@ public class StageComponent implements Component, Disposable, Resizable {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		skin.dispose();
 	}
 
 	@Override
