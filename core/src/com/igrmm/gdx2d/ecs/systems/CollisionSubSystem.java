@@ -9,8 +9,7 @@ import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.BroadPhaseCollisionComponent;
 import com.igrmm.gdx2d.ecs.components.MovementComponent;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CollisionSubSystem implements SubSystem {
 
@@ -26,6 +25,7 @@ public class CollisionSubSystem implements SubSystem {
 					manager.getComponent(entityPossessingBPhaseColC, BroadPhaseCollisionComponent.class);
 
 			List<Collision> collisions = broadPhaseCollisionC.collisions;
+			Collections.sort(collisions);
 
 			for (Collision collision : collisions) {
 				collision.resolve();

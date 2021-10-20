@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.igrmm.gdx2d.ecs.components.BoundingBoxComponent;
 import com.igrmm.gdx2d.ecs.components.MovementComponent;
 
-public abstract class Collision implements Pool.Poolable {
+public abstract class Collision implements Pool.Poolable, Comparable<Collision> {
 	private final Vector2 normal = new Vector2();
 	private float time = 0.0f; //used for sorting collisions
 
@@ -44,6 +44,15 @@ public abstract class Collision implements Pool.Poolable {
 
 	public float getNormalY() {
 		return normal.y;
+	}
+
+	public float getTime() {
+		return time;
+	}
+
+	@Override
+	public int compareTo(Collision other) {
+		return Float.compare(this.getTime(), other.getTime());
 	}
 
 	public final float computeTime() {
