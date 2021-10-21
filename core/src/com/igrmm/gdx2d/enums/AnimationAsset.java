@@ -3,7 +3,8 @@ package com.igrmm.gdx2d.enums;
 public enum AnimationAsset {
 	PLAYER("animations/player.json"),
 	PORTAL("animations/portal.json"),
-	BULLET("animations/bullet.json");
+	BULLET("animations/bullet.json"),
+	CHEST("animations/chest.json");
 
 	private final String path;
 

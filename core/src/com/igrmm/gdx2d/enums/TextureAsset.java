@@ -6,7 +6,8 @@ import java.util.Map;
 public enum TextureAsset {
 	PLAYER("images/player.png"),
 	PORTAL("images/portal.png"),
-	BULLET("images/bullet.png");
+	BULLET("images/bullet.png"),
+	CHEST("images/chest.png");
 
 	// Reverse-lookup map for getting a texture asset from an its path
 	private static final Map<String, TextureAsset> lookup = new HashMap<>();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="593">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="596">
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <layer id="1" name="0" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -42,6 +42,13 @@
      <property name="waypoint" value="START"/>
     </properties>
     <point/>
+   </object>
+  </objectgroup>
+  <objectgroup id="6" name="chests">
+   <object id="594" name="CHEST" type="CHEST" x="1344" y="1632" width="32" height="32">
+    <properties>
+     <property name="animation" value="CHEST"/>
+    </properties>
    </object>
   </objectgroup>
  </group>

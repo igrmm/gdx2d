@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
  <objecttype name="BLOCK" color="#a0a0a4"/>
+ <objecttype name="CHEST" color="#0000ff">
+  <property name="animation" type="string" default="CHEST"/>
+ </objecttype>
  <objecttype name="PORTAL" color="#ff00ff">
   <property name="animation" type="string" default="PORTAL"/>
   <property name="mapAsset" type="string" default="null"/>

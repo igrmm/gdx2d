@@ -73,6 +73,7 @@ public class InitializeSubSystem implements SubSystem {
 		manager.addFixedTimestepSubSystem(new PortalSubSystem());
 		manager.addFixedTimestepSubSystem(new PhysicsSubSystem());
 		manager.addFixedTimestepSubSystem(new BlockSubSystem());
+		manager.addFixedTimestepSubSystem(new ChestSubSystem());
 		manager.addFixedTimestepSubSystem(new CollisionSubSystem());
 		manager.addFixedTimestepSubSystem(new CameraControlSubSystem());
 	}
