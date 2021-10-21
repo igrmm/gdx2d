@@ -10,26 +10,21 @@ import java.util.Map;
 
 public class AnimationComponent implements Component {
 	private final Map<String, Animation<TextureRegion>> animations;
-	private String animation = "idle";
+	private String animation;
 	private float stateTime = 0.0f;
 	public float scale = 1.0f;
 	public float offset = 0.0f;
 	public float rotation = 0.0f;
 	public Vector2 drawingPosition = new Vector2();
 
-	public AnimationComponent(AnimationData animationData, String animation) {
-		this(animationData);
-		this.animation = animation;
-	}
-
 	public AnimationComponent(AnimationData animationData) {
 		animations = new HashMap<>();
-
 		for (String animationName : animationData.names) {
 			float duration = animationData.durations.get(animationName);
 			TextureRegion[] textureRegions = animationData.textureRegions.get(animationName);
 			animations.put(animationName, new Animation<>(duration, textureRegions));
 		}
+		animation = animationData.names.get(0);
 	}
 
 	public void setAnimation(String animation) {
