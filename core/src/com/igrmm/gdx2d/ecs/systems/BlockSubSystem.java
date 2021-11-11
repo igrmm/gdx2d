@@ -16,21 +16,21 @@ public class BlockSubSystem implements SubSystem {
 	private final Rectangle activeZone = new Rectangle();
 	private final Map<String, Rectangle> staticBBoxes = new HashMap<>();
 
-	private void computeCollisionArea(Rectangle mobileRect, Vector2 speed) {
+	private void computeCollisionArea(Rectangle dynamicRect, Vector2 speed) {
 		if (speed.x > 0.0f) {
-			collisionArea.x = mobileRect.x;
-			collisionArea.width = mobileRect.width + speed.x;
+			collisionArea.x = dynamicRect.x;
+			collisionArea.width = dynamicRect.width + speed.x;
 		} else {
-			collisionArea.x = mobileRect.x + speed.x;
-			collisionArea.width = mobileRect.width - speed.x;
+			collisionArea.x = dynamicRect.x + speed.x;
+			collisionArea.width = dynamicRect.width - speed.x;
 		}
 
 		if (speed.y > 0.0f) {
-			collisionArea.y = mobileRect.y;
-			collisionArea.height = mobileRect.height + speed.y;
+			collisionArea.y = dynamicRect.y;
+			collisionArea.height = dynamicRect.height + speed.y;
 		} else {
-			collisionArea.y = mobileRect.y + speed.y;
-			collisionArea.height = mobileRect.height - speed.y;
+			collisionArea.y = dynamicRect.y + speed.y;
+			collisionArea.height = dynamicRect.height - speed.y;
 		}
 	}
 
